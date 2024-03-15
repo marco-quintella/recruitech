@@ -33,4 +33,21 @@ export default defineConfig({
     transformerDirectives(),
     transformerVariantGroup(),
   ],
+  theme: {
+    colors: {
+      primary: {
+        DEFAULT: '#590d82',
+        light: '#7912b0',
+        dark: '#390854',
+      },
+      secondary: {
+        DEFAULT: '#f25d9c',
+        light: '#f68cb9',
+        dark: '#d13f7a',
+      },
+      background: {
+        DEFAULT: '#fff',
+      },
+    },
+  },
 })
