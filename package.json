@@ -12,7 +12,6 @@
     "start:generate": "npx serve .output/public",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
-
     "db:generate": "drizzle-kit generate:pg",
     "db:push": "drizzle-kit push:pg"
   },
@@ -26,6 +25,7 @@
     "@iconify-json/twemoji": "^1.1.15",
     "@nuxtjs/color-mode": "^3.3.2",
     "@pinia/nuxt": "^0.5.1",
+    "@sidebase/nuxt-auth": "^0.7.0",
     "@unocss/eslint-config": "^0.58.3",
     "@unocss/nuxt": "^0.58.3",
     "@vite-pwa/nuxt": "^0.4.0",
