@@ -9,6 +9,9 @@ import { experienceLevelEnum } from './experience-level'
 import { processesToTags } from './processes-to-tags'
 import { processesToJobTitles } from './processes_to_job_titles'
 import { processesToSkills } from './processes_to_skills'
+import { recommendation } from './recomendation'
+import { favorite } from './favorite'
+import { discard } from './discard'
 
 export const process = pgTable('processes', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -43,4 +46,7 @@ export const processRelations = relations(process, ({ many }) => ({
   processesToTags: many(processesToTags),
   processesToJobTitles: many(processesToJobTitles),
   processesToSkills: many(processesToSkills),
+  recomendations: many(recommendation),
+  favorites: many(favorite),
+  discards: many(discard),
 }))
