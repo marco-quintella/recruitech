@@ -49,6 +49,7 @@
     "nuxi",
     "nuxt",
     "nuxtjs",
-    "postgres"
+    "postgres",
+    "uncrypto"
   ]
 }
