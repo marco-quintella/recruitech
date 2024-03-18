@@ -1,6 +1,6 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { user } from './user'
+import { users } from './users'
 import { process } from './process'
 
 export const company = pgTable('companies', {
@@ -12,6 +12,6 @@ export const company = pgTable('companies', {
 })
 
 export const companyRelations = relations(company, ({ many }) => ({
-  users: many(user),
+  users: many(users),
   processes: many(process),
 }))

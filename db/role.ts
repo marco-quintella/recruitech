@@ -6,3 +6,5 @@ export const roleEnum = pgEnum('role', [
   'recruiter',
   'candidate',
 ])
+
+export type Role = typeof roleEnum.enumValues[number]

@@ -1,19 +1,19 @@
 import { pgTable, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { process } from './process'
-import { user } from './user'
+import { users } from './users'
 
 export const discard = pgTable('discards', {
   id: uuid('id').defaultRandom().primaryKey(),
 
-  candidateId: uuid('candidate_id').references(() => user.id),
+  candidateId: uuid('candidate_id').references(() => users.id),
   processId: uuid('process_id').references(() => process.id),
 
-  userId: uuid('user_id').references(() => user.id).notNull(),
+  userId: uuid('user_id').references(() => users.id).notNull(),
 })
 
 export const discardRelations = relations(discard, ({ one }) => ({
-  user: one(user, { fields: [discard.userId], references: [user.id] }),
-  candidate: one(user, { fields: [discard.candidateId], references: [user.id] }),
+  user: one(users, { fields: [discard.userId], references: [users.id], relationName: 'user_discards' }),
+  candidate: one(users, { fields: [discard.candidateId], references: [users.id] }),
   process: one(process, { fields: [discard.processId], references: [process.id] }),
 }))

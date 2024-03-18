@@ -1,7 +1,7 @@
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { company } from './company'
-import { user } from './user'
+import { users } from './users'
 import { processTypeEnum } from './process-type'
 import { contractTypeEnum } from './contract-type'
 import { processesToLocations } from './processes-to-locations'
@@ -17,7 +17,7 @@ export const process = pgTable('processes', {
   id: uuid('id').defaultRandom().primaryKey(),
 
   companyId: uuid('company_id').references(() => company.id).notNull(),
-  userId: uuid('user_id').references(() => user.id).notNull(),
+  userId: uuid('user_id').references(() => users.id).notNull(),
 
   processType: processTypeEnum('process_type').notNull(),
 
@@ -35,13 +35,13 @@ export const process = pgTable('processes', {
   finishedAt: timestamp('finished_at'),
   cancelledAt: timestamp('cancelled_at'),
 
-  chosenUserId: uuid('chosen_user_id').references(() => user.id),
+  chosenUserId: uuid('chosen_user_id').references(() => users.id),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
-export const processRelations = relations(process, ({ many }) => ({
+export const processRelations = relations(process, ({ many, one }) => ({
   processesToLocations: many(processesToLocations),
   processesToTags: many(processesToTags),
   processesToJobTitles: many(processesToJobTitles),
@@ -49,4 +49,5 @@ export const processRelations = relations(process, ({ many }) => ({
   recomendations: many(recommendation),
   favorites: many(favorite),
   discards: many(discard),
+  company: one(company, { fields: [process.companyId], references: [company.id] }),
 }))

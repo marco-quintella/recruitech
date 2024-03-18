@@ -7,7 +7,7 @@ import { recommendation } from './recomendation'
 import { favorite } from './favorite'
 import { discard } from './discard'
 
-export const user = pgTable('users', {
+export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
@@ -20,10 +20,10 @@ export const user = pgTable('users', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
-export const userRelations = relations(user, ({ one, many }) => ({
-  company: one(company, { fields: [user.companyId], references: [company.id] }),
+export const userRelations = relations(users, ({ one, many }) => ({
+  company: one(company, { fields: [users.companyId], references: [company.id] }),
   profile: one(profile),
   recomendations: many(recommendation),
-  favorites: many(favorite),
-  discards: many(discard),
+  favorites: many(favorite, { relationName: 'user_favorites' }),
+  discards: many(discard, { relationName: 'user_discards' }),
 }))

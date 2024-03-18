@@ -72,4 +72,8 @@ export default defineNuxtConfig({
   eslintConfig: {
     setup: false,
   },
+
+  build: {
+    transpile: ['jsonwebtoken'],
+  },
 })
