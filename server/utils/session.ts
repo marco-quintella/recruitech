@@ -23,3 +23,16 @@ export async function hash(str: string) {
     .join('')
   return hashHex
 }
+
+export async function requireAuthSession(event: H3Event) {
+  const session = await useAuthSession(event)
+
+  if (!session.data.email) {
+    throw createError({
+      message: 'Não autorizado',
+      statusCode: 401,
+    })
+  }
+
+  return session
+}

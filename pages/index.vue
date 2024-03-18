@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const online = useOnline()
+
+definePageMeta({
+  auth: true,
+})
 </script>
 
 <template>
