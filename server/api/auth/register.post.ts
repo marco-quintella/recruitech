@@ -1,6 +1,5 @@
 import process from 'node:process'
 import { eq } from 'drizzle-orm'
-import { hash } from 'bcrypt'
 import { z } from 'zod'
 import type { Role } from '~/db/role'
 import { users } from '~/db/users'
@@ -17,9 +16,9 @@ export default defineEventHandler<{ body: {
   }
 
   const validation = await readValidatedBody(event, async body => z.object({
-    name: z.string(),
-    email: z.string().email(),
-    password: z.string().min(8),
+    name: z.string().trim(),
+    email: z.string().email().trim(),
+    password: z.string().min(8).trim(),
     role: z.enum(['company_admin', 'recruiter', 'candidate']),
   }).safeParse(body))
 
@@ -32,11 +31,9 @@ export default defineEventHandler<{ body: {
   if (possibleUser.length > 0)
     throw createError({ statusCode: 400, message: 'Um usuário com este e-mail já existe.' })
 
-  const hashedPassword = await hash(password, Number(process.env.PASSWORD_SALT))
-
   await db.insert(users).values({
     email,
-    password: hashedPassword,
+    password: await hash(password),
     name,
     role,
   })
