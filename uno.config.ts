@@ -23,7 +23,7 @@ export default defineConfig({
     presetTypography(),
     presetWebFonts({
       fonts: {
-        sans: 'DM Sans',
+        sans: 'Inter',
         serif: 'DM Serif Display',
         mono: 'DM Mono',
       },
@@ -39,14 +39,17 @@ export default defineConfig({
         DEFAULT: '#590d82',
         light: '#7912b0',
         dark: '#390854',
+        text: '#fff',
       },
       secondary: {
         DEFAULT: '#f25d9c',
         light: '#f68cb9',
         dark: '#d13f7a',
+        text: '#590d82',
       },
       background: {
         DEFAULT: '#fff',
+        text: '#1a1a1a',
       },
     },
   },
