@@ -19,15 +19,9 @@ async function onSubmit() {
 
 <template>
   <div class="flex justify-center">
-    <form class="max-w-150 flex flex-col items-center" @submit.prevent="onSubmit">
-      <label for="email" class="flex flex-col">
-        <div>E-mail</div>
-        <input v-model="model.email" name="email">
-      </label>
-      <label for="password" class="flex flex-col">
-        <div>Senha</div>
-        <input v-model="model.password" name="password">
-      </label>
+    <form class="max-w-150 flex flex-col items-center gap-4" @submit.prevent="onSubmit">
+      <b-input v-model="model.email" label="E-mail" name="email" />
+      <b-input v-model="model.password" label="Senha" name="password" type="password" />
       <button type="submit">
         Entrar
       </button>
