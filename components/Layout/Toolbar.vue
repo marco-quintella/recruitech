@@ -14,7 +14,7 @@
         Preparação
       </div>
     </div>
-    <b-button secondary hidden font-bold md:flex !py-1>
+    <b-button secondary font-bold class="!hidden !md:flex" !py-1>
       Postar Vaga
     </b-button>
     <div i-ph-user text-6 />
