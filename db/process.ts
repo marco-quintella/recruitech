@@ -1,6 +1,6 @@
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { company } from './company'
+import { companies } from './companies'
 import { users } from './users'
 import { processTypeEnum } from './process-type'
 import { contractTypeEnum } from './contract-type'
@@ -16,7 +16,7 @@ import { discard } from './discard'
 export const process = pgTable('processes', {
   id: uuid('id').defaultRandom().primaryKey(),
 
-  companyId: uuid('company_id').references(() => company.id).notNull(),
+  companyId: uuid('company_id').references(() => companies.id).notNull(),
   userId: uuid('user_id').references(() => users.id).notNull(),
 
   processType: processTypeEnum('process_type').notNull(),
@@ -49,5 +49,5 @@ export const processRelations = relations(process, ({ many, one }) => ({
   recomendations: many(recommendation),
   favorites: many(favorite),
   discards: many(discard),
-  company: one(company, { fields: [process.companyId], references: [company.id] }),
+  company: one(companies, { fields: [process.companyId], references: [companies.id] }),
 }))

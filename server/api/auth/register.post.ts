@@ -1,6 +1,7 @@
 import process from 'node:process'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
+import { companies } from '~/db/companies'
 import type { Role } from '~/db/role'
 import { users } from '~/db/users'
 
@@ -31,12 +32,12 @@ export default defineEventHandler<{ body: {
   if (possibleUser.length > 0)
     throw createError({ statusCode: 400, message: 'Um usuário com este e-mail já existe.' })
 
-  await db.insert(users).values({
-    email,
-    password: await hash(password),
-    name,
-    role,
-  })
+    await db.insert(users).values({
+      email,
+      password: await hash(password),
+      name,
+      role,
+    })
 
   setResponseStatus(event, 201)
   return 'Usuário criado com sucesso.'

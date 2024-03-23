@@ -3,7 +3,7 @@ import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { users } from './users'
 import { process } from './process'
 
-export const company = pgTable('companies', {
+export const companies = pgTable('companies', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
 
@@ -11,7 +11,7 @@ export const company = pgTable('companies', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
-export const companyRelations = relations(company, ({ many }) => ({
+export const companyRelations = relations(companies, ({ many }) => ({
   users: many(users),
   processes: many(process),
 }))

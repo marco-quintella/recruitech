@@ -1,6 +1,6 @@
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { company } from './company'
+import { companies } from './companies'
 import { roleEnum } from './role'
 import { profile } from './profile'
 import { recommendation } from './recomendation'
@@ -14,14 +14,14 @@ export const users = pgTable('users', {
   password: text('password').notNull(),
   role: roleEnum('role').notNull(),
 
-  companyId: uuid('company_id').references(() => company.id),
+  companyId: uuid('company_id').references(() => companies.id),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
 export const userRelations = relations(users, ({ one, many }) => ({
-  company: one(company, { fields: [users.companyId], references: [company.id] }),
+  company: one(companies, { fields: [users.companyId], references: [companies.id] }),
   profile: one(profile),
   recomendations: many(recommendation),
   favorites: many(favorite, { relationName: 'user_favorites' }),
