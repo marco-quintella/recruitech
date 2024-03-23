@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <nav p="x-4 y-2" text-primary-text h-13 w-full flex items-center justify-between gap-16 bg-primary>
+  <nav p="x-4 y-2" h-13 w-full flex items-center justify-between gap-16 bg-primary text-primary-text>
     <div i-ph-list text-6 md:hidden />
     <Logo color2="primary-text" />
     <div flex="1" hidden gap-4 text-4 font-bold md:flex>
@@ -14,9 +14,9 @@
         Preparação
       </div>
     </div>
-    <div text-secondary-text hidden b-rd-2 bg-secondary px-4 py-2 text-3 font-bold md:flex>
+    <b-button secondary hidden font-bold md:flex !py-1>
       Postar Vaga
-    </div>
+    </b-button>
     <div i-ph-user text-6 />
   </nav>
 </template>
