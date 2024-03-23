@@ -12,6 +12,10 @@ export default defineNuxtConfig({
     'nuxt-module-eslint-config',
   ],
 
+  imports: {
+    dirs: ['/db/**/*'],
+  },
+
   runtimeConfig: {
     auth: {
       name: 'nuxt-session',
