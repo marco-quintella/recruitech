@@ -37,6 +37,9 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    imports: {
+      dirs: ['/db/**/*'],
+    },
     storage: {
       '.data:auth': { driver: 'fs', base: './.data/auth' },
     },
