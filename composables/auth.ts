@@ -15,7 +15,13 @@ export async function authLogin(email: string, password: string) {
   await navigateTo(useAuth().redirectTo.value || '/')
 }
 
-export async function authRegister(body: { email: string, password: string, name: string, role: Role }) {
+export async function authRegister(body: {
+  email: string
+  password: string
+  name: string
+  role: Role
+  companyName?: string
+}) {
   await $fetch('/api/auth/register', {
     method: 'POST',
     body,

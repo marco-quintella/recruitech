@@ -7,6 +7,7 @@ const model = reactive({
   email: undefined as string | undefined,
   password: undefined as string | undefined,
   role: 'candidate' as Role,
+  companyName: undefined as string | undefined,
 })
 
 const isValid = computed(() => !!model.name && !!model.email && !!model.password)
@@ -23,6 +24,9 @@ function onSubmit() {
     email: model.email,
     password: model.password,
     role: model.role,
+    companyName: model.role === 'company_admin'
+      ? model.companyName
+      : undefined,
   })
 }
 </script>
@@ -40,6 +44,29 @@ function onSubmit() {
       @submit.prevent="onSubmit"
     >
       <h1>Registrar</h1>
+
+      <fieldset w-full flex="~ col">
+        <legend>Escolha o tipo de cadastro</legend>
+        <div flex>
+          <div flex-1>
+            <b-radio
+              v-model="model.role"
+              label="Cadidato"
+              value="candidate"
+            />
+          </div>
+          <div flex-1>
+            <b-radio
+              v-model="model.role"
+              label="Empresa"
+              value="company_admin"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <b-input v-if="model.role === 'company_admin'" v-model="model.companyName" label="Nome da empresa" name="companyName" />
+
       <b-input v-model="model.name" label="Nome" name="name" />
       <b-input v-model="model.email" label="E-mail" name="email" />
       <b-input v-model="model.password" label="Senha" name="password" type="password" />

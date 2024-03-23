@@ -10,6 +10,7 @@ export default defineEventHandler<{ body: {
   email: string
   password: string
   role: Role
+  companyName?: string
 } }>(async (event) => {
   if (!process.env.PASSWORD_SALT) {
     console.error('PASSWORD_SALT is not found in env')
@@ -20,24 +21,47 @@ export default defineEventHandler<{ body: {
     name: z.string().trim(),
     email: z.string().email().trim(),
     password: z.string().min(8).trim(),
-    role: z.enum(['company_admin', 'recruiter', 'candidate']),
+    role: z.enum(['company_admin', 'candidate']),
+    companyName: z.string().optional(),
   }).safeParse(body))
 
   if (!validation.success)
     throw createError({ statusCode: 400, message: 'Dados inválidos', data: validation.error })
 
-  const { name, email, password, role } = validation.data
+  const { name, email, password, role, companyName } = validation.data
 
   const possibleUser = await db.select({ id: users.id }).from(users).where(eq(users.email, email))
   if (possibleUser.length > 0)
     throw createError({ statusCode: 400, message: 'Um usuário com este e-mail já existe.' })
+
+  if (role === 'company_admin' && !companyName)
+    throw createError({ statusCode: 400, message: 'Nome da empresa é obrigatório para administradores de empresa.' })
+
+  if (role === 'company_admin' && companyName) {
+    const possibleCompany = await db.select({ id: companies.id }).from(companies).where(eq(companies.name, companyName))
+    if (possibleCompany.length > 0)
+      throw createError({ statusCode: 400, message: 'Uma empresa com este nome já existe.' })
+
+    await db.insert(companies).values({ name: companyName })
+
+    const company = await db.select({ id: companies.id }).from(companies).where(eq(companies.name, companyName)).limit(1)
 
     await db.insert(users).values({
       email,
       password: await hash(password),
       name,
       role,
+      companyId: company[0].id,
     })
+  }
+  else {
+    await db.insert(users).values({
+      email,
+      password: await hash(password),
+      name,
+      role,
+    })
+  }
 
   setResponseStatus(event, 201)
   return 'Usuário criado com sucesso.'
