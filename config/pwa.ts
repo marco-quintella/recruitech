@@ -41,7 +41,7 @@ export const pwa: ModuleOptions = {
     cleanupOutdatedCaches: true,
     runtimeCaching: [
       {
-        urlPattern: /^https:\/\/fonts.googleapis.com\/.*/i,
+        urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
         handler: 'CacheFirst',
         options: {
           cacheName: 'google-fonts-cache',
@@ -55,7 +55,7 @@ export const pwa: ModuleOptions = {
         },
       },
       {
-        urlPattern: /^https:\/\/fonts.gstatic.com\/.*/i,
+        urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
         handler: 'CacheFirst',
         options: {
           cacheName: 'gstatic-fonts-cache',

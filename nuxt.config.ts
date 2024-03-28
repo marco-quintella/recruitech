@@ -1,15 +1,37 @@
+import process from 'node:process'
 import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
   modules: [
-    '@vueuse/nuxt',
-    '@unocss/nuxt',
-    '@pinia/nuxt',
     '@nuxtjs/color-mode',
+    '@pinia/nuxt',
+    '@unocss/nuxt',
     '@vite-pwa/nuxt',
+    '@vueuse/nuxt',
     'nuxt-module-eslint-config',
+    'nuxt-quasar-ui',
   ],
+
+  imports: {
+    dirs: ['/db/**/*'],
+  },
+
+  runtimeConfig: {
+    auth: {
+      name: 'nuxt-session',
+      password: process.env.NUXT_AUTH_PASSWORD || '',
+    },
+    mail: {
+      from: '',
+      host: '',
+      port: 465,
+      auth: {
+        user: '',
+        pass: '',
+      },
+    },
+  },
 
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
@@ -21,13 +43,25 @@ export default defineNuxtConfig({
 
   css: [
     '@unocss/reset/tailwind.css',
+    'assets/main.sass',
   ],
 
   colorMode: {
     classSuffix: '',
   },
 
+  quasar: {
+    plugins: ['Notify', 'Dialog', 'Loading'],
+    sassVariables: 'assets/variables.sass',
+  },
+
   nitro: {
+    imports: {
+      dirs: ['/db/**/*'],
+    },
+    storage: {
+      '.data:auth': { driver: 'fs', base: './.data/auth' },
+    },
     esbuild: {
       options: {
         target: 'esnext',
@@ -53,7 +87,7 @@ export default defineNuxtConfig({
         { name: 'description', content: appDescription },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
         { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
-        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222'},
+        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
       ],
     },
   },
