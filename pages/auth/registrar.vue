@@ -12,13 +12,13 @@ const model = reactive({
   companyName: undefined as string | undefined,
 })
 
-function onSubmit() {
+async function onSubmit() {
   if (!model.name || !model.email || !model.password)
     return
 
   try {
     $q.loading.show()
-    authRegister({
+    await authRegister({
       name: model.name,
       email: model.email,
       password: model.password,

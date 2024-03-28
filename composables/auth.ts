@@ -26,7 +26,7 @@ export async function authRegister(body: {
     method: 'POST',
     body,
   })
-  return await authLogin(body.email, body.password)
+  await navigateTo('/auth/pos-registro')
 }
 
 export async function authLogout() {

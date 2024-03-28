@@ -1,8 +1,10 @@
 import process from 'node:process'
 import { eq } from 'drizzle-orm'
 import { z } from 'zod'
+import { sendRegisterConfirmationEmail } from '../../utils/mail/register.confirmation.mail.ts'
 import { companies } from '~/db/companies'
 import type { Role } from '~/db/role'
+import type { User } from '~/db/users'
 import { users } from '~/db/users'
 
 export default defineEventHandler<{ body: {
@@ -37,6 +39,8 @@ export default defineEventHandler<{ body: {
   if (role === 'company_admin' && !companyName)
     throw createError({ statusCode: 400, statusMessage: 'Nome da empresa é obrigatório para administradores de empresa.' })
 
+  let user: User | undefined
+
   if (role === 'company_admin' && companyName) {
     const possibleCompany = await db.select({ id: companies.id }).from(companies).where(eq(companies.name, companyName))
     if (possibleCompany.length > 0)
@@ -46,23 +50,28 @@ export default defineEventHandler<{ body: {
 
     const company = await db.select({ id: companies.id }).from(companies).where(eq(companies.name, companyName)).limit(1)
 
-    await db.insert(users).values({
+    const insert = await db.insert(users).values({
       email,
       password: await hash(password),
       name,
       role,
       companyId: company[0].id,
-    })
+    }).returning()
+
+    user = insert[0]
   }
   else {
-    await db.insert(users).values({
+    const insert = await db.insert(users).values({
       email,
       password: await hash(password),
       name,
       role,
-    })
+    }).returning()
+
+    user = insert[0]
   }
 
+  sendRegisterConfirmationEmail(user)
+
   setResponseStatus(event, 201)
-  return 'Usuário criado com sucesso.'
 })

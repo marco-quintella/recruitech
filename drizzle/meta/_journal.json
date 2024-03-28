@@ -15,6 +15,20 @@
       "when": 1710791151424,
       "tag": "0001_damp_chimera",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1711649318459,
+      "tag": "0002_heavy_sabretooth",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1711650883441,
+      "tag": "0003_ancient_leader",
+      "breakpoints": true
     }
   ]
 }
