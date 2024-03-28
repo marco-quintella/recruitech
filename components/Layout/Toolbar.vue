@@ -2,26 +2,26 @@
 const $q = useQuasar()
 
 async function onLogout() {
-  await $q.dialog({
-    title: 'Logout',
+  $q.dialog({
+    title: 'Sair',
     message: 'Deseja realmente sair?',
     ok: 'Sim',
     cancel: 'Não',
+  }).onOk(async () => {
+    try {
+      $q.loading.show()
+      await authLogout()
+    }
+    catch (e: any) {
+      $q.notify({
+        type: 'negative',
+        message: e.data?.message || e.message || 'Erro ao sair',
+      })
+    }
+    finally {
+      $q.loading.hide()
+    }
   })
-
-  try {
-    $q.loading.show()
-    await authLogout()
-  }
-  catch (e: any) {
-    $q.notify({
-      type: 'negative',
-      message: e.data?.message || e.message || 'Erro ao sair',
-    })
-  }
-  finally {
-    $q.loading.hide()
-  }
 }
 </script>
 
@@ -37,7 +37,7 @@ async function onLogout() {
         Preparação
       </div>
     </div>
-    <q-btn color="secondary" class="!hidden !md:flex" unelevated no-caps rounded font-bold !py-1>
+    <q-btn color="secondary" text-color="secondary-text" class="!hidden !md:flex" unelevated no-caps rounded font-bold !py-1>
       Postar Vaga
     </q-btn>
     <q-btn flat round>
@@ -45,11 +45,18 @@ async function onLogout() {
 
       <q-menu auto-close>
         <q-list style="min-width: 100px">
+          <q-item clickable @click="navigateTo('/configuracoes')">
+            <q-item-section avatar>
+              <div i-ph-gear text-5 />
+            </q-item-section>
+            <q-item-section>Configurações</q-item-section>
+          </q-item>
+
           <q-item clickable @click="onLogout">
             <q-item-section avatar>
-              <q-icon name="exit_to_app" />
+              <div i-ph-sign-out text-5 />
             </q-item-section>
-            <q-item-section>Logout</q-item-section>
+            <q-item-section>Sair</q-item-section>
           </q-item>
         </q-list>
       </q-menu>

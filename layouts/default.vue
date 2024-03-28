@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div h-full flex flex-col>
     <LayoutToolbar />
-    <main class="p-4">
+    <main class="flex-1 p-4">
       <slot />
     </main>
     <Footer />

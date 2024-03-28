@@ -53,4 +53,5 @@ export default defineConfig({
       },
     },
   },
+  safelist: ['text-primary-text', 'text-secondary-text'],
 })
