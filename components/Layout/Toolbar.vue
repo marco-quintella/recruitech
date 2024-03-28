@@ -14,9 +14,9 @@
         Preparação
       </div>
     </div>
-    <b-button secondary font-bold class="!hidden !md:flex" !py-1>
+    <q-btn color="secondary" class="!hidden !md:flex" unelevated no-caps rounded font-bold !py-1>
       Postar Vaga
-    </b-button>
+    </q-btn>
     <div i-ph-user text-6 />
   </nav>
 </template>
