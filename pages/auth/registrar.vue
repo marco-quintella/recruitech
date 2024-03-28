@@ -2,6 +2,8 @@
 import { z } from 'zod'
 import type { Role } from '~/db/role'
 
+const $q = useQuasar()
+
 const model = reactive({
   name: undefined as string | undefined,
   email: undefined as string | undefined,
@@ -10,75 +12,121 @@ const model = reactive({
   companyName: undefined as string | undefined,
 })
 
-const isValid = computed(() => !!model.name && !!model.email && !!model.password)
-
 function onSubmit() {
   if (!model.name || !model.email || !model.password)
     return
 
-  if (z.string().email().safeParse(model.email).success === false)
-    return
-
-  authRegister({
-    name: model.name,
-    email: model.email,
-    password: model.password,
-    role: model.role,
-    companyName: model.role === 'company_admin'
-      ? model.companyName
-      : undefined,
-  })
+  try {
+    $q.loading.show()
+    authRegister({
+      name: model.name,
+      email: model.email,
+      password: model.password,
+      role: model.role,
+      companyName: model.role === 'company_admin'
+        ? model.companyName
+        : undefined,
+    })
+  }
+  catch (e: any) {
+    $q.notify({
+      message: e.data?.message || 'Erro ao fazer login',
+      color: 'negative',
+      icon: 'report_problem',
+    })
+  }
+  finally {
+    $q.loading.hide()
+  }
 }
 </script>
 
 <template>
   <div class="flex justify-center pt-10vh">
-    <form
-      max-w-100
-      w-full
-      flex="~ col"
-      items-center
-      gap-4
+    <q-card
+      flat max-w-100 w-full p-8
       b="1 primary solid rd-3"
-      p-8
-      @submit.prevent="onSubmit"
     >
-      <h1>Registrar</h1>
+      <q-form
+        w-full
+        flex="~ col"
+        items-center
+        gap-4
+        @submit.prevent="onSubmit"
+      >
+        <h1>Registrar</h1>
 
-      <fieldset w-full flex="~ col">
-        <legend>Escolha o tipo de cadastro</legend>
-        <div flex>
-          <div flex-1>
-            <b-radio
-              v-model="model.role"
-              label="Cadidato"
-              value="candidate"
-            />
-          </div>
-          <div flex-1>
-            <b-radio
-              v-model="model.role"
-              label="Empresa"
-              value="company_admin"
-            />
+        <div flex flex-col items-center>
+          <legend>
+            Escolha o tipo de cadastro
+          </legend>
+          <div flex gap-4>
+            <q-radio v-model="model.role" val="candidate" label="Cadidato" />
+            <q-radio v-model="model.role" val="company_admin" label="Empresa" />
           </div>
         </div>
-      </fieldset>
 
-      <b-input v-if="model.role === 'company_admin'" v-model="model.companyName" label="Nome da empresa" name="companyName" />
+        <div w-full>
+          <q-input
+            v-if="model.role === 'company_admin'"
+            v-model="model.companyName"
+            label="Nome da empresa"
+            outlined dense
+            :rules="[
+              (v?: string) => model.role === 'company_admin' ? (!!v || 'Nome da empresa é obrigatório') : true,
+            ]"
+          />
+        </div>
 
-      <b-input v-model="model.name" label="Nome" name="name" />
-      <b-input v-model="model.email" label="E-mail" name="email" />
-      <b-input v-model="model.password" label="Senha" name="password" type="password" />
-      <b-button type="submit" primary :disabled="!isValid">
-        Cadastrar
-      </b-button>
-      <p>
-        Já é cadastrado? <nuxt-link hoverable to="/auth/login">
-          Entre aqui!
-        </nuxt-link>
-      </p>
-    </form>
+        <div w-full>
+          <q-input
+            v-model="model.name"
+            label="Nome"
+            outlined dense w-full
+            :rules="[
+              (v?: string) => !!v || 'Nome é obrigatório',
+            ]"
+          />
+        </div>
+
+        <div w-full>
+          <q-input
+            v-model="model.email"
+            label="E-mail"
+            outlined dense w-full
+            :rules="[
+              (v?: string) => !!v || 'E-mail é obrigatório',
+              (v?: string) => z.string().email().safeParse(v).success || 'E-mail inválido',
+            ]"
+          />
+        </div>
+
+        <div w-full>
+          <q-input
+            v-model="model.password"
+            label="Senha"
+            type="password"
+            outlined dense w-full
+            :rules="[
+              (v?: string) => !!v || 'Senha é obrigatória',
+            ]"
+          />
+        </div>
+
+        <q-btn
+          type="submit"
+          color="primary"
+          text-color="primary-text"
+        >
+          Cadastrar
+        </q-btn>
+        <p>
+          Já é cadastrado? <nuxt-link hoverable to="/auth/login">
+            Entre aqui!
+          </nuxt-link>
+        </p>
+      </q-form>
+    </q-card>
   </div>
 </template>
 
