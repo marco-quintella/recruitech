@@ -13,7 +13,10 @@
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "db:generate": "drizzle-kit generate:pg",
-    "db:push": "drizzle-kit push:pg"
+    "db:push": "drizzle-kit push:pg",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.10",
