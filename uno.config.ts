@@ -36,7 +36,7 @@ export default defineConfig({
   theme: {
     colors: {
       primary: {
-        DEFAULT: '#590d82',
+        DEFAULT: 'var(--color-primary)',
         light: '#7912b0',
         dark: '#390854',
         text: '#fff',
