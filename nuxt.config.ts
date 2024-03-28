@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
     'nuxt-module-eslint-config',
+    'nuxt-quasar-ui',
   ],
 
   imports: {
@@ -38,6 +39,11 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '',
+  },
+
+  quasar: {
+    plugins: ['Notify', 'Dialog', 'Loading'],
+    sassVariables: 'assets/variables.sass',
   },
 
   nitro: {
