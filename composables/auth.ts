@@ -34,4 +34,5 @@ export async function authLogout() {
     method: 'POST',
   })
   await useAuth().updateSession()
+  await navigateTo('/')
 }

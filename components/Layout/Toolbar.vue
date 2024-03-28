@@ -1,5 +1,28 @@
 <script setup lang="ts">
+const $q = useQuasar()
 
+async function onLogout() {
+  await $q.dialog({
+    title: 'Logout',
+    message: 'Deseja realmente sair?',
+    ok: 'Sim',
+    cancel: 'Não',
+  })
+
+  try {
+    $q.loading.show()
+    await authLogout()
+  }
+  catch (e: any) {
+    $q.notify({
+      type: 'negative',
+      message: e.data?.message || e.message || 'Erro ao sair',
+    })
+  }
+  finally {
+    $q.loading.hide()
+  }
+}
 </script>
 
 <template>
@@ -17,7 +40,20 @@
     <q-btn color="secondary" class="!hidden !md:flex" unelevated no-caps rounded font-bold !py-1>
       Postar Vaga
     </q-btn>
-    <div i-ph-user text-6 />
+    <q-btn flat round>
+      <div i-ph-user text-6 />
+
+      <q-menu auto-close>
+        <q-list style="min-width: 100px">
+          <q-item clickable @click="onLogout">
+            <q-item-section avatar>
+              <q-icon name="exit_to_app" />
+            </q-item-section>
+            <q-item-section>Logout</q-item-section>
+          </q-item>
+        </q-list>
+      </q-menu>
+    </q-btn>
   </nav>
 </template>
 
