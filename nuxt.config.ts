@@ -4,11 +4,11 @@ import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
   modules: [
-    '@vueuse/nuxt',
-    '@unocss/nuxt',
-    '@pinia/nuxt',
     '@nuxtjs/color-mode',
+    '@pinia/nuxt',
+    '@unocss/nuxt',
     '@vite-pwa/nuxt',
+    '@vueuse/nuxt',
     'nuxt-module-eslint-config',
     'nuxt-quasar-ui',
   ],
@@ -21,6 +21,15 @@ export default defineNuxtConfig({
     auth: {
       name: 'nuxt-session',
       password: process.env.NUXT_AUTH_PASSWORD || '',
+    },
+    mail: {
+      from: '',
+      host: '',
+      port: 465,
+      auth: {
+        user: '',
+        pass: '',
+      },
     },
   },
 

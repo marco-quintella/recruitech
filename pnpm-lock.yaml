@@ -40,6 +40,9 @@ devDependencies:
   '@pinia/nuxt':
     specifier: ^0.5.1
     version: 0.5.1(rollup@2.79.1)(typescript@5.3.3)(vue@3.4.15)
+  '@types/nodemailer':
+    specifier: ^6.4.14
+    version: 6.4.14
   '@unocss/eslint-config':
     specifier: ^0.58.3
     version: 0.58.3(eslint-ts-patch@8.56.0-0)(typescript@5.3.3)
@@ -67,6 +70,9 @@ devDependencies:
   eslint-ts-patch:
     specifier: ^8.56.0-0
     version: 8.56.0-0
+  nodemailer:
+    specifier: ^6.9.13
+    version: 6.9.13
   nuxt:
     specifier: ^3.9.3
     version: 3.9.3(eslint-ts-patch@8.56.0-0)(rollup@2.79.1)(sass@1.72.0)(typescript@5.3.3)(vite@5.0.11)(vue-tsc@1.8.27)
@@ -3211,6 +3217,12 @@ packages:
 
   /@types/node@20.4.6:
     resolution: {integrity: sha512-q0RkvNgMweWWIvSMDiXhflGUKMdIxBo2M2tYM/0kEGDueQByFzK4KZAgu5YHGFNxziTlppNpTIBcqHQAxlfHdA==}
+    dev: true
+
+  /@types/nodemailer@6.4.14:
+    resolution: {integrity: sha512-fUWthHO9k9DSdPCSPRqcu6TWhYyxTBg382vlNIttSe9M7XfsT06y0f24KHXtbnijPGGRIcVvdKHTNikOI6qiHA==}
+    dependencies:
+      '@types/node': 20.4.6
     dev: true
 
   /@types/normalize-package-data@2.4.1:
@@ -8151,6 +8163,11 @@ packages:
 
   /node-releases@2.0.14:
     resolution: {integrity: sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==}
+    dev: true
+
+  /nodemailer@6.9.13:
+    resolution: {integrity: sha512-7o38Yogx6krdoBf3jCAqnIN4oSQFx+fMa0I7dK1D+me9kBxx12D+/33wSb+fhOCtIxvYJ+4x4IMEhmhCKfAiOA==}
+    engines: {node: '>=6.0.0'}
     dev: true
 
   /nopt@5.0.0:
