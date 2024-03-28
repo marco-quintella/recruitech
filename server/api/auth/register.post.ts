@@ -14,7 +14,7 @@ export default defineEventHandler<{ body: {
 } }>(async (event) => {
   if (!process.env.PASSWORD_SALT) {
     console.error('PASSWORD_SALT is not found in env')
-    throw createError({ status: 500, message: 'Internal Server Error' })
+    throw createError({ status: 500, statusMessage: 'Internal Server Error' })
   }
 
   const validation = await readValidatedBody(event, async body => z.object({
@@ -26,21 +26,21 @@ export default defineEventHandler<{ body: {
   }).safeParse(body))
 
   if (!validation.success)
-    throw createError({ statusCode: 400, message: 'Dados inválidos', data: validation.error })
+    throw createError({ statusCode: 400, statusMessage: 'Dados inválidos', data: validation.error })
 
   const { name, email, password, role, companyName } = validation.data
 
   const possibleUser = await db.select({ id: users.id }).from(users).where(eq(users.email, email))
   if (possibleUser.length > 0)
-    throw createError({ statusCode: 400, message: 'Um usuário com este e-mail já existe.' })
+    throw createError({ statusCode: 400, statusMessage: 'Um usuário com este e-mail já existe.' })
 
   if (role === 'company_admin' && !companyName)
-    throw createError({ statusCode: 400, message: 'Nome da empresa é obrigatório para administradores de empresa.' })
+    throw createError({ statusCode: 400, statusMessage: 'Nome da empresa é obrigatório para administradores de empresa.' })
 
   if (role === 'company_admin' && companyName) {
     const possibleCompany = await db.select({ id: companies.id }).from(companies).where(eq(companies.name, companyName))
     if (possibleCompany.length > 0)
-      throw createError({ statusCode: 400, message: 'Uma empresa com este nome já existe.' })
+      throw createError({ statusCode: 400, statusMessage: 'Uma empresa com este nome já existe.' })
 
     await db.insert(companies).values({ name: companyName })
 

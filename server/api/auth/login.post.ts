@@ -20,14 +20,14 @@ export default defineEventHandler<{
 
   if (!user) {
     throw createError({
-      message: 'E-mail não encontrado',
+      statusMessage: 'E-mail não encontrado',
       statusCode: 401,
     })
   }
 
   if (user.password !== (await hash(password))) {
     throw createError({
-      message: 'Senha incorreta',
+      statusMessage: 'Senha incorreta',
       statusCode: 401,
     })
   }
