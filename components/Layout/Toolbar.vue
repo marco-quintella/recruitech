@@ -39,7 +39,17 @@ async function onLogout() {
         Preparação
       </div>
     </div>
-    <q-btn color="secondary" text-color="secondary-text" class="!hidden !md:flex" unelevated no-caps rounded font-bold !py-1>
+    <q-btn
+      color="secondary"
+      text-color="secondary-text"
+      class="!hidden !md:flex"
+      unelevated
+      no-caps
+      rounded
+      font-bold
+      !py-1
+      @click="navigateTo(loggedIn ? '/vagas/postar' : '/auth/registrar')"
+    >
       Postar Vaga
     </q-btn>
     <q-btn flat round>
