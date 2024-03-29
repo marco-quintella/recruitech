@@ -12,17 +12,11 @@ export async function sendRegisterConfirmationEmail(user: User) {
     from: '"Recruitech" <nao.responda@mqdev.com.br>',
     to: user.email,
     subject: 'Confirmação de e-mail',
-    text: `Olá ${user.name},\n\n`
-    + 'Para confirmar seu e-mail, clique no link abaixo:\n\n'
-    + `http://localhost:3000/confirm-email/${token}\n\n`
-    + 'Se você não se cadastrou no site, por favor ignore este e-mail.\n\n'
-    + 'Atenciosamente,\n'
-    + 'Recruitech',
-    html: `Olá ${user.name},<br><br>`
-    + 'Para confirmar seu e-mail, clique no link abaixo:<br><br>'
-    + `<a href="http://localhost:3000/confirm-email/${token}">Confirmar e-mail</a><br><br>`
-    + 'Se você não se cadastrou no site, por favor ignore este e-mail.<br><br>'
-    + 'Atenciosamente,<br>'
-    + 'Recruitech',
+    // @ts-expect-error ignore this line
+    template: 'register.confirmation.mail',
+    context: {
+      name: user.name,
+      link: `http://localhost:3000/confirm-email/${token}`,
+    },
   })
 }

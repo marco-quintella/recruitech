@@ -5,15 +5,11 @@ export async function sendEmailConfirmedWelcome(user: User) {
     from: '"Recruitech" <nao.responda@mqdev.com.br>',
     to: user.email,
     subject: 'Bem-vindo ao Recruitech',
-    text: `Olá ${user.name},\n\n`
-    + 'Seu e-mail foi confirmado com sucesso!\n\n'
-    + 'Bem-vindo ao Recruitech!\n\n'
-    + 'Atenciosamente,\n'
-    + 'Recruitech',
-    html: `Olá ${user.name},<br><br>`
-    + 'Seu e-mail foi confirmado com sucesso!<br><br>'
-    + 'Bem-vindo ao Recruitech!<br><br>'
-    + 'Atenciosamente,<br>'
-    + 'Recruitech',
+    // @ts-expect-error ignore this line
+    template: 'confirmed.mail',
+    context: {
+      name: user.name,
+      link: `http://localhost:3000/`,
+    },
   })
 }
