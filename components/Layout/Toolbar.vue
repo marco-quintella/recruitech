@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const $q = useQuasar()
 
+const { loggedIn } = useAuth()
+
 async function onLogout() {
   $q.dialog({
     title: 'Sair',
@@ -44,7 +46,7 @@ async function onLogout() {
       <div i-ph-user text-6 />
 
       <q-menu auto-close>
-        <q-list style="min-width: 100px">
+        <q-list v-if="loggedIn" style="min-width: 100px">
           <q-item clickable @click="navigateTo('/configuracoes')">
             <q-item-section avatar>
               <div i-ph-gear text-5 />
@@ -57,6 +59,22 @@ async function onLogout() {
               <div i-ph-sign-out text-5 />
             </q-item-section>
             <q-item-section>Sair</q-item-section>
+          </q-item>
+        </q-list>
+
+        <q-list v-else style="min-width: 100px">
+          <q-item clickable @click="navigateTo('/auth/login')">
+            <q-item-section avatar>
+              <div i-ph-sign-in text-5 />
+            </q-item-section>
+            <q-item-section>Entrar</q-item-section>
+          </q-item>
+
+          <q-item clickable @click="navigateTo('/auth/registrar')">
+            <q-item-section avatar>
+              <div i-ph-user-plus text-5 />
+            </q-item-section>
+            <q-item-section>Registrar</q-item-section>
           </q-item>
         </q-list>
       </q-menu>

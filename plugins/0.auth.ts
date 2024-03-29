@@ -33,8 +33,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const currentRoute = useRoute()
 
-  // eslint-disable-next-line node/prefer-global/process
-  if (process.client) {
+  if (import.meta.client) {
     watch(loggedIn, async (loggedIn) => {
       if (!loggedIn && currentRoute.meta.auth) {
         redirectTo.value = currentRoute.path
