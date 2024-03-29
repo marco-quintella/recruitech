@@ -12,6 +12,7 @@ export default defineEventHandler<{
       name: users.name,
       email: users.email,
       password: users.password,
+      confirmedEmail: users.confirmedEmail,
     })
     .from(users)
     .where(eq(users.email, email))
@@ -21,6 +22,13 @@ export default defineEventHandler<{
   if (!user) {
     throw createError({
       statusMessage: 'E-mail não encontrado',
+      statusCode: 401,
+    })
+  }
+
+  if (!user.confirmedEmail) {
+    throw createError({
+      statusMessage: 'E-mail não confirmado. Por favor verifique sua caixa de e-mail.',
       statusCode: 401,
     })
   }
