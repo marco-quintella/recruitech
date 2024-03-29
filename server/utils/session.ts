@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
 import { users } from '~/db/users'
+import type { Role } from '~/db/role'
 
 const sessionConfig: SessionConfig = useRuntimeConfig().auth || {}
 
@@ -9,6 +10,9 @@ export interface AuthSession {
   id: string
   name: string
   email: string
+  role: Role
+  confirmedEmail: boolean
+  companyId: string | null
 }
 
 export async function useAuthSession(event: H3Event) {
@@ -19,6 +23,9 @@ export async function useAuthSession(event: H3Event) {
       id: users.id,
       name: users.name,
       email: users.email,
+      role: users.role,
+      confirmedEmail: users.confirmedEmail,
+      companyId: users.companyId,
     })
       .from(users)
       .where(eq(users.id, session.data.id))

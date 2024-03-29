@@ -13,6 +13,8 @@ export default defineEventHandler<{
       email: users.email,
       password: users.password,
       confirmedEmail: users.confirmedEmail,
+      role: users.role,
+      companyId: users.companyId,
     })
     .from(users)
     .where(eq(users.email, email))
@@ -44,6 +46,9 @@ export default defineEventHandler<{
     id: user.id,
     name: user.name,
     email: user.email,
+    companyId: user.companyId,
+    confirmedEmail: user.confirmedEmail,
+    role: user.role,
   })
 
   return session

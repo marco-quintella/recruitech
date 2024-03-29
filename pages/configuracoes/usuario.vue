@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { z } from 'zod'
-
 const $q = useQuasar()
 const { updateSession } = useAuth()
 
@@ -44,7 +42,8 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div h-fit w-full flex justify-center pt-12>
+  <div h-fit w-full flex flex-col items-center pt-12>
+    <h1>Configurações de Usuário</h1>
     <q-card
       flat
       max-w-100

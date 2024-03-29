@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const userStore = useUserStore()
+const { user } = storeToRefs(userStore)
 </script>
 
 <template>
@@ -15,7 +17,7 @@
           <q-item-section>Usuário</q-item-section>
         </q-item>
 
-        <q-item clickable @click="navigateTo('/configuracoes/empresa')">
+        <q-item v-if="user?.role === 'company_admin'" clickable @click="navigateTo('/configuracoes/empresa')">
           <q-item-section avatar>
             <div i-ph-buildings text-5 />
           </q-item-section>
