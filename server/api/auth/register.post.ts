@@ -20,11 +20,11 @@ export default defineEventHandler<{ body: {
   }
 
   const validation = await readValidatedBody(event, async body => z.object({
-    name: z.string().trim(),
-    email: z.string().email().trim(),
-    password: z.string().min(8).trim(),
+    name: z.string().trim().min(1),
+    email: z.string().trim().email(),
+    password: z.string().trim().min(8),
     role: z.enum(['company_admin', 'candidate']),
-    companyName: z.string().optional(),
+    companyName: z.string().trim().optional(),
   }).safeParse(body))
 
   if (!validation.success)

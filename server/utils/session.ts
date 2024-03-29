@@ -1,5 +1,7 @@
+import { eq } from 'drizzle-orm'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
+import { users } from '~/db/users'
 
 const sessionConfig: SessionConfig = useRuntimeConfig().auth || {}
 
@@ -11,6 +13,23 @@ export interface AuthSession {
 
 export async function useAuthSession(event: H3Event) {
   const session = await useSession<AuthSession>(event, sessionConfig)
+
+  if (session.data.email) {
+    const userQuery = await db.select({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+    })
+      .from(users)
+      .where(eq(users.id, session.data.id))
+      .limit(1)
+
+    const user = userQuery[0]
+
+    if (user)
+      session.update(user)
+  }
+
   return session
 }
 

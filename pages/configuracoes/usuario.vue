@@ -1,17 +1,46 @@
 <script setup lang="ts">
 import { z } from 'zod'
 
+const $q = useQuasar()
+const { updateSession } = useAuth()
+
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
 const model = ref({
   nome: user.value?.name ?? '',
-  email: user.value?.email ?? '',
 })
 
 const hasDiff = computed(() => {
-  return model.value.nome !== user.value?.name || model.value.email !== user.value?.email
+  return model.value.nome !== user.value?.name
 })
+
+async function onSubmit() {
+  if (!model.value.nome || !user.value?.id)
+    return
+
+  try {
+    $q.loading.show()
+    await $fetch('/api/user', {
+      method: 'PATCH',
+      body: {
+        id: user.value.id,
+        name: model.value.nome,
+      },
+    })
+
+    await updateSession()
+  }
+  catch (e: any) {
+    $q.notify({
+      type: 'negative',
+      message: e.data?.message || e.message || 'Erro ao salvar',
+    })
+  }
+  finally {
+    $q.loading.hide()
+  }
+}
 </script>
 
 <template>
@@ -23,7 +52,7 @@ const hasDiff = computed(() => {
       p-8
       b="1 primary solid rd-3"
     >
-      <q-form flex flex-col gap-2>
+      <q-form flex flex-col gap-2 @submit="onSubmit">
         <q-input
           v-model="model.nome"
           label="Nome"
@@ -34,22 +63,12 @@ const hasDiff = computed(() => {
           ]"
         />
 
-        <q-input
-          v-model="model.email"
-          label="E-mail"
-          outlined
-          dense
-          :rules="[
-            (v?: string) => !!v || 'E-mail é obrigatório',
-            (v?: string) => z.string().email().safeParse(v).success || 'E-mail inválido',
-          ]"
-        />
-
         <q-btn
           v-if="hasDiff"
           color="primary"
           text-color="primary-text"
           label="Salvar"
+          type="submit"
         />
       </q-form>
     </q-card>
