@@ -1,5 +1,4 @@
 import process from 'node:process'
-import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
@@ -7,7 +6,6 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
     '@unocss/nuxt',
-    '@vite-pwa/nuxt',
     '@vueuse/nuxt',
     'nuxt-module-eslint-config',
     'nuxt-quasar-ui',
@@ -102,8 +100,6 @@ export default defineNuxtConfig({
       ],
     },
   },
-
-  pwa,
 
   devtools: {
     enabled: true,
