@@ -6,6 +6,7 @@ import { process } from './process'
 export const companies = pgTable('companies', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
+  logo: text('logo'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),

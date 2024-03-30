@@ -31,6 +31,17 @@ export default defineNuxtConfig({
         pass: '',
       },
     },
+    public: {
+      firebase: {
+        apiKey: '',
+        authDomain: '',
+        projectId: '',
+        storageBucket: '',
+        messagingSenderId: '',
+        appId: '',
+        measurementId: '',
+      },
+    },
   },
 
   experimental: {

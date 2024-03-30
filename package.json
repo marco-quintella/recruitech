@@ -21,6 +21,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.10",
     "drizzle-orm": "^0.30.6",
+    "firebase": "^10.10.0",
     "postgres": "^3.4.4",
     "quasar": "^2.15.1",
     "uncrypto": "^0.1.3",
