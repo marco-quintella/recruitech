@@ -8,6 +8,8 @@ export async function sendRegisterConfirmationEmail(user: User) {
 
   const token = insert[0].id
 
+  const { public: { frontend: { url } } } = useRuntimeConfig()
+
   await mailTransport.sendMail({
     from: '"Recruitech" <nao.responda@mqdev.com.br>',
     to: user.email,
@@ -16,7 +18,7 @@ export async function sendRegisterConfirmationEmail(user: User) {
     template: 'register.confirmation.mail',
     context: {
       name: user.name,
-      link: `http://localhost:3000/confirm-email/${token}`,
+      link: `${url}/auth/confirmar-email/${token}`,
     },
   })
 }

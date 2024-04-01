@@ -1,6 +1,4 @@
-import { eq } from 'drizzle-orm'
 import { z } from 'zod'
-import { companies } from '~/db/companies'
 
 export default defineEventHandler<{
   body: {
@@ -10,39 +8,15 @@ export default defineEventHandler<{
     id: string
   }
 }>(async (event) => {
-  const validation = await readValidatedBody(
-    event,
-    async body => await z.object({
-      name: z.string().trim().min(1),
-    }).safeParse(body),
-  )
+  // Validation Layer
+  const { name } = await validateBody(event, z.object({ name: z.string().trim().min(1) }))
+  const id = validateRouteParam(event, 'id', z.string().trim().uuid())
+  const { data: user } = await requireAuthSession(event)
+  validateIsCompanyAdmin(user, id)
+  const company = await getCompanyById(id)
+  if (!company)
+    throw createError({ status: 404, statusMessage: 'Empresa não encontrada' })
 
-  if (!validation.success) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Dados inválidos',
-      data: validation.error,
-    })
-  }
-
-  const id = getRouterParam(event, 'id')
-  const validation2 = await z.string().uuid().safeParse(id)
-
-  if (!validation2.success || !id)
-    throw createError({ statusCode: 400, statusMessage: 'Id inválido' })
-
-  const { name } = validation.data
-
-  const session = await useAuthSession(event)
-  const user = session.data
-
-  if (!user)
-    throw createError({ statusCode: 401, statusMessage: 'Não autorizado' })
-
-  if (user.companyId !== id || user.role !== 'company_admin')
-    throw createError({ statusCode: 401, statusMessage: 'Não autorizado' })
-
-  await db.update(companies)
-    .set({ name })
-    .where(eq(companies.id, id))
+  // Service Layer
+  await updateCompany(id, { name })
 })

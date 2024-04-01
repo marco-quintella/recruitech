@@ -9,5 +9,14 @@ export async function uploadImage({
 }) {
   const fileRef = ref(firebase.storage, refString)
   await uploadString(fileRef, fileBase64, 'base64')
-  return await getDownloadURL(fileRef)
+  const url = await getDownloadURL(fileRef)
+
+  if (!url) {
+    throw createError({
+      message: 'Erro ao fazer upload da imagem',
+      status: 500,
+    })
+  }
+
+  return url
 }

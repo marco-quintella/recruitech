@@ -12,13 +12,17 @@ export default defineNuxtConfig({
   ],
 
   imports: {
-    dirs: ['/db/**/*'],
+    dirs: [
+      './db/**/*',
+      './composables/**/*',
+    ],
   },
 
   runtimeConfig: {
     auth: {
       name: 'nuxt-session',
-      password: process.env.NUXT_AUTH_PASSWORD || '',
+      password: '',
+      password_salt: '',
     },
     mail: {
       from: '',
@@ -38,6 +42,9 @@ export default defineNuxtConfig({
         messagingSenderId: '',
         appId: '',
         measurementId: '',
+      },
+      frontend: {
+        url: '',
       },
     },
   },
@@ -66,7 +73,11 @@ export default defineNuxtConfig({
 
   nitro: {
     imports: {
-      dirs: ['/db/**/*'],
+      dirs: [
+        './db/**/*',
+        './server/services/**/*',
+        './server/utils/**/*',
+      ],
     },
     storage: {
       '.data:auth': { driver: 'fs', base: './.data/auth' },

@@ -16,3 +16,6 @@ export const companyRelations = relations(companies, ({ many }) => ({
   users: many(users),
   processes: many(process),
 }))
+
+export type Company = typeof companies.$inferSelect
+export type CompanyInsert = typeof companies.$inferInsert

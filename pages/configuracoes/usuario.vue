@@ -19,7 +19,7 @@ async function onSubmit() {
 
   try {
     $q.loading.show()
-    await $fetch('/api/user', {
+    await $fetch('/api/users', {
       method: 'PATCH',
       body: {
         id: user.value.id,

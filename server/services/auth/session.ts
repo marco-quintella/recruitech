@@ -1,8 +1,6 @@
 import { eq } from 'drizzle-orm'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
-import { users } from '~/db/users'
-import type { Role } from '~/db/role'
 
 const sessionConfig: SessionConfig = useRuntimeConfig().auth || {}
 
