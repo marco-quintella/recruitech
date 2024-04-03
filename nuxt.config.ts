@@ -80,6 +80,13 @@ export default defineNuxtConfig({
       ],
     },
     storage: {
+      'redis': {
+        driver: 'redis',
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT,
+        password: process.env.REDIS_PASSWORD,
+        username: process.env.REDIS_USERNAME,
+      },
       '.data:auth': { driver: 'fs', base: './.data/auth' },
     },
     esbuild: {
