@@ -29,8 +29,8 @@ dependencies:
 
 devDependencies:
   '@antfu/eslint-config':
-    specifier: ^2.11.4
-    version: 2.12.1(@vue/compiler-sfc@3.4.21)(eslint-plugin-format@0.1.0)(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
+    specifier: ^2.12.1
+    version: 2.12.1(@unocss/eslint-plugin@0.58.9)(@vue/compiler-sfc@3.4.21)(eslint-plugin-format@0.1.0)(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
   '@iconify-json/ph':
     specifier: ^1.1.11
     version: 1.1.11
@@ -51,6 +51,9 @@ devDependencies:
     version: 4.0.5
   '@unocss/eslint-config':
     specifier: ^0.58.8
+    version: 0.58.9(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
+  '@unocss/eslint-plugin':
+    specifier: ^0.58.9
     version: 0.58.9(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
   '@unocss/nuxt':
     specifier: ^0.58.8
@@ -275,7 +278,7 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
 
-  /@antfu/eslint-config@2.12.1(@vue/compiler-sfc@3.4.21)(eslint-plugin-format@0.1.0)(eslint-ts-patch@8.57.0-0)(typescript@5.4.3):
+  /@antfu/eslint-config@2.12.1(@unocss/eslint-plugin@0.58.9)(@vue/compiler-sfc@3.4.21)(eslint-plugin-format@0.1.0)(eslint-ts-patch@8.57.0-0)(typescript@5.4.3):
     resolution: {integrity: sha512-o0tTokP/qk7Hwsv14N+sr1DsF3bylZrJH9yWdY73A0wSHlomqy7W+v9lXjN23q3cwjLftNzujd6SXmWBgcpCLg==}
     hasBin: true
     peerDependencies:
@@ -320,6 +323,7 @@ packages:
       '@stylistic/eslint-plugin': 1.7.0(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
       '@typescript-eslint/eslint-plugin': 7.5.0(@typescript-eslint/parser@7.5.0)(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
       '@typescript-eslint/parser': 7.5.0(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
+      '@unocss/eslint-plugin': 0.58.9(eslint-ts-patch@8.57.0-0)(typescript@5.4.3)
       eslint: /eslint-ts-patch@8.57.0-0
       eslint-config-flat-gitignore: 0.1.5
       eslint-flat-config-utils: 0.2.0
