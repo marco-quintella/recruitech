@@ -28,6 +28,11 @@ async function onSubmit() {
     })
 
     await updateSession()
+
+    $q.notify({
+      type: 'positive',
+      message: 'Salvo com sucesso',
+    })
   }
   catch (e: any) {
     $q.notify({

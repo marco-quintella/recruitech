@@ -19,3 +19,4 @@ export const companyRelations = relations(companies, ({ many }) => ({
 
 export type Company = typeof companies.$inferSelect
 export type CompanyInsert = typeof companies.$inferInsert
+export type CompanyUpdate = Partial<typeof companies.$inferInsert>
