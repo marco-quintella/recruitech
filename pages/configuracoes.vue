@@ -17,7 +17,11 @@ const { user } = storeToRefs(userStore)
           <q-item-section>Usuário</q-item-section>
         </q-item>
 
-        <q-item v-if="user?.role === 'company_admin'" clickable @click="navigateTo('/configuracoes/empresa')">
+        <q-item
+          v-if="user?.role === 'company_admin'"
+          clickable
+          @click="navigateTo('/configuracoes/empresa')"
+        >
           <q-item-section avatar>
             <div i-ph-buildings text-5 />
           </q-item-section>
@@ -30,6 +34,4 @@ const { user } = storeToRefs(userStore)
   </div>
 </template>
 
-<style>
-
-</style>
+<style></style>

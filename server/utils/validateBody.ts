@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import type { infer, z } from 'zod'
+import type { z } from 'zod'
 
 export async function validateBody<T = any>(
   event: H3Event<{

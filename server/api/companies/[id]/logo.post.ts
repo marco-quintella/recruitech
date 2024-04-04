@@ -18,16 +18,15 @@ export default defineEventHandler<{
 
   let ext = 'png'
 
-  if (fileBase64.startsWith('data:image/')) {
+  if (fileBase64.startsWith('data:image/'))
     ext = fileBase64.split(';')[0].split('/')[1]
-  }
 
   const cleanedfileBase64 = fileBase64.replace(/^data:image\/\w+;base64,/, '')
 
   // Service Layer
   const url = await uploadImage({
     fileBase64: cleanedfileBase64,
-    refString: `companies/${id}/logo.${ext}`
+    refString: `companies/${id}/logo.${ext}`,
   })
   await updateCompanyLogo(id, url)
 })

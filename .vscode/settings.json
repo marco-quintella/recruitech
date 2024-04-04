@@ -3,6 +3,26 @@
     "*.css": "postcss"
   },
 
+  "cSpell.language": "en,pt,pt_BR",
+  "cSpell.words": [
+    "iconify",
+    "nuxi",
+    "nuxt",
+    "nuxtjs",
+    "postgres",
+    "Recruitech",
+    "uncrypto"
+  ],
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.unotation": true
+  },
+
   // Enable the ESlint flat config support
   "eslint.experimental.useFlatConfig": true,
 
@@ -19,6 +39,7 @@
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
     { "rule": "style/*", "severity": "off" },
+    { "rule": "format/*", "severity": "off" },
     { "rule": "*-indent", "severity": "off" },
     { "rule": "*-spacing", "severity": "off" },
     { "rule": "*-spaces", "severity": "off" },
@@ -40,27 +61,8 @@
     "markdown",
     "json",
     "jsonc",
-    "yaml"
-  ],
-
-  "cSpell.language": "en,pt,pt_BR",
-  "cSpell.words": [
-    "iconify",
-    "nuxi",
-    "nuxt",
-    "nuxtjs",
-    "postgres",
-    "Recruitech",
-    "uncrypto"
-  ],
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/*.unotation": true
-  },
-  "bigUML.hideUnotation": true
+    "yaml",
+    "toml",
+    "astro"
+  ]
 }

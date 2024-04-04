@@ -20,7 +20,7 @@ const hasDiff = computed(() => {
   return model.value.name !== company.value?.name
 })
 
-async function onSubmit () {
+async function onSubmit() {
   if (!model.value.name || !company.value?.id)
     return
 
@@ -51,7 +51,7 @@ async function onSubmit () {
   }
 }
 
-async function uploadCompanyLogo () {
+async function uploadCompanyLogo() {
   if (!newLogo.value)
     return
 
@@ -66,20 +66,22 @@ async function uploadCompanyLogo () {
       await $fetch(`/api/companies/${user.value?.companyId}/logo`, {
         method: 'POST',
         body: {
-          fileBase64: data
-        }
+          fileBase64: data,
+        },
       })
 
       newLogo.value = undefined
 
       await refresh()
     }
-  } catch (e: any) {
+  }
+  catch (e: any) {
     $q.notify({
       type: 'negative',
       message: e.data?.message || e.message || 'Erro ao salvar',
     })
-  } finally {
+  }
+  finally {
     $q.loading.hide()
   }
 }
@@ -124,8 +126,8 @@ async function uploadCompanyLogo () {
           outlined
           dense
           :rules="[
-        (v?: string) => !!v || 'Nome é obrigatório',
-      ]"
+            (v?: string) => !!v || 'Nome é obrigatório',
+          ]"
         />
 
         <q-btn
