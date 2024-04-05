@@ -1,7 +1,5 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { users } from './users'
-import { process } from './process'
 
 export const companies = pgTable('companies', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -14,7 +12,7 @@ export const companies = pgTable('companies', {
 
 export const companyRelations = relations(companies, ({ many }) => ({
   users: many(users),
-  processes: many(process),
+  processes: many(processes),
 }))
 
 export type Company = typeof companies.$inferSelect

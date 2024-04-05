@@ -2,10 +2,10 @@ import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { companies } from './companies'
 import { roleEnum } from './role'
-import { profile } from './profile'
-import { recommendation } from './recomendation'
-import { favorite } from './favorite'
-import { discard } from './discard'
+import { profiles } from './profiles'
+import { recommendations } from './recommendations'
+import { favorites } from './favorites'
+import { discards } from './discards'
 import { emailTokens } from './email-tokens'
 
 export const users = pgTable('users', {
@@ -25,10 +25,10 @@ export const users = pgTable('users', {
 
 export const userRelations = relations(users, ({ one, many }) => ({
   company: one(companies, { fields: [users.companyId], references: [companies.id] }),
-  profile: one(profile),
-  recomendations: many(recommendation),
-  favorites: many(favorite, { relationName: 'user_favorites' }),
-  discards: many(discard, { relationName: 'user_discards' }),
+  profile: one(profiles),
+  recomendations: many(recommendations),
+  favorites: many(favorites, { relationName: 'user_favorites' }),
+  discards: many(discards, { relationName: 'user_discards' }),
   emailTokens: many(emailTokens, { relationName: 'user_email_tokens' }),
 }))
 

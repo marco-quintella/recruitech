@@ -1,8 +1,7 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { processesToTags } from './processes-to-tags'
 
-export const tag = pgTable('tags', {
+export const tags = pgTable('tags', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
 
@@ -10,6 +9,6 @@ export const tag = pgTable('tags', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
-export const tagRelations = relations(tag, ({ many }) => ({
+export const tagRelations = relations(tags, ({ many }) => ({
   processesToTags: many(processesToTags),
 }))

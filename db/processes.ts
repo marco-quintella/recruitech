@@ -1,19 +1,20 @@
 import { numeric, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { companies } from './companies'
-import { users } from './users'
+
 import { processTypeEnum } from './process-type'
 import { contractTypeEnum } from './contract-type'
-import { processesToLocations } from './processes-to-locations'
 import { experienceLevelEnum } from './experience-level'
-import { processesToTags } from './processes-to-tags'
+import { processesToLocations } from './processes_to_locations'
+import { processesToTags } from './processes_to_tags'
 import { processesToJobTitles } from './processes_to_job_titles'
 import { processesToSkills } from './processes_to_skills'
-import { recommendation } from './recomendation'
-import { favorite } from './favorite'
-import { discard } from './discard'
+import { recommendations } from './recommendations'
+import { favorites } from './favorites'
+import { discards } from './discards'
+import { companies } from './companies'
+import { users } from './users'
 
-export const process = pgTable('processes', {
+export const processes = pgTable('processes', {
   id: uuid('id').defaultRandom().primaryKey(),
 
   companyId: uuid('company_id').references(() => companies.id).notNull(),
@@ -41,13 +42,13 @@ export const process = pgTable('processes', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
-export const processRelations = relations(process, ({ many, one }) => ({
+export const processRelations = relations(processes, ({ many, one }) => ({
   processesToLocations: many(processesToLocations),
   processesToTags: many(processesToTags),
   processesToJobTitles: many(processesToJobTitles),
   processesToSkills: many(processesToSkills),
-  recomendations: many(recommendation),
-  favorites: many(favorite),
-  discards: many(discard),
-  company: one(companies, { fields: [process.companyId], references: [companies.id] }),
+  recomendations: many(recommendations),
+  favorites: many(favorites),
+  discards: many(discards),
+  company: one(companies, { fields: [processes.companyId], references: [companies.id] }),
 }))
