@@ -1,9 +1,15 @@
-export function validateIsCompanyAdmin(
+export function validateIsCompanyMember(
   user: AuthSession | User,
   companyId?: string,
 ) {
   if (companyId) {
-    if (user.companyId !== companyId || user.role !== RoleEnum.company_admin) {
+    if (
+      user.companyId !== companyId
+      || (
+        user.role !== RoleEnum.company_admin
+        && user.role !== RoleEnum.recruiter
+      )
+    ) {
       throw createError({
         message: 'Você não tem permissão para fazer isso',
         status: 403,
@@ -11,7 +17,10 @@ export function validateIsCompanyAdmin(
     }
   }
   else {
-    if (user.role !== RoleEnum.company_admin) {
+    if (
+      user.role !== RoleEnum.company_admin
+      && user.role !== RoleEnum.recruiter
+    ) {
       throw createError({
         message: 'Você não tem permissão para fazer isso',
         status: 403,

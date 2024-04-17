@@ -51,7 +51,7 @@ export async function hash(str: string) {
 export async function requireAuthSession(event: H3Event) {
   const session = await useAuthSession(event)
 
-  if (!session.data.email) {
+  if (!session.data.email || !session.data.id) {
     throw createError({
       message: 'Não autorizado',
       statusCode: 401,

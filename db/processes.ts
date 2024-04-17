@@ -52,3 +52,7 @@ export const processRelations = relations(processes, ({ many, one }) => ({
   discards: many(discards),
   company: one(companies, { fields: [processes.companyId], references: [companies.id] }),
 }))
+
+export type Process = typeof processes.$inferSelect
+export type ProcessInsert = typeof processes.$inferInsert
+export type ProcessUpdate = Partial<ProcessInsert>
