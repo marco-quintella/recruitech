@@ -57,6 +57,13 @@ async function onLogout() {
 
       <q-menu auto-close>
         <q-list v-if="loggedIn" style="min-width: 100px">
+          <q-item clickable @click="navigateTo('/minha-empresa')">
+            <q-item-section avatar>
+              <div i-ph-buildings-duotone text-5 />
+            </q-item-section>
+            <q-item-section>Empresa</q-item-section>
+          </q-item>
+
           <q-item clickable @click="navigateTo('/configuracoes')">
             <q-item-section avatar>
               <div i-ph-gear text-5 />
