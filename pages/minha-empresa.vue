@@ -1,17 +1,19 @@
 <script lang="ts" setup>
+import type { QImgProps } from 'quasar'
+
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
 if (!user.value?.companyId)
   navigateTo('/')
 
-const { data: company } = useFetch('/api/companies/user')
+const { data: company } = await useFetch('/api/companies/user')
 </script>
 
 <template>
   <div h-full flex gap-4>
     <div text-center>
-      <q-img v-if="company?.logo" :src="company.logo" w-20 />
+      <q-img v-if="company?.logo" :src="company.logo" :ratio="1" width="80px" height="80px" />
       <h2 text-center text-6 font-semibold>
         {{ company?.name }}
       </h2>

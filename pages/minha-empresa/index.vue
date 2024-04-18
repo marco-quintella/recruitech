@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import Usuario from './usuarios.vue'
+import Usuarios from './usuarios/index.vue'
 </script>
 
 <template>
-  <usuarios />
+  <Usuarios />
 </template>
 
 <style>

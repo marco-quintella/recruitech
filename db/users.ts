@@ -9,16 +9,21 @@ import { discards } from './discards'
 import { emailTokens } from './email-tokens'
 
 export const users = pgTable('users', {
+  // Data
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
   role: roleEnum('role').notNull(),
 
+  // Flags
+  invitePending: boolean('invite_pending').notNull().default(false),
   confirmedEmail: boolean('confirmed_email').notNull().default(false),
 
+  // Relations
   companyId: uuid('company_id').references(() => companies.id),
 
+  // Metadata
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

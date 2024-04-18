@@ -51,6 +51,8 @@ async function onSave() {
         salary_1: Number(model.value.salary_1),
       },
     })
+
+    navigateTo('/minha-empresa/vagas')
   }
   catch (e: any) {
     $q.notify({
