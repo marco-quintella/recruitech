@@ -11,12 +11,14 @@ const columns: QTableProps['columns'] = [
     field: 'name',
     label: 'Nome',
     name: 'name',
+    sortable: true,
   },
   {
     align: 'left',
     field: 'email',
     label: 'E-mail',
     name: 'email',
+    sortable: true,
   },
   {
     align: 'left',
@@ -24,15 +26,16 @@ const columns: QTableProps['columns'] = [
     format: role => role === RoleEnum.company_admin ? 'Administrador' : 'Recrutador',
     label: 'Função',
     name: 'role',
+    sortable: true,
   },
 
 ]
 
-const pagination = reactive({
+const pagination = ref({
   descending: false,
   page: 1,
   rowsNumber: 0,
-  rowsPerPage: 10,
+  rowsPerPage: 5,
   sortBy: undefined as string | undefined,
 })
 
@@ -43,25 +46,33 @@ const { data: users, execute: onFetch, pending: isLoading } = await useFetch<{
   `/api/users/company/${currentUser.value?.companyId}`,
   {
     method: 'GET',
-    params: {
-      orderBy: {
-        direction: pagination.descending ? 'desc' : 'asc',
-        field: pagination.sortBy as string | undefined,
-      },
-      page: pagination.page,
-      pageSize: pagination.rowsPerPage,
+    query: {
+      direction: computed(() => pagination.value.descending ? 'desc' : 'asc'),
+      orderBy: computed(() => pagination.value.sortBy as string | undefined),
+      page: computed(() => pagination.value.page),
+      pageSize: computed(() => pagination.value.rowsPerPage),
     },
-    watch: [pagination],
   },
 )
+
+function updatePagination() {
+  pagination.value.descending = users.value?.meta?.pagination?.direction === 'desc' ?? 'asc'
+  pagination.value.page = users.value?.meta?.pagination?.page ?? pagination.value.page
+  pagination.value.rowsNumber = users.value?.meta?.pagination?.total ?? pagination.value.rowsNumber
+  pagination.value.rowsPerPage = users.value?.meta?.pagination?.pageSize ?? pagination.value.rowsPerPage
+  pagination.value.sortBy = users.value?.meta?.pagination?.orderBy ?? pagination.value.sortBy
+}
+
+updatePagination()
+watch(users, updatePagination)
 
 async function onRequest(
   props?: Parameters<NonNullable<QTableProps['onRequest']>>[0],
 ) {
-  pagination.page = props?.pagination?.page ?? pagination.page
-  pagination.rowsPerPage = props?.pagination?.rowsPerPage ?? pagination.rowsPerPage
-  pagination.descending = props?.pagination?.descending ?? pagination.descending
-  pagination.sortBy = props?.pagination?.sortBy as string | undefined ?? pagination.sortBy
+  pagination.value.page = props?.pagination?.page ?? pagination.value.page
+  pagination.value.rowsPerPage = props?.pagination?.rowsPerPage ?? pagination.value.rowsPerPage
+  pagination.value.descending = props?.pagination?.descending ?? pagination.value.descending
+  pagination.value.sortBy = props?.pagination?.sortBy as string | undefined ?? pagination.value.sortBy
 }
 
 const rows = computed(() => users.value?.data ?? [])

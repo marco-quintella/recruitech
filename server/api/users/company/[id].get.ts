@@ -1,19 +1,34 @@
 import { z } from 'zod'
+import { numberSchema } from '../../../utils/validation/numberSchema'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<{
+  query: {
+    orderBy?: 'name' | 'email' | 'role'
+    direction?: 'asc' | 'desc'
+    page?: number
+    pageSize?: number
+  }
+}>(async (event) => {
   const companyId = validateRouteParam(event, 'id', z.string().trim().uuid())
+  const {
+    direction = 'asc',
+    orderBy = 'name',
+    page = 1,
+    pageSize = 10,
+  } = await validateQuery(event, z.object({
+    direction: z.enum(['asc', 'desc']).optional(),
+    orderBy: z.enum(['name', 'email', 'role']).optional(),
+    page: numberSchema.optional(),
+    pageSize: numberSchema.optional(),
+  }))
 
   const { data: userSession } = await requireAuthSession(event)
   validateIsCompanyMember(userSession, companyId)
 
-  const users = await getUserByCompanyId(companyId)
-
-  return {
-    data: users.data,
-    meta: {
-      pagination: {
-        total: users.total,
-      },
-    },
-  }
+  return await getUserByCompanyId(companyId, {
+    direction,
+    orderBy,
+    page,
+    pageSize,
+  })
 })
