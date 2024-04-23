@@ -1,15 +1,16 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
 
+const $q = useQuasar()
 const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
+const { user: currentUser } = storeToRefs(userStore)
 
 const columns: QTableProps['columns'] = [
   {
     align: 'left',
     field: 'name',
     label: 'Nome',
-    name: 'nome',
+    name: 'name',
   },
   {
     align: 'left',
@@ -35,11 +36,11 @@ const pagination = reactive({
   sortBy: undefined as string | undefined,
 })
 
-const { data: users, pending: isLoading } = await useFetch<{
+const { data: users, execute: onFetch, pending: isLoading } = await useFetch<{
   data: User[]
   meta: { pagination: { total: number } }
 }>(
-  `/api/users/company/${user.value?.companyId}`,
+  `/api/users/company/${currentUser.value?.companyId}`,
   {
     method: 'GET',
     params: {
@@ -64,6 +65,45 @@ async function onRequest(
 }
 
 const rows = computed(() => users.value?.data ?? [])
+
+function editUser(user: User) {
+  if (user.id === currentUser.value?.id)
+    return
+
+  $q.dialog({
+    cancel: true,
+    message: 'Defina o tipo de perfil do usuário:',
+    options: {
+      items: [
+        { label: 'Administrador', value: RoleEnum.company_admin },
+        { label: 'Recrutador', value: RoleEnum.recruiter },
+      ],
+      model: user.role,
+      type: 'radio',
+    },
+    persistent: true,
+    title: `Editando ${user.name}`,
+  }).onOk(async (newRole) => {
+    try {
+      $q.loading.show()
+      await $fetch(`/api/users/${user.id}`, {
+        body: { role: newRole },
+        method: 'PATCH',
+      })
+      onFetch()
+    }
+    catch (error) {
+      $q.notify({
+        color: 'negative',
+        message: 'Erro ao editar usuário',
+        position: 'top',
+      })
+    }
+    finally {
+      $q.loading.hide()
+    }
+  })
+}
 </script>
 
 <template>
@@ -91,7 +131,42 @@ const rows = computed(() => users.value?.data ?? [])
         binary-state-sort
         w-full
         @request="onRequest"
-      />
+      >
+        <template #body="props">
+          <q-tr :props="props">
+            <q-td key="name" :props="props">
+              {{ props.row.name }}
+            </q-td>
+
+            <q-td key="email" :props="props">
+              {{ props.row.email }}
+            </q-td>
+
+            <q-td key="role" :props="props">
+              {{ props.cols[2]?.value }}
+            </q-td>
+
+            <q-popup-proxy context-menu>
+              <q-card>
+                <q-list>
+                  <q-item v-close-popup clickable @click="editUser(props.row)">
+                    <q-item-section avatar>
+                      <div i-ph-pencil />
+                    </q-item-section>
+                    <q-item-section>Editar</q-item-section>
+                  </q-item>
+                  <q-item v-close-popup clickable>
+                    <q-item-section avatar>
+                      <div i-ph-trash />
+                    </q-item-section>
+                    <q-item-section>Excluir</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-card>
+            </q-popup-proxy>
+          </q-tr>
+        </template>
+      </q-table>
     </div>
   </div>
 </template>
