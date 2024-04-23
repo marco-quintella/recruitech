@@ -6,33 +6,33 @@ const { user } = storeToRefs(userStore)
 
 const columns: QTableProps['columns'] = [
   {
-    name: 'nome',
+    align: 'left',
     field: 'name',
     label: 'Nome',
-    align: 'left',
+    name: 'nome',
   },
   {
-    name: 'email',
+    align: 'left',
     field: 'email',
     label: 'E-mail',
-    align: 'left',
+    name: 'email',
   },
   {
-    name: 'role',
-    field: 'role',
-    label: 'Função',
-    format: role => role === RoleEnum.company_admin ? 'Administrador' : 'Recrutador',
     align: 'left',
+    field: 'role',
+    format: role => role === RoleEnum.company_admin ? 'Administrador' : 'Recrutador',
+    label: 'Função',
+    name: 'role',
   },
 
 ]
 
 const pagination = reactive({
+  descending: false,
   page: 1,
   rowsNumber: 0,
   rowsPerPage: 10,
   sortBy: undefined as string | undefined,
-  descending: false,
 })
 
 const { data: users, pending: isLoading } = await useFetch<{
@@ -43,12 +43,12 @@ const { data: users, pending: isLoading } = await useFetch<{
   {
     method: 'GET',
     params: {
-      page: pagination.page,
-      pageSize: pagination.rowsPerPage,
       orderBy: {
         direction: pagination.descending ? 'desc' : 'asc',
         field: pagination.sortBy as string | undefined,
       },
+      page: pagination.page,
+      pageSize: pagination.rowsPerPage,
     },
     watch: [pagination],
   },
@@ -74,7 +74,10 @@ const rows = computed(() => users.value?.data ?? [])
           Usuários
         </h2>
         <div>
-          <q-btn color="primary" @click="navigateTo('/minha-empresa/usuarios/incluir')">
+          <q-btn
+            color="primary"
+            @click="navigateTo('/minha-empresa/usuarios/incluir')"
+          >
             Incluir
           </q-btn>
         </div>
