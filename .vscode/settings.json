@@ -11,7 +11,8 @@
     "nuxtjs",
     "postgres",
     "Recruitech",
-    "uncrypto"
+    "uncrypto",
+    "usuarios"
   ],
   "files.exclude": {
     "**/.git": true,
