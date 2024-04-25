@@ -68,6 +68,7 @@ export default defineNuxtConfig({
     'nuxt-module-eslint-config',
     'nuxt-quasar-ui',
     '@pinia-plugin-persistedstate/nuxt',
+    '@artmizu/nuxt-prometheus',
   ],
 
   nitro: {
