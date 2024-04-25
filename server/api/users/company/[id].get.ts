@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { numberSchema } from '../../../utils/validation/numberSchema'
 
 export default defineEventHandler<{
   query: {
