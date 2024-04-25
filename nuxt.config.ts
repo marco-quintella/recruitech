@@ -2,51 +2,42 @@ import process from 'node:process'
 import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
-  modules: [
-    '@nuxtjs/color-mode',
-    '@pinia/nuxt',
-    '@unocss/nuxt',
-    '@vueuse/nuxt',
-    'nuxt-module-eslint-config',
-    'nuxt-quasar-ui',
-  ],
-
-  imports: {
-    dirs: [
-      './db/**/*',
-      './composables/**/*',
-    ],
+  app: {
+    head: {
+      link: [
+        { href: '/favicon.ico', rel: 'icon', sizes: 'any' },
+        { href: '/nuxt.svg', rel: 'icon', type: 'image/svg+xml' },
+        { href: '/apple-touch-icon.png', rel: 'apple-touch-icon' },
+      ],
+      meta: [
+        { content: 'width=device-width, initial-scale=1', name: 'viewport' },
+        { content: appDescription, name: 'description' },
+        { content: 'black-translucent', name: 'apple-mobile-web-app-status-bar-style' },
+        { content: 'white', media: '(prefers-color-scheme: light)', name: 'theme-color' },
+        { content: '#222222', media: '(prefers-color-scheme: dark)', name: 'theme-color' },
+      ],
+      viewport: 'width=device-width,initial-scale=1',
+    },
   },
 
-  runtimeConfig: {
-    auth: {
-      name: 'nuxt-session',
-      password: '',
-      password_salt: '',
+  colorMode: {
+    classSuffix: '',
+  },
+
+  css: [
+    '@unocss/reset/tailwind.css',
+    'assets/main.sass',
+  ],
+
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
     },
-    mail: {
-      from: '',
-      host: '',
-      port: 465,
-      auth: {
-        user: '',
-        pass: '',
-      },
-    },
-    public: {
-      firebase: {
-        apiKey: '',
-        authDomain: '',
-        projectId: '',
-        storageBucket: '',
-        messagingSenderId: '',
-        appId: '',
-        measurementId: '',
-      },
-      frontend: {
-        url: '',
-      },
-    },
+  },
+
+  eslintConfig: {
+    setup: false,
   },
 
   experimental: {
@@ -57,21 +48,33 @@ export default defineNuxtConfig({
     typedPages: true,
   },
 
-  css: [
-    '@unocss/reset/tailwind.css',
-    'assets/main.sass',
+  features: {
+    // For UnoCSS
+    inlineStyles: false,
+  },
+
+  imports: {
+    dirs: [
+      './db/**/*',
+      './composables/**/*',
+    ],
+  },
+
+  modules: [
+    '@nuxtjs/color-mode',
+    '@pinia/nuxt',
+    '@unocss/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-module-eslint-config',
+    'nuxt-quasar-ui',
   ],
 
-  colorMode: {
-    classSuffix: '',
-  },
-
-  quasar: {
-    plugins: ['Notify', 'Dialog', 'Loading'],
-    sassVariables: 'assets/variables.sass',
-  },
-
   nitro: {
+    esbuild: {
+      options: {
+        target: 'esnext',
+      },
+    },
     imports: {
       dirs: [
         './db/**/*',
@@ -79,56 +82,56 @@ export default defineNuxtConfig({
         './server/utils/**/*',
       ],
     },
+    prerender: {
+      crawlLinks: false,
+      ignore: ['/hi'],
+      routes: ['/'],
+    },
     storage: {
+      '.data:auth': { base: './.data/auth', driver: 'fs' },
       'redis': {
         driver: 'redis',
         host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT,
         password: process.env.REDIS_PASSWORD,
+        port: process.env.REDIS_PORT,
         username: process.env.REDIS_USERNAME,
       },
-      '.data:auth': { driver: 'fs', base: './.data/auth' },
     },
-    esbuild: {
-      options: {
-        target: 'esnext',
+  },
+
+  quasar: {
+    plugins: ['Notify', 'Dialog', 'Loading'],
+    sassVariables: 'assets/variables.sass',
+  },
+
+  runtimeConfig: {
+    auth: {
+      name: 'nuxt-session',
+      password: '',
+      password_salt: '',
+    },
+    mail: {
+      auth: {
+        pass: '',
+        user: '',
+      },
+      from: '',
+      host: '',
+      port: 465,
+    },
+    public: {
+      firebase: {
+        apiKey: '',
+        appId: '',
+        authDomain: '',
+        measurementId: '',
+        messagingSenderId: '',
+        projectId: '',
+        storageBucket: '',
+      },
+      frontend: {
+        url: '',
       },
     },
-    prerender: {
-      crawlLinks: false,
-      routes: ['/'],
-      ignore: ['/hi'],
-    },
-  },
-
-  app: {
-    head: {
-      viewport: 'width=device-width,initial-scale=1',
-      link: [
-        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
-        { rel: 'icon', type: 'image/svg+xml', href: '/nuxt.svg' },
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-      ],
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: appDescription },
-        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-        { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
-        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
-      ],
-    },
-  },
-
-  devtools: {
-    enabled: true,
-  },
-
-  features: {
-    // For UnoCSS
-    inlineStyles: false,
-  },
-
-  eslintConfig: {
-    setup: false,
   },
 })
