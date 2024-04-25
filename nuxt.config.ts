@@ -69,6 +69,7 @@ export default defineNuxtConfig({
     'nuxt-quasar-ui',
     '@pinia-plugin-persistedstate/nuxt',
     '@artmizu/nuxt-prometheus',
+    'nuxt-security',
   ],
 
   nitro: {
@@ -134,6 +135,12 @@ export default defineNuxtConfig({
       frontend: {
         url: '',
       },
+    },
+  },
+
+  security: {
+    headers: {
+      crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
     },
   },
 })

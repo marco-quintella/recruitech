@@ -102,6 +102,9 @@ importers:
       nuxt-quasar-ui:
         specifier: ^2.0.8
         version: 2.0.8(@quasar/extras@1.16.11)(quasar@2.15.4)(rollup@4.16.4)
+      nuxt-security:
+        specifier: ^1.3.2
+        version: 1.3.2(rollup@4.16.4)
       pg:
         specifier: ^8.11.5
         version: 8.11.5
@@ -2854,6 +2857,10 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
+  basic-auth@2.0.1:
+    resolution: {integrity: sha512-NF+epuEdnUYVlGuhaxbbq+dvJttwLnGY+YixlXlME5KpQ5W3CnXA5cVTneY3SPbPDRkcjMbifrwmFYcClgOZeg==}
+    engines: {node: '>= 0.8'}
+
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
@@ -2959,6 +2966,13 @@ packages:
 
   character-reference-invalid@1.1.4:
     resolution: {integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==}
+
+  cheerio-select@2.1.0:
+    resolution: {integrity: sha512-9v9kG0LvzrlcungtnJtpGNxY+fzECQKhK4EGJX2vByejiMX84MFNQw4UxPJl3bFbTMw+Dfs37XaIkCwTZfLh4g==}
+
+  cheerio@1.0.0-rc.12:
+    resolution: {integrity: sha512-VqR8m68vM46BNnuZ5NtnGBKIE/DfN0cRIzg9n40EIq9NOv90ayxLBXA8fXC5gquFRGJSTRqBq25Jt2ECLR431Q==}
+    engines: {node: '>= 6'}
 
   chokidar@3.6.0:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
@@ -3152,6 +3166,9 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
+
+  cssfilter@0.0.10:
+    resolution: {integrity: sha512-FAaLDaplstoRsDR8XGYH51znUN0UY7nMc6Z9/fvE8EXGwvJE9hu7W2vHwx1+bd6gCYnln9nLbzxFTrcO9YQDZw==}
 
   cssnano-preset-default@6.1.2:
     resolution: {integrity: sha512-1C0C+eNaeN8OcHQa193aRgYexyJtU8XwbdieEjClw+J9d94E41LwT6ivKH0WT+fYwYWB0Zp3I3IZ7tI/BbUbrg==}
@@ -4185,6 +4202,9 @@ packages:
     resolution: {integrity: sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==}
     engines: {node: '>=8'}
 
+  htmlparser2@8.0.2:
+    resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
+
   http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
 
@@ -5040,6 +5060,9 @@ packages:
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
 
+  nuxt-csurf@1.5.2:
+    resolution: {integrity: sha512-lLNx6kkHcwQFSStCe1gorATliOveQpMEuNzowT0expmsBNnT3y6ADITtoNNquLiFumdVtmVbiK7o+SDnfWfCgg==}
+
   nuxt-module-eslint-config@0.1.1:
     resolution: {integrity: sha512-pT++D6t1E9cbtp9EATQw3NoZtgE8jEtOZbJxUhx5EOfYEt4+wxAFuiZHMo1DXyngRag3Q6PbkD5VVLXH3PPqMQ==}
     peerDependencies:
@@ -5050,6 +5073,9 @@ packages:
     peerDependencies:
       '@quasar/extras': ^1
       quasar: ^2.8.0
+
+  nuxt-security@1.3.2:
+    resolution: {integrity: sha512-S585sJXWSiscne4BgixaWfT5uhY7ywEMxLY9e9y/Fbh8HeTIKPd7xSjPxh67FHqyO1yimwbgJcre3wdvRnicoQ==}
 
   nuxt@3.11.2:
     resolution: {integrity: sha512-Be1d4oyFo60pdF+diBolYDcfNemoMYM3R8PDjhnGrs/w3xJoDH1YMUVWHXXY8WhSmYZI7dyBehx/6kTfGFliVA==}
@@ -5189,6 +5215,12 @@ packages:
 
   parse-url@8.1.0:
     resolution: {integrity: sha512-xDvOoLU5XRrcOZvnI6b8zA6n9O9ejNk/GExuz1yBuWUGn9KA97GI6HTs6u02wKara1CeVmZhH+0TZFdWScR89w==}
+
+  parse5-htmlparser2-tree-adapter@7.0.0:
+    resolution: {integrity: sha512-B77tOZrqqfUfnVcOrUvfdLbz4pu4RopLD/4vmu3HUPswwTA8OH0EMW9BlWR2B0RCoiZRAHEUu7IxeP1Pd1UU+g==}
+
+  parse5@7.1.2:
+    resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
 
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
@@ -6227,6 +6259,9 @@ packages:
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
 
+  uncsrf@1.1.1:
+    resolution: {integrity: sha512-wH9+N3oNdr2XB3egUKxCR26XTVfYywv2STZYtZLIp8votOf0/9b0axA9gpIHdYfgq/Myfh/HS5e0lQ/+27dj9A==}
+
   unctx@2.3.1:
     resolution: {integrity: sha512-PhKke8ZYauiqh3FEMVNm7ljvzQiph0Mt3GBRve03IJm7ukfaON2OBK795tLwhbyfzknuRRkW0+Ze+CQUmzOZ+A==}
 
@@ -6296,6 +6331,9 @@ packages:
         optional: true
       vite:
         optional: true
+
+  unplugin-remove@1.0.2:
+    resolution: {integrity: sha512-mZrgNpd5WcMDYW2LI81aUPVr49Qn0ii1+DI3Tg8oYRPApyf35IqlwbdQYdE1p1wdWKSyzoSRUFZecJUMF6goIw==}
 
   unplugin-vue-router@0.7.0:
     resolution: {integrity: sha512-ddRreGq0t5vlSB7OMy4e4cfU1w2AwBQCwmvW3oP/0IHQiokzbx4hd3TpwBu3eIAFVuhX2cwNQwp1U32UybTVCw==}
@@ -6739,6 +6777,11 @@ packages:
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
     engines: {node: '>=12'}
+
+  xss@1.0.15:
+    resolution: {integrity: sha512-FVdlVVC67WOIPvfOwhoMETV72f6GbW7aOabBC3WxN/oUdoEMDyLz4OgRv5/gck2ZeNqEQu+Tb0kloovXOfpYVg==}
+    engines: {node: '>= 0.10.0'}
+    hasBin: true
 
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
@@ -10238,6 +10281,10 @@ snapshots:
 
   base64-js@1.5.1: {}
 
+  basic-auth@2.0.1:
+    dependencies:
+      safe-buffer: 5.1.2
+
   binary-extensions@2.3.0: {}
 
   bindings@1.5.0:
@@ -10362,6 +10409,25 @@ snapshots:
   character-entities@1.2.4: {}
 
   character-reference-invalid@1.1.4: {}
+
+  cheerio-select@2.1.0:
+    dependencies:
+      boolbase: 1.0.0
+      css-select: 5.1.0
+      css-what: 6.1.0
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+
+  cheerio@1.0.0-rc.12:
+    dependencies:
+      cheerio-select: 2.1.0
+      dom-serializer: 2.0.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      htmlparser2: 8.0.2
+      parse5: 7.1.2
+      parse5-htmlparser2-tree-adapter: 7.0.0
 
   chokidar@3.6.0:
     dependencies:
@@ -10527,6 +10593,8 @@ snapshots:
   css-what@6.1.0: {}
 
   cssesc@3.0.0: {}
+
+  cssfilter@0.0.10: {}
 
   cssnano-preset-default@6.1.2(postcss@8.4.38):
     dependencies:
@@ -11804,6 +11872,13 @@ snapshots:
 
   html-tags@3.3.1: {}
 
+  htmlparser2@8.0.2:
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
+
   http-cache-semantics@4.1.1: {}
 
   http-errors@2.0.0:
@@ -12698,6 +12773,15 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
+  nuxt-csurf@1.5.2(rollup@4.16.4):
+    dependencies:
+      '@nuxt/kit': 3.11.2(rollup@4.16.4)
+      defu: 6.1.4
+      uncsrf: 1.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+
   nuxt-module-eslint-config@0.1.1(@types/eslint@8.56.10)(eslint-ts-patch@8.57.0-0)(nuxt@3.11.2(@parcel/watcher@2.4.1)(@types/node@20.12.7)(@unocss/reset@0.59.4)(drizzle-orm@0.30.9(pg@8.11.5)(postgres@3.4.4))(encoding@0.1.13)(eslint-ts-patch@8.57.0-0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.16.4))(vue@3.4.25(typescript@5.4.5)))(ioredis@5.4.1)(optionator@0.9.3)(rollup@4.16.4)(sass@1.75.0)(terser@5.30.4)(typescript@5.4.5)(unocss@0.59.4(@unocss/webpack@0.59.4(rollup@4.16.4)(webpack@5.91.0(esbuild@0.19.12)))(postcss@8.4.38)(rollup@4.16.4)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.4)))(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.4))(vue-tsc@2.0.14(typescript@5.4.5)))(rollup@4.16.4)(typescript@5.4.5)(vite@5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.4)):
     dependencies:
       '@eslint/js': 8.57.0
@@ -12737,6 +12821,20 @@ snapshots:
       magicast: 0.2.11
       p-memoize: 7.1.1
       quasar: 2.15.4
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+
+  nuxt-security@1.3.2(rollup@4.16.4):
+    dependencies:
+      '@nuxt/kit': 3.11.2(rollup@4.16.4)
+      basic-auth: 2.0.1
+      cheerio: 1.0.0-rc.12
+      defu: 6.1.4
+      nuxt-csurf: 1.5.2(rollup@4.16.4)
+      pathe: 1.1.2
+      unplugin-remove: 1.0.2(rollup@4.16.4)
+      xss: 1.0.15
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -13027,6 +13125,15 @@ snapshots:
   parse-url@8.1.0:
     dependencies:
       parse-path: 7.0.0
+
+  parse5-htmlparser2-tree-adapter@7.0.0:
+    dependencies:
+      domhandler: 5.0.3
+      parse5: 7.1.2
+
+  parse5@7.1.2:
+    dependencies:
+      entities: 4.5.0
 
   parseurl@1.3.3: {}
 
@@ -14071,6 +14178,8 @@ snapshots:
 
   uncrypto@0.1.3: {}
 
+  uncsrf@1.1.1: {}
+
   unctx@2.3.1:
     dependencies:
       acorn: 8.11.3
@@ -14175,6 +14284,18 @@ snapshots:
       vite: 5.2.10(@types/node@20.12.7)(sass@1.75.0)(terser@5.30.4)
     transitivePeerDependencies:
       - postcss
+      - rollup
+      - supports-color
+
+  unplugin-remove@1.0.2(rollup@4.16.4):
+    dependencies:
+      '@babel/core': 7.24.4
+      '@babel/generator': 7.24.4
+      '@babel/parser': 7.24.4
+      '@babel/traverse': 7.24.1
+      '@rollup/pluginutils': 5.1.0(rollup@4.16.4)
+      unplugin: 1.10.1
+    transitivePeerDependencies:
       - rollup
       - supports-color
 
@@ -14754,6 +14875,11 @@ snapshots:
   ws@8.16.0: {}
 
   xml-name-validator@4.0.0: {}
+
+  xss@1.0.15:
+    dependencies:
+      commander: 2.20.3
+      cssfilter: 0.0.10
 
   xtend@4.0.2: {}
 
