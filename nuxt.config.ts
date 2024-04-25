@@ -83,11 +83,11 @@ export default defineNuxtConfig({
         './server/utils/**/*',
       ],
     },
-    prerender: {
-      crawlLinks: false,
-      ignore: ['/hi'],
-      routes: ['/'],
-    },
+    // prerender: {
+    //   crawlLinks: false,
+    //   ignore: ['/hi'],
+    //   routes: ['/'],
+    // },
     storage: {
       '.data:auth': { base: './.data/auth', driver: 'fs' },
       'redis': {

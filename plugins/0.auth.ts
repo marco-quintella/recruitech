@@ -31,22 +31,22 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     { global: true },
   )
 
-  // const currentRoute = useRoute()
+  const currentRoute = useRoute()
 
-  // if (import.meta.client) {
-  //   watch(loggedIn, async (loggedIn) => {
-  //     if (!loggedIn && currentRoute.meta.auth) {
-  //       redirectTo.value = currentRoute.path
-  //       await navigateTo('/login')
-  //     }
-  //   })
-  // }
+  if (import.meta.client) {
+    watch(loggedIn, async (loggedIn) => {
+      if (!loggedIn && currentRoute.meta.auth) {
+        redirectTo.value = currentRoute.path
+        await navigateTo('/login')
+      }
+    })
+  }
 
-  // if (loggedIn.value && currentRoute.path === '/auth/login') {
-  //   // Somehow the compiler needs this braces to compile
-  //   // so to avoid eslint from removing them, KEEP THIS COMMENT!
-  //   await navigateTo(redirectTo.value || '/')
-  // }
+  if (loggedIn.value && currentRoute.path === '/auth/login') {
+    // Somehow the compiler needs this braces to compile
+    // so to avoid eslint from removing them, KEEP THIS COMMENT!
+    await navigateTo(redirectTo.value || '/')
+  }
 
   return {
     provide: {
