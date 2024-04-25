@@ -42,6 +42,9 @@ importers:
       '@nuxtjs/color-mode':
         specifier: ^3.4.0
         version: 3.4.0(rollup@4.16.4)
+      '@pinia-plugin-persistedstate/nuxt':
+        specifier: ^1.2.0
+        version: 1.2.0(@pinia/nuxt@0.5.1(rollup@4.16.4)(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5)))(pinia@2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5)))(rollup@4.16.4)
       '@pinia/nuxt':
         specifier: ^0.5.1
         version: 0.5.1(rollup@4.16.4)(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))
@@ -1809,6 +1812,11 @@ packages:
   '@parcel/watcher@2.4.1':
     resolution: {integrity: sha512-HNjmfLQEVRZmHRET336f20H/8kOozUGwk7yajvsonjNxbj2wBTK1WsQuHkD5yYh9RxFGL2EyDHryOihOwUoKDA==}
     engines: {node: '>= 10.0.0'}
+
+  '@pinia-plugin-persistedstate/nuxt@1.2.0':
+    resolution: {integrity: sha512-2rtgx5viGSMQMCoFYZMHguA2FhFKCUvw0PwETfqQegsWeBHlqk1/D0G/9xqep8Hq+c1BuFx+jNLJzoLXtYfivg==}
+    peerDependencies:
+      '@pinia/nuxt': ^0.5.0
 
   '@pinia/nuxt@0.5.1':
     resolution: {integrity: sha512-6wT6TqY81n+7/x3Yhf0yfaJVKkZU42AGqOR0T3+UvChcaOJhSma7OWPN64v+ptYlznat+fS1VTwNAcbi2lzHnw==}
@@ -5207,6 +5215,11 @@ packages:
   picomatch@4.0.2:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
+
+  pinia-plugin-persistedstate@3.2.1:
+    resolution: {integrity: sha512-MK++8LRUsGF7r45PjBFES82ISnPzyO6IZx3CH5vyPseFLZCk1g2kgx6l/nW8pEBKxxd4do0P6bJw+mUSZIEZUQ==}
+    peerDependencies:
+      pinia: ^2.0.0
 
   pinia@2.1.7:
     resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
@@ -8708,6 +8721,17 @@ snapshots:
       '@parcel/watcher-win32-arm64': 2.4.1
       '@parcel/watcher-win32-ia32': 2.4.1
       '@parcel/watcher-win32-x64': 2.4.1
+
+  '@pinia-plugin-persistedstate/nuxt@1.2.0(@pinia/nuxt@0.5.1(rollup@4.16.4)(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5)))(pinia@2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5)))(rollup@4.16.4)':
+    dependencies:
+      '@nuxt/kit': 3.11.2(rollup@4.16.4)
+      '@pinia/nuxt': 0.5.1(rollup@4.16.4)(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))
+      defu: 6.1.4
+      pinia-plugin-persistedstate: 3.2.1(pinia@2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5)))
+    transitivePeerDependencies:
+      - pinia
+      - rollup
+      - supports-color
 
   '@pinia/nuxt@0.5.1(rollup@4.16.4)(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))':
     dependencies:
@@ -12900,6 +12924,10 @@ snapshots:
   picomatch@2.3.1: {}
 
   picomatch@4.0.2: {}
+
+  pinia-plugin-persistedstate@3.2.1(pinia@2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))):
+    dependencies:
+      pinia: 2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5))
 
   pinia@2.1.7(typescript@5.4.5)(vue@3.4.25(typescript@5.4.5)):
     dependencies:

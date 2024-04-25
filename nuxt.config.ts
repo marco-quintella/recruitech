@@ -67,6 +67,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-module-eslint-config',
     'nuxt-quasar-ui',
+    '@pinia-plugin-persistedstate/nuxt',
   ],
 
   nitro: {
