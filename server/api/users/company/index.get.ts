@@ -1,20 +1,20 @@
 import { z } from 'zod'
 
-export default defineEventHandler<{
-  query: {
-    orderBy?: 'name' | 'email' | 'role'
-    direction?: 'asc' | 'desc'
-    page?: number
-    pageSize?: number
-  }
-}>(async (event) => {
-  const companyId = validateRouteParam(event, 'id', z.string().trim().uuid())
+export default defineEventHandler(async (event) => {
   const {
+    companyId,
     direction = 'asc',
     orderBy = 'name',
     page = 1,
     pageSize = 10,
-  } = await validateQuery(event, z.object({
+  } = await validateQuery<{
+    orderBy?: 'name' | 'email' | 'role'
+    direction?: 'asc' | 'desc'
+    page?: number
+    pageSize?: number
+    companyId: string
+  }>(event, z.object({
+    companyId: z.string().trim().uuid(),
     direction: z.enum(['asc', 'desc']).optional(),
     orderBy: z.enum(['name', 'email', 'role']).optional(),
     page: numberSchema.optional(),

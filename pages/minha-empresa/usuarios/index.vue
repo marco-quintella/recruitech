@@ -39,19 +39,18 @@ const pagination = ref({
   sortBy: undefined as string | undefined,
 })
 
-const { data: users, execute: onFetch, pending: isLoading } = await useFetch<{
-  data: User[]
-  meta: { pagination: { total: number } }
-}>(
-  `/api/users/company/${currentUser.value?.companyId}`,
+const { data: users, execute: onFetch, pending: isLoading } = await useFetch(
+  `/api/users/company`,
   {
-    method: 'GET',
+    method: 'get',
     query: {
       direction: computed(() => pagination.value.descending ? 'desc' : 'asc'),
+      id: computed(() => currentUser.value?.companyId),
       orderBy: computed(() => pagination.value.sortBy as string | undefined),
       page: computed(() => pagination.value.page),
       pageSize: computed(() => pagination.value.rowsPerPage),
     },
+    server: false,
   },
 )
 
