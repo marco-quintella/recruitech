@@ -44,8 +44,8 @@ const { data: users, execute: onFetch, pending: isLoading } = await useFetch(
   {
     method: 'get',
     query: {
+      companyId: computed(() => currentUser.value?.companyId),
       direction: computed(() => pagination.value.descending ? 'desc' : 'asc'),
-      id: computed(() => currentUser.value?.companyId),
       orderBy: computed(() => pagination.value.sortBy as string | undefined),
       page: computed(() => pagination.value.page),
       pageSize: computed(() => pagination.value.rowsPerPage),
