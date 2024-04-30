@@ -1,24 +1,26 @@
 import { z } from 'zod'
 
-export default defineEventHandler<{ body: {
+interface AuthRegisterBody {
   name: string
   email: string
   password: string
   role: Role
   companyName?: string
-} }>(async (event) => {
+}
+
+export default defineEventHandler(async (event) => {
   const { auth: { password_salt } } = useRuntimeConfig()
   if (!password_salt) {
-    console.error('PASSWORD_SALT is not found in env')
+    console.error('passwordSalt is not found in env')
     throw createError({ status: 500, statusMessage: 'Internal Server Error' })
   }
 
-  const { name, email, password, role, companyName } = await validateBody(event, z.object({
-    name: z.string().trim().min(1),
+  const { companyName, email, name, password, role } = await validateBody<AuthRegisterBody>(event, z.object({
+    companyName: z.string().trim().optional(),
     email: z.string().trim().email(),
+    name: z.string().trim().min(1),
     password: z.string().trim().min(8),
     role: z.enum(['company_admin', 'candidate']),
-    companyName: z.string().trim().optional(),
   }))
 
   const possibleUser = await getUserByEmail(email)
@@ -38,18 +40,18 @@ export default defineEventHandler<{ body: {
 
     const company = await insertCompany({ name: companyName })
     user = await insertUser({
-      email,
-      password: await hash(password),
-      name,
-      role,
       companyId: company.id,
+      email,
+      name,
+      password: await hash(password),
+      role,
     })
   }
   else {
     user = await insertUser({
       email,
-      password: await hash(password),
       name,
+      password: await hash(password),
       role,
     })
   }
