@@ -68,7 +68,7 @@ function editUser(user: User) {
     },
     persistent: true,
     title: `Editando ${user.name}`,
-  }).onOk(async (newRole) => {
+  }).onOk(async (newRole: Role) => {
     try {
       $q.loading.show()
       await $fetch(`/api/users/${user.id}`, {
@@ -131,7 +131,7 @@ function editUser(user: User) {
               {{ props.cols[2]?.value }}
             </q-td>
 
-            <q-popup-proxy context-menu>
+            <q-popup-proxy v-if="props.row.id !== currentUser?.id" context-menu>
               <q-card>
                 <q-list>
                   <q-item v-close-popup clickable @click="editUser(props.row)">
