@@ -1,79 +1,45 @@
-<script lang="ts" setup>
-import SelectExperienceLevel from '~/components/SelectExperienceLevel.vue'
-import SelectProcessType from '~/components/SelectProcessType.vue'
-import type { ProcessInsert } from '~/db/processes'
+<script setup lang="ts">
+const route = useRoute()
 
-const $q = useQuasar()
-
-const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
-
-const model = ref<ProcessInsert>({
-  companyId: '',
-  contractType: ContractTypeEnum.full_time,
-
-  description: '',
-
-  email: '',
-  experienceLevel: undefined,
-  link: '',
-
-  processType: ProcessTypeEnum.platform,
-  salary_0: undefined,
-  salary_1: undefined,
-
-  title: '',
-  userId: '',
+const { data: processes } = await useFetch(`/api/processes`, {
+  method: 'GET',
+  query: {
+    id: route.params.id,
+  },
 })
 
-// Route protection
-watch(user, () => {
-  if (!user.value)
-    return navigateTo('/login')
-
-  if (
-    !user.value?.companyId
-    || ![RoleEnum.company_admin, RoleEnum.recruiter].includes(user.value?.role)
-  )
-    return navigateTo('/')
+const model = ref<ProcessUpdate>({})
+watch(processes, (newVal) => {
+  if (newVal?.data?.[0]) {
+    model.value = {
+      ...newVal.data[0],
+      cancelledAt: newVal.data[0].cancelledAt ? new Date(newVal.data[0].cancelledAt) : null,
+      createdAt: new Date(newVal.data[0].createdAt),
+      finishedAt: newVal.data[0].finishedAt ? new Date(newVal.data[0].finishedAt) : null,
+      updatedAt: new Date(newVal.data[0].updatedAt),
+    }
+  }
 }, { immediate: true })
 
 async function onSave() {
-  try {
-    $q.loading.show()
-    await $fetch('/api/processes', {
-      body: {
-        ...model.value,
-        companyId: user.value?.companyId,
-        salary_0: Number(model.value.salary_0),
-        salary_1: Number(model.value.salary_1),
-        userId: user.value?.id,
-      },
-      method: 'POST',
-    })
-
-    navigateTo('/minha-empresa/vagas')
-  }
-  catch (e: any) {
-    $q.notify({
-      message: e.data?.message || e.message || 'Erro ao salvar',
-      type: 'negative',
-    })
-  }
-  finally {
-    $q.loading.hide()
-  }
+  await $fetch('/api/processes', {
+    body: cleanData(model.value),
+    method: 'PATCH',
+  })
 }
 </script>
 
 <template>
   <div h-fit w-full flex flex-col items-center pt-12>
-    <h1>Nova Vaga</h1>
+    <h1>Editar Processo</h1>
     <q-card
       b="1 primary solid rd-3"
       flat max-w-100 w-full flex flex-col gap-2 p-8
     >
-      <q-form class="flex flex-col gap-2" @submit="onSave">
+      <q-form
+        class="flex flex-col gap-2"
+        @submit="onSave"
+      >
         <div flex items-start gap-2>
           <div flex-1>
             <SelectProcessType
@@ -187,3 +153,7 @@ async function onSave() {
     </q-card>
   </div>
 </template>
+
+<style lang="scss">
+
+</style>

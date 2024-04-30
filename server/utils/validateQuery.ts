@@ -13,8 +13,8 @@ export async function validateQuery<T extends EventHandlerRequest['query']>(
   if (!validation1.success) {
     throw createError({
       data: validation1.error,
+      message: customMessage ?? 'Dados inválidos',
       statusCode: 400,
-      statusMessage: customMessage ?? 'Dados inválidos',
     })
   }
 

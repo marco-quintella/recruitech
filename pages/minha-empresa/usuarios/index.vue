@@ -28,16 +28,9 @@ const columns: QTableProps['columns'] = [
     name: 'role',
     sortable: true,
   },
-
 ]
 
-const pagination = ref({
-  descending: false,
-  page: 1,
-  rowsNumber: 0,
-  rowsPerPage: 5,
-  sortBy: undefined as string | undefined,
-})
+const { onRequest, pagination, updatePagination } = usePagination()
 
 const { data: users, execute: onFetch, pending: isLoading } = await useFetch(
   `/api/users/company`,
@@ -45,34 +38,16 @@ const { data: users, execute: onFetch, pending: isLoading } = await useFetch(
     method: 'get',
     query: {
       companyId: computed(() => currentUser.value?.companyId),
-      direction: computed(() => pagination.value.descending ? 'desc' : 'asc'),
-      orderBy: computed(() => pagination.value.sortBy as string | undefined),
-      page: computed(() => pagination.value.page),
-      pageSize: computed(() => pagination.value.rowsPerPage),
+      direction: computed(() => pagination?.value.descending ? 'desc' : 'asc'),
+      orderBy: computed(() => pagination?.value.sortBy as string | undefined),
+      page: computed(() => pagination?.value.page),
+      pageSize: computed(() => pagination?.value.rowsPerPage),
     },
     server: false,
   },
 )
 
-function updatePagination() {
-  pagination.value.descending = users.value?.meta?.pagination?.direction === 'desc' ?? 'asc'
-  pagination.value.page = users.value?.meta?.pagination?.page ?? pagination.value.page
-  pagination.value.rowsNumber = users.value?.meta?.pagination?.total ?? pagination.value.rowsNumber
-  pagination.value.rowsPerPage = users.value?.meta?.pagination?.pageSize ?? pagination.value.rowsPerPage
-  pagination.value.sortBy = users.value?.meta?.pagination?.orderBy ?? pagination.value.sortBy
-}
-
-updatePagination()
-watch(users, updatePagination)
-
-async function onRequest(
-  props?: Parameters<NonNullable<QTableProps['onRequest']>>[0],
-) {
-  pagination.value.page = props?.pagination?.page ?? pagination.value.page
-  pagination.value.rowsPerPage = props?.pagination?.rowsPerPage ?? pagination.value.rowsPerPage
-  pagination.value.descending = props?.pagination?.descending ?? pagination.value.descending
-  pagination.value.sortBy = props?.pagination?.sortBy as string | undefined ?? pagination.value.sortBy
-}
+watch(users, () => updatePagination(users), { immediate: true })
 
 const rows = computed(() => users.value?.data ?? [])
 

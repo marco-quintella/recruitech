@@ -1,31 +1,35 @@
 import { z } from 'zod'
+import type { QueryObject } from '../../utils/request-typing'
 
-export default defineEventHandler<{
-  query: {
-    orderBy?: 'updatedAt'
-    direction?: 'asc' | 'desc'
-    page?: number
-    pageSize?: number
+type GetProcessesQuery = QueryObject & {
+  orderBy?: 'updatedAt'
+  direction?: 'asc' | 'desc'
+  page?: number
+  pageSize?: number
+  companyId?: string
+  id?: string
+}
 
-    companyId?: string
-  }
-}>(async (event) => {
+export default defineEventHandler(async (event) => {
   const {
     companyId,
     direction = 'desc',
+    id,
     orderBy = 'updatedAt',
     page = 1,
     pageSize = 10,
-  } = await validateQuery(event, z.object({
+  } = await validateQuery<GetProcessesQuery>(event, z.object({
     companyId: z.string().uuid().optional(),
     direction: z.enum(['asc', 'desc']).optional(),
+    id: z.string().uuid().optional(),
     orderBy: z.enum(['updatedAt']).optional(),
-    page: z.number().optional(),
-    pageSize: z.number().optional(),
+    page: numberSchema.optional(),
+    pageSize: numberSchema.optional(),
   }))
 
   return await getProcesses({
     companyId,
+    id,
   }, {
     direction,
     orderBy,
