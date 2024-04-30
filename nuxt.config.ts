@@ -45,7 +45,7 @@ export default defineNuxtConfig({
     // but missing on offline, disabling extraction it until fixed
     payloadExtraction: false,
     renderJsonPayloads: true,
-    typedPages: true,
+    // typedPages: true,
   },
 
   features: {
@@ -70,6 +70,7 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     '@artmizu/nuxt-prometheus',
     'nuxt-security',
+    'dayjs-nuxt',
   ],
 
   nitro: {

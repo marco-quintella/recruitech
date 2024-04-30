@@ -43,6 +43,7 @@
     "@vite-pwa/nuxt": "^0.6.0",
     "@vueuse/nuxt": "^10.9.0",
     "consola": "^3.2.3",
+    "dayjs-nuxt": "^2.1.9",
     "drizzle-kit": "^0.20.17",
     "eslint": "npm:eslint-ts-patch@^8.57.0-0",
     "eslint-plugin-format": "^0.1.1",
