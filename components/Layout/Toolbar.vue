@@ -30,7 +30,7 @@ async function onLogout() {
 <template>
   <nav p="x-4 y-2" h-13 w-full flex items-center justify-between gap-16 bg-primary text-primary-text>
     <div i-ph-list text-6 md:hidden />
-    <Logo color2="primary-text" />
+    <Logo cursor-pointer color2="primary-text" @click="navigateTo('/')" />
     <div flex="1" hidden gap-4 text-4 font-bold md:flex>
       <div>Vagas</div>
       <div>Empresas</div>
