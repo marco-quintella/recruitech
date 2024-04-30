@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { QueryObject } from '../../utils/request-typing'
 
 type GetProcessesQuery = QueryObject & {
-  orderBy?: 'updatedAt'
+  orderBy?: 'updatedAt' | 'createdAt'
   direction?: 'asc' | 'desc'
   page?: number
   pageSize?: number
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     companyId: z.string().uuid().optional(),
     direction: z.enum(['asc', 'desc']).optional(),
     id: z.string().uuid().optional(),
-    orderBy: z.enum(['updatedAt']).optional(),
+    orderBy: z.enum(['updatedAt', 'createdAt']).optional(),
     page: numberSchema.optional(),
     pageSize: numberSchema.optional(),
   }))

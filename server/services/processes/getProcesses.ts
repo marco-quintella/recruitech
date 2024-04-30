@@ -4,7 +4,7 @@ export async function getProcesses(
   filters?: Partial<Process>,
   pagination?: {
     direction: 'asc' | 'desc'
-    orderBy: 'updatedAt'
+    orderBy: 'updatedAt' | 'createdAt'
     page: number
     pageSize: number
   },
@@ -12,23 +12,29 @@ export async function getProcesses(
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
   const query = db.select({
-    cancelledAt: processes.cancelledAt ?? null,
-    companyId: processes.companyId ?? null,
-    contractType: processes.contractType ?? null,
-    createdAt: processes.createdAt ?? null,
-    description: processes.description ?? null,
-    email: processes.email ?? null,
-    experienceLevel: processes.experienceLevel ?? null,
-    finishedAt: processes.finishedAt ?? null,
-    id: processes.id ?? null,
-    link: processes.link ?? null,
-    processType: processes.processType ?? null,
-    salary_0: processes.salary_0 ?? null,
-    salary_1: processes.salary_1 ?? null,
-    title: processes.title ?? null,
-    updatedAt: processes.updatedAt ?? null,
+    cancelledAt: processes.cancelledAt,
+    company: {
+      id: companies.id,
+      logo: companies.logo,
+      name: companies.name,
+    },
+    companyId: processes.companyId,
+    contractType: processes.contractType,
+    createdAt: processes.createdAt,
+    description: processes.description,
+    email: processes.email,
+    experienceLevel: processes.experienceLevel,
+    finishedAt: processes.finishedAt,
+    id: processes.id,
+    link: processes.link,
+    processType: processes.processType,
+    salary_0: processes.salary_0,
+    salary_1: processes.salary_1,
+    title: processes.title,
+    updatedAt: processes.updatedAt,
   })
     .from(processes)
+    .leftJoin(companies, eq(processes.companyId, companies.id))
     .orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))
     .offset((page - 1) * pageSize)
     .limit(pageSize)

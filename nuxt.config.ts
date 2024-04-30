@@ -29,6 +29,11 @@ export default defineNuxtConfig({
     'assets/main.sass',
   ],
 
+  dayjs: {
+    defaultLocale: 'pt-br',
+    locales: ['pt-br'],
+  },
+
   devtools: {
     enabled: true,
     timeline: {
