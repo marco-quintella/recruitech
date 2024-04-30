@@ -1,14 +1,14 @@
 <script setup lang="ts">
 const $q = useQuasar()
 
-const { loggedIn } = useAuth()
+const { loggedIn, session } = useAuth()
 
 async function onLogout() {
   $q.dialog({
-    title: 'Sair',
+    cancel: 'Não',
     message: 'Deseja realmente sair?',
     ok: 'Sim',
-    cancel: 'Não',
+    title: 'Sair',
   }).onOk(async () => {
     try {
       $q.loading.show()
@@ -16,8 +16,8 @@ async function onLogout() {
     }
     catch (e: any) {
       $q.notify({
-        type: 'negative',
         message: e.data?.message || e.message || 'Erro ao sair',
+        type: 'negative',
       })
     }
     finally {
@@ -40,6 +40,7 @@ async function onLogout() {
       </div>
     </div>
     <q-btn
+      v-if="session?.data?.role !== RoleEnum.candidate"
       color="secondary"
       text-color="secondary-text"
       class="!hidden !md:flex"
@@ -57,7 +58,11 @@ async function onLogout() {
 
       <q-menu auto-close>
         <q-list v-if="loggedIn" style="min-width: 100px">
-          <q-item clickable @click="navigateTo('/minha-empresa')">
+          <q-item
+            v-if="session?.data.role !== RoleEnum.candidate"
+            clickable
+            @click="navigateTo('/minha-empresa')"
+          >
             <q-item-section avatar>
               <div i-ph-buildings-duotone text-5 />
             </q-item-section>
