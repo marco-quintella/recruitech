@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
+const $q = useQuasar()
 
 const { data: processes } = await useFetch(`/api/processes`, {
   method: 'GET',
@@ -22,10 +23,25 @@ watch(processes, (newVal) => {
 }, { immediate: true })
 
 async function onSave() {
-  await $fetch('/api/processes', {
-    body: cleanData(model.value),
-    method: 'PATCH',
-  })
+  try {
+    $q.loading.show()
+
+    await $fetch('/api/processes', {
+      body: cleanData(model.value),
+      method: 'PATCH',
+    })
+
+    await navigateTo('/minha-empresa/processos')
+  }
+  catch (e: any) {
+    $q.notify({
+      message: e.data?.message || e.message || 'Erro ao editar processo',
+      type: 'negative',
+    })
+  }
+  finally {
+    $q.loading.hide()
+  }
 }
 </script>
 
