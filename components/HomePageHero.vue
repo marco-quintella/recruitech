@@ -3,7 +3,11 @@
 </script>
 
 <template>
-  <div b="1 primary rd-2" flex flex-col gap-4 p4>
+  <div
+    flex flex-col gap-4 b-rd-2 bg-gradient-from-primary
+    bg-gradient-to-secondary bg-gradient-linear
+    bg-gradient-shape-rb p4 text-white
+  >
     <h1>
       Na Recruitech está aqui para ajudar empresas e profissionais
       a facilitar o seu processo de recrutamento e seleção.
