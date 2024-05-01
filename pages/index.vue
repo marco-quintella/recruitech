@@ -13,13 +13,17 @@ definePageMeta({
           <div flex flex-col gap-2 b-2 b-primary b-rd-2 p-4>
             <h2>Poste uma Vaga</h2>
             <p class="text-balance">
-              Alcance profissionais da indústria tech de maneira facilitada e prática, sem abrir mão das práticas da sua empresa.
+              Alcance profissionais da indústria tech de maneira facilitada e
+              prática, sem abrir mão das práticas da sua empresa.
             </p>
             <ul>
               <li>Anuncie por 28 dias</li>
               <li>E-mails de alerta com candidatos em potencial</li>
             </ul>
-            <q-btn color="primary" mt-2 rounded>
+            <q-btn
+              color="primary" mt-2 rounded
+              @click="navigateTo('/planos')"
+            >
               Postar Vaga
             </q-btn>
           </div>
