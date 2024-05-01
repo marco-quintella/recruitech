@@ -14,8 +14,8 @@ const { data } = await useFetch('/api/processes', {
     <div
       v-for="process in data?.data"
       :key="process.id"
-      b="1 primary-dark rd-2"
-      flex cursor-pointer gap-4 bg-primary p4 text-white
+      b="2 primary rd-2"
+      flex cursor-pointer gap-4 p4
       @click="navigateTo(`/vagas/${process.id}`)"
     >
       <q-img
@@ -26,7 +26,9 @@ const { data } = await useFetch('/api/processes', {
         alt="Logo da empresa"
       />
       <div flex flex-col gap-2>
-        <h3>{{ process.title }}</h3>
+        <h3 hover:text-primary>
+          {{ process.title }}
+        </h3>
         <div class="grid grid-cols-2">
           <div flex items-center gap-1>
             <div i-ph-building />

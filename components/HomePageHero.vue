@@ -4,9 +4,8 @@
 
 <template>
   <div
-    flex flex-col gap-4 b-rd-2 bg-gradient-from-primary
-    bg-gradient-to-secondary bg-gradient-linear
-    bg-gradient-shape-rb p4 text-white
+    flex flex-col gap-4 b-rd-2 from-secondary
+    to-primary bg-gradient-to-tl px8 py16 text-white
   >
     <h1>
       Na Recruitech está aqui para ajudar empresas e profissionais
@@ -17,7 +16,7 @@
       na hora de contratar novos talentos. A Recruitech é uma plataforma
       que conecta empresas e profissionais de maneira rápida e eficiente.
     </div>
-    <div flex gap-8>
+    <div mt-4 flex gap-8>
       <q-btn color="secondary" rounded>
         Recrutar
       </q-btn>

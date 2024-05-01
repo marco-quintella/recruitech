@@ -10,11 +10,7 @@ definePageMeta({
       <HomePageHero w-full />
       <div w-full flex flex-col gap-8 sm:flex-row>
         <div w-full sm:max-w-80>
-          <div
-            flex flex-col gap-2 b-rd-2 bg-gradient-from-primary
-            bg-gradient-to-secondary bg-gradient-linear
-            bg-gradient-shape-b p-4 text-white
-          >
+          <div flex flex-col gap-2 b-2 b-primary b-rd-2 p-4>
             <h2>Poste uma Vaga</h2>
             <p class="text-balance">
               Alcance profissionais da indústria tech de maneira facilitada e prática, sem abrir mão das práticas da sua empresa.
