@@ -12,10 +12,10 @@ export function usePagination() {
   function updatePagination(data?: Ref<any>) {
     const _data = toValue(data)
     pagination.value.descending = _data?.value?.meta?.pagination?.direction === 'desc' ?? 'asc'
-    pagination.value.page = _data?.value?.meta?.pagination?.page ?? pagination.value.page
-    pagination.value.rowsNumber = _data?.value?.meta?.pagination?.total ?? pagination.value.rowsNumber
-    pagination.value.rowsPerPage = _data?.value?.meta?.pagination?.pageSize ?? pagination.value.rowsPerPage
-    pagination.value.sortBy = _data?.value?.meta?.pagination?.orderBy ?? pagination.value.sortBy
+    pagination.value.page = _data?.value?.meta?.pagination?.page || pagination.value.page
+    pagination.value.rowsNumber = _data?.value?.meta?.pagination?.total || pagination.value.rowsNumber
+    pagination.value.rowsPerPage = _data?.value?.meta?.pagination?.pageSize || pagination.value.rowsPerPage
+    pagination.value.sortBy = _data?.value?.meta?.pagination?.orderBy || pagination.value.sortBy
   }
 
   async function onRequest(

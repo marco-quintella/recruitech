@@ -1,9 +1,31 @@
 import { eq } from 'drizzle-orm'
 
-export async function updateProcess(body: ProcessUpdate) {
+export async function updateProcess(
+  body: ProcessUpdate,
+  relations?: {
+    tags?: string[]
+  },
+) {
+  const validTags: string[] = []
+  if (relations?.tags) {
+    const tagPromises = relations.tags.map(tagId => getTagById(tagId))
+    const tags = await Promise.all(tagPromises)
+    validTags.push(...tags.filter(Boolean).map(tag => tag!.id))
+  }
+
   const { companyId, id, ...data } = body
   if (!id)
     return
+
+  if (validTags.length) {
+    await db.insert(processesToTags)
+      .values(validTags.map(tagId => ({
+        processId: id,
+        tagId,
+      })),
+      ).onConflictDoNothing()
+  }
+
   const query = await db.update(processes)
     .set({
       ...data,

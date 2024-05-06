@@ -10,5 +10,9 @@ export default defineEventHandler(async (event) => {
 
   // Service Layer
   const possibleTag = await getTagByName(name)
-  return possibleTag
+  if (possibleTag)
+    return possibleTag
+
+  const tag = await insertTag({ name })
+  return tag
 })

@@ -147,7 +147,7 @@ export default defineNuxtConfig({
   security: {
     headers: {
       contentSecurityPolicy: false,
-      crossOriginEmbedderPolicy: 'credentialless',
+      crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'credentialless',
       crossOriginResourcePolicy: 'cross-origin',
     },
   },

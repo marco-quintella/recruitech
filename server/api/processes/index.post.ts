@@ -11,6 +11,7 @@ interface CreateProcessBody {
   salary_1?: string
   email?: string
   link?: string
+  tags?: string[]
 }
 
 export default defineEventHandler(async (event) => {
@@ -24,6 +25,7 @@ export default defineEventHandler(async (event) => {
     processType,
     salary_0,
     salary_1,
+    tags,
     title,
   } = await validateBody<CreateProcessBody>(event, z.object({
     contractType: z.enum([
@@ -47,6 +49,7 @@ export default defineEventHandler(async (event) => {
     ]),
     salary_0: integerSchema.optional(),
     salary_1: integerSchema.optional(),
+    tags: z.array(z.string().trim().uuid()).optional(),
     title: z.string(),
   }))
 
@@ -79,5 +82,5 @@ export default defineEventHandler(async (event) => {
     salary_1: salary_1 ? salary_1.toString() : null,
     title,
     userId: user.id!,
-  })
+  }, { tags })
 })

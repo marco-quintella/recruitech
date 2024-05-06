@@ -30,11 +30,16 @@ export async function getProcesses(
     processType: processes.processType,
     salary_0: processes.salary_0,
     salary_1: processes.salary_1,
+    tags: {
+      name: tags.name,
+    },
     title: processes.title,
     updatedAt: processes.updatedAt,
   })
     .from(processes)
     .leftJoin(companies, eq(processes.companyId, companies.id))
+    .leftJoin(processesToTags, eq(processesToTags.processId, processes.id))
+    .leftJoin(tags, eq(tags.id, processesToTags.tagId))
     .orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))
     .offset((page - 1) * pageSize)
     .limit(pageSize)
