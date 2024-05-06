@@ -26,11 +26,12 @@ async function onSubmit() {
 
   try {
     $q.loading.show()
-    await $fetch(`/api/companies/${company.value.id}`, {
+    await $fetch('/api/companies', {
       body: {
+        id: company.value.id,
         name: model.value.name,
       },
-      method: 'PATCH',
+      method: 'patch',
     })
 
     await updateSession()

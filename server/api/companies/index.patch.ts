@@ -1,16 +1,16 @@
 import { z } from 'zod'
 
-export default defineEventHandler<{
-  body: {
-    name: string
-  }
-  params: {
-    id: string
-  }
-}>(async (event) => {
+interface UpdateCompanyBody {
+  id: string
+  name: string
+}
+
+export default defineEventHandler(async (event) => {
   // Validation Layer
-  const { name } = await validateBody(event, z.object({ name: z.string().trim().min(1) }))
-  const id = validateRouteParam(event, 'id', z.string().trim().uuid())
+  const { id, name } = await validateBody<UpdateCompanyBody>(event, z.object({
+    id: z.string().trim().uuid(),
+    name: z.string().trim().min(1),
+  }))
   const { data: user } = await requireAuthSession(event)
   validateIsCompanyAdmin(user, id)
   const company = await getCompanyById(id)
