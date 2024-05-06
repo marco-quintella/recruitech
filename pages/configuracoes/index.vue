@@ -5,7 +5,3 @@ import Usuario from './usuario.vue'
 <template>
   <Usuario />
 </template>
-
-<style lang="sass">
-
-</style>

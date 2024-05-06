@@ -1,9 +1,15 @@
+// Mail testing example
+
 export default defineEventHandler(async () => {
   await mailTransport.sendMail({
-    // from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
+    from: '"Recruitech Test 👻" <nao.responda@mqdev.com.br>', // sender address
     to: '2om.marco.quintella@gmail.com', // list of receivers
-    subject: 'Hello ✔', // Subject line
-    text: 'Hello world?', // plain text body
-    html: '<b>Hello world?</b>', // html body
+    subject: 'Test ✔', // Subject line
+    // @ts-expect-error ignore this line
+    template: 'register.confirmation.mail',
+    context: {
+      name: 'Marco Quintella',
+      link: 'http://localhost:3000/confirm/123',
+    },
   })
 })

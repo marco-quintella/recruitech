@@ -6,6 +6,8 @@ export const useUserStore = defineStore('user', () => {
   const user = computed(() => session.value?.data)
 
   return { user }
+}, {
+  persist: true,
 })
 
 if (import.meta.hot)

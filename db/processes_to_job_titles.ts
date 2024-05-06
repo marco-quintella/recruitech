@@ -1,14 +1,15 @@
 import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { jobTitle } from './job-title'
-import { process } from './process'
+
+import { jobTitles } from './job-titles'
+import { processes } from './processes'
 
 export const processesToJobTitles = pgTable('processes_to_job_titles', {
-  processId: uuid('process_id').references(() => process.id).notNull(),
-  jobTitleId: uuid('job_title_id').references(() => jobTitle.id).notNull(),
+  processId: uuid('process_id').references(() => processes.id).notNull(),
+  jobTitleId: uuid('job_title_id').references(() => jobTitles.id).notNull(),
 }, t => ({ pk: primaryKey({ columns: [t.processId, t.jobTitleId] }) }))
 
 export const processesToJobTitlesRelations = relations(processesToJobTitles, ({ one }) => ({
-  process: one(process, { fields: [processesToJobTitles.processId], references: [process.id] }),
-  jobTitle: one(jobTitle, { fields: [processesToJobTitles.jobTitleId], references: [jobTitle.id] }),
+  process: one(processes, { fields: [processesToJobTitles.processId], references: [processes.id] }),
+  jobTitle: one(jobTitles, { fields: [processesToJobTitles.jobTitleId], references: [jobTitles.id] }),
 }))

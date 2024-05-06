@@ -1,9 +1,7 @@
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-import { profilesToSkills } from './profiles-to-skills'
-import { processesToSkills } from './processes_to_skills'
 
-export const skill = pgTable('skills', {
+export const skills = pgTable('skills', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
 
@@ -11,7 +9,7 @@ export const skill = pgTable('skills', {
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 
-export const skillRelations = relations(skill, ({ many }) => ({
+export const skillRelations = relations(skills, ({ many }) => ({
   profilesToSkills: many(profilesToSkills),
   processesToSkills: many(processesToSkills),
 }))
