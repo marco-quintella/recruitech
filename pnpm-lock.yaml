@@ -10805,10 +10805,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  /ejs@3.1.10:
-    resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
-    engines: {node: '>=0.10.0'}
-    hasBin: true
+  ejs@3.1.10:
     dependencies:
       jake: 10.8.7
 
@@ -14175,9 +14172,9 @@ snapshots:
       magic-string: 0.30.10
       unplugin: 1.10.1
 
-  /undici@5.28.4:
-    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
-    engines: {node: '>=14.0'}
+  undici-types@5.26.5: {}
+
+  undici@5.28.4:
     dependencies:
       '@fastify/busboy': 2.1.1
 
@@ -14796,9 +14793,7 @@ snapshots:
       idb: 7.1.1
       workbox-core: 7.1.0
 
-  /workbox-google-analytics@7.0.0:
-    resolution: {integrity: sha512-MEYM1JTn/qiC3DbpvP2BVhyIH+dV/5BjHk756u9VbwuAhu0QHyKscTnisQuz21lfRpOwiS9z4XdqeVAKol0bzg==}
-    deprecated: It is not compatible with newer versions of GA starting with v4, as long as you are using GAv3 it should be ok, but the package is not longer being maintained
+  workbox-google-analytics@7.1.0:
     dependencies:
       workbox-background-sync: 7.1.0
       workbox-core: 7.1.0
