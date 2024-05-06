@@ -1,26 +1,26 @@
-import { eq } from 'drizzle-orm'
-import { users } from '~/db/users'
+import { z } from 'zod'
 
 export default defineEventHandler<{
   body: { email: string, password: string }
 }>(async (event) => {
-  const session = await useAuthSession(event)
-  const { email, password } = await readBody(event)
-  const query = await db
-    .select({
-      id: users.id,
-      name: users.name,
-      email: users.email,
-      password: users.password,
-    })
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1)
-  const user = query?.[0]
+  // Validation Layer
+  const { email, password } = await validateBody(event, z.object({
+    email: z.string().email(),
+    password: z.string().min(8),
+  }))
+
+  const user = await getUserByEmail(email)
 
   if (!user) {
     throw createError({
       statusMessage: 'E-mail não encontrado',
+      statusCode: 401,
+    })
+  }
+
+  if (!user.confirmedEmail) {
+    throw createError({
+      statusMessage: 'E-mail não confirmado. Por favor verifique sua caixa de e-mail.',
       statusCode: 401,
     })
   }
@@ -32,11 +32,15 @@ export default defineEventHandler<{
     })
   }
 
+  // Service Layer
+  const session = await useAuthSession(event)
   await session.update({
     id: user.id,
     name: user.name,
     email: user.email,
+    companyId: user.companyId,
+    confirmedEmail: user.confirmedEmail,
+    role: user.role,
   })
-
   return session
 })

@@ -1,12 +1,14 @@
 <script setup lang="ts">
 const $q = useQuasar()
 
+const { loggedIn, session } = useAuth()
+
 async function onLogout() {
   $q.dialog({
-    title: 'Sair',
+    cancel: 'Não',
     message: 'Deseja realmente sair?',
     ok: 'Sim',
-    cancel: 'Não',
+    title: 'Sair',
   }).onOk(async () => {
     try {
       $q.loading.show()
@@ -14,8 +16,8 @@ async function onLogout() {
     }
     catch (e: any) {
       $q.notify({
-        type: 'negative',
         message: e.data?.message || e.message || 'Erro ao sair',
+        type: 'negative',
       })
     }
     finally {
@@ -28,7 +30,7 @@ async function onLogout() {
 <template>
   <nav p="x-4 y-2" h-13 w-full flex items-center justify-between gap-16 bg-primary text-primary-text>
     <div i-ph-list text-6 md:hidden />
-    <Logo color2="primary-text" />
+    <Logo cursor-pointer color2="primary-text" @click="navigateTo('/')" />
     <div flex="1" hidden gap-4 text-4 font-bold md:flex>
       <div>Vagas</div>
       <div>Empresas</div>
@@ -37,14 +39,36 @@ async function onLogout() {
         Preparação
       </div>
     </div>
-    <q-btn color="secondary" text-color="secondary-text" class="!hidden !md:flex" unelevated no-caps rounded font-bold !py-1>
+    <q-btn
+      v-if="session?.data?.role !== RoleEnum.candidate"
+      color="secondary"
+      text-color="secondary-text"
+      class="!hidden !md:flex"
+      unelevated
+      no-caps
+      rounded
+      font-bold
+      !py-1
+      @click="navigateTo(loggedIn ? '/vagas/postar' : '/auth/registrar')"
+    >
       Postar Vaga
     </q-btn>
     <q-btn flat round>
       <div i-ph-user text-6 />
 
       <q-menu auto-close>
-        <q-list style="min-width: 100px">
+        <q-list v-if="loggedIn" style="min-width: 100px">
+          <q-item
+            v-if="session?.data.role !== RoleEnum.candidate"
+            clickable
+            @click="navigateTo('/minha-empresa')"
+          >
+            <q-item-section avatar>
+              <div i-ph-buildings-duotone text-5 />
+            </q-item-section>
+            <q-item-section>Empresa</q-item-section>
+          </q-item>
+
           <q-item clickable @click="navigateTo('/configuracoes')">
             <q-item-section avatar>
               <div i-ph-gear text-5 />
@@ -57,6 +81,22 @@ async function onLogout() {
               <div i-ph-sign-out text-5 />
             </q-item-section>
             <q-item-section>Sair</q-item-section>
+          </q-item>
+        </q-list>
+
+        <q-list v-else style="min-width: 100px">
+          <q-item clickable @click="navigateTo('/auth/login')">
+            <q-item-section avatar>
+              <div i-ph-sign-in text-5 />
+            </q-item-section>
+            <q-item-section>Entrar</q-item-section>
+          </q-item>
+
+          <q-item clickable @click="navigateTo('/auth/registrar')">
+            <q-item-section avatar>
+              <div i-ph-user-plus text-5 />
+            </q-item-section>
+            <q-item-section>Registrar</q-item-section>
           </q-item>
         </q-list>
       </q-menu>
