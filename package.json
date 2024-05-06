@@ -20,10 +20,10 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.11",
-    "drizzle-orm": "^0.30.10",
+    "drizzle-orm": "^0.29.4",
     "firebase": "^10.11.1",
     "postgres": "^3.4.4",
-    "quasar": "^2.16.0",
+    "quasar": "2.15.4",
     "uncrypto": "^0.1.3",
     "zod": "^3.23.6"
   },
