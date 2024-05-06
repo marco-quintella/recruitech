@@ -39,7 +39,7 @@ const menu = [
     }"
   >
     <template v-if="$q.screen.gt.sm">
-      <div text-center>
+      <div flex flex-col items-center gap-4 text-center>
         <q-img v-if="company?.logo" :src="company.logo" :ratio="1" width="80px" height="80px" />
         <h2 text-center text-6 font-semibold>
           {{ company?.name }}

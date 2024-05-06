@@ -27,23 +27,23 @@ async function onSubmit() {
   try {
     $q.loading.show()
     await $fetch(`/api/companies/${company.value.id}`, {
-      method: 'PATCH',
       body: {
         name: model.value.name,
       },
+      method: 'PATCH',
     })
 
     await updateSession()
 
     $q.notify({
-      type: 'positive',
       message: 'Salvo com sucesso',
+      type: 'positive',
     })
   }
   catch (e: any) {
     $q.notify({
-      type: 'negative',
       message: e.data?.message || e.message || 'Erro ao salvar',
+      type: 'negative',
     })
   }
   finally {
@@ -64,10 +64,10 @@ async function uploadCompanyLogo() {
       const data = reader.result
 
       await $fetch(`/api/companies/${user.value?.companyId}/logo`, {
-        method: 'POST',
         body: {
           fileBase64: data,
         },
+        method: 'POST',
       })
 
       newLogo.value = undefined
@@ -77,8 +77,8 @@ async function uploadCompanyLogo() {
   }
   catch (e: any) {
     $q.notify({
-      type: 'negative',
       message: e.data?.message || e.message || 'Erro ao salvar',
+      type: 'negative',
     })
   }
   finally {
@@ -88,7 +88,7 @@ async function uploadCompanyLogo() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center pt-12>
+  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
     <h1>Dados da Empresa</h1>
     <q-card
       b="1 primary solid rd-3"

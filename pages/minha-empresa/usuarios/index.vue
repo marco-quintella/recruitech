@@ -93,7 +93,7 @@ function editUser(user: User) {
 
 <template>
   <div w-full>
-    <div mx-auto max-w-4xl w-full>
+    <div mx-auto max-w-4xl w-full flex flex-col gap-4>
       <div flex items-center justify-between gap-4>
         <h2>
           Usuários

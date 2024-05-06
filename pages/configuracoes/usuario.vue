@@ -20,24 +20,24 @@ async function onSubmit() {
   try {
     $q.loading.show()
     await $fetch('/api/users', {
-      method: 'PATCH',
       body: {
         id: user.value.id,
         name: model.value.nome,
       },
+      method: 'PATCH',
     })
 
     await updateSession()
 
     $q.notify({
-      type: 'positive',
       message: 'Salvo com sucesso',
+      type: 'positive',
     })
   }
   catch (e: any) {
     $q.notify({
-      type: 'negative',
       message: e.data?.message || e.message || 'Erro ao salvar',
+      type: 'negative',
     })
   }
   finally {
@@ -47,7 +47,7 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center pt-12>
+  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
     <h1>Configurações de Usuário</h1>
     <q-card
       flat

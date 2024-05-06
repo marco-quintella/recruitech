@@ -5,11 +5,11 @@ const { user } = storeToRefs(userStore)
 
 <template>
   <div h-full flex gap-4>
-    <div>
+    <div flex flex-col items-center gap-4>
       <h2 text-6 font-semibold>
         Configurações
       </h2>
-      <q-list style="min-width: 100px">
+      <q-list style="min-width: 100px" w-full>
         <q-item clickable @click="navigateTo('/configuracoes/usuario')">
           <q-item-section avatar>
             <div i-ph-user text-5 />
