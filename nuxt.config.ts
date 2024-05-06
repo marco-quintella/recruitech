@@ -6,8 +6,8 @@ export default defineNuxtConfig({
     head: {
       link: [
         { href: '/favicon.ico', rel: 'icon', sizes: 'any' },
-        { href: '/nuxt.svg', rel: 'icon', type: 'image/svg+xml' },
-        { href: '/apple-touch-icon.png', rel: 'apple-touch-icon' },
+        { href: '/logo-symbol-only.svg', rel: 'icon', type: 'image/svg+xml' },
+        { href: '/logo-symbol-only.png', rel: 'apple-touch-icon' },
       ],
       meta: [
         { content: 'width=device-width, initial-scale=1', name: 'viewport' },
