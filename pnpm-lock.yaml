@@ -14175,9 +14175,9 @@ snapshots:
       magic-string: 0.30.10
       unplugin: 1.10.1
 
-  undici-types@5.26.5: {}
-
-  undici@5.28.4:
+  /undici@5.28.4:
+    resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
+    engines: {node: '>=14.0'}
     dependencies:
       '@fastify/busboy': 2.1.1
 
