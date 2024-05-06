@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { integerSchema } from '../../utils/validation/numberSchema'
 
 interface CreateProcessBody {
   // Basic Info

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import type { QueryObject } from '../../utils/request-typing'
 
 type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'

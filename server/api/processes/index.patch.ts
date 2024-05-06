@@ -1,6 +1,4 @@
 import { z } from 'zod'
-import type { ProcessUpdate } from '../../../db/processes'
-import { updateProcess } from '../../services/processes/updateProcess'
 
 export default defineEventHandler(async (event) => {
   const body = await validateBody<ProcessUpdate>(event, z.object({
