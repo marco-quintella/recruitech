@@ -8,19 +8,19 @@ async function onSubmit() {
   try {
     $q.loading.show()
     await $fetch('/api/users/company/invite', {
-      method: 'POST',
       body: {
         email: email.value,
         role: role.value,
       },
+      method: 'POST',
     })
 
     navigateTo('/minha-empresa/usuarios')
   }
   catch (e: any) {
     $q.notify({
-      type: 'negative',
       message: e.data?.message || e.message || 'Erro ao convidar',
+      type: 'negative',
     })
   }
   finally {
@@ -30,7 +30,7 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center pt-12>
+  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
     <h2>Incluir Usuário</h2>
     <q-card
       flat

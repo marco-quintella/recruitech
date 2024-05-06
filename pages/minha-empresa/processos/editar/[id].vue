@@ -46,7 +46,7 @@ async function onSave() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center pt-12>
+  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
     <h1>Editar Processo</h1>
     <q-card
       b="1 primary solid rd-3"
