@@ -10,7 +10,6 @@ const columns: QTableProps['columns'] = [
     field: 'title',
     label: 'Título',
     name: 'title',
-    sortable: true,
   },
 ]
 
@@ -25,11 +24,10 @@ const { data: processes, pending: isLoading } = await useFetch('/api/processes',
     page: computed(() => pagination?.value.page),
     pageSize: computed(() => pagination?.value.rowsPerPage),
   },
-  server: false,
 })
 
+// Processes Sideffect
 watch(processes, () => updatePagination(processes), { immediate: true })
-
 const rows = computed(() => processes.value?.data ?? [])
 
 async function onEdit(id: string) {
@@ -56,10 +54,10 @@ async function onEdit(id: string) {
       <q-table
         v-model:pagination="pagination"
         :columns="columns"
-        :rows="rows"
         :loading="isLoading"
-        row-key="id"
+        :rows="rows"
         binary-state-sort
+        row-key="id"
         w-full
         @request="onRequest"
       >
