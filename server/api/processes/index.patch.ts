@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
     ]).optional(),
     salary_0: numberSchema.optional(),
     salary_1: numberSchema.optional(),
+    tags: z.array(z.string().trim().uuid()).optional(),
     title: z.string().optional(),
     updatedAt: z.string().optional(),
   }))

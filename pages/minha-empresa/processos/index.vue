@@ -31,7 +31,7 @@ watch(processes, () => updatePagination(processes), { immediate: true })
 const rows = computed(() => processes.value?.data ?? [])
 
 async function onEdit(id: string) {
-  await navigateTo(`/minha-empresa/processos/editar/${id}`)
+  navigateTo(`/minha-empresa/processos/editar/${id}`)
 }
 </script>
 

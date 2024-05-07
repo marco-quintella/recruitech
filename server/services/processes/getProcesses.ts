@@ -72,9 +72,10 @@ export async function getProcesses(
   const aggregatedTags = tagsData.reduce((acc, tag) => {
     if (!acc[tag.processId])
       acc[tag.processId] = []
-    acc[tag.processId].push({ id: tag.id, name: tag.name })
+    if (tag.id && tag.name)
+      acc[tag.processId].push({ id: tag.id, name: tag.name })
     return acc
-  }, {} as Record<string, { name: string | null, id: string | null }[]>)
+  }, {} as Record<string, { name: string, id: string }[]>)
 
   // O(n) Map
   const returnData = processesData.map(proccess => ({

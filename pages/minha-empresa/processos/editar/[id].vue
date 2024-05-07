@@ -17,7 +17,7 @@ watch(processes, (newVal) => {
       cancelledAt: newVal.data[0].cancelledAt ? new Date(newVal.data[0].cancelledAt) : null,
       createdAt: new Date(newVal.data[0].createdAt),
       finishedAt: newVal.data[0].finishedAt ? new Date(newVal.data[0].finishedAt) : null,
-      tags: [],
+      tags: newVal?.data?.[0]?.tags?.map(tag => tag.id),
       updatedAt: new Date(newVal.data[0].updatedAt),
     }
   }

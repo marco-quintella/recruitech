@@ -1,19 +1,17 @@
 import { eq } from 'drizzle-orm'
 
 export async function updateProcess(
-  body: ProcessUpdate,
-  relations?: {
-    tags?: string[]
-  },
+  body: ProcessUpdate & { tags?: string[] },
 ) {
+  const { companyId, id, tags, ...data } = body
   const validTags: string[] = []
-  if (relations?.tags) {
-    const tagPromises = relations.tags.map(tagId => getTagById(tagId))
-    const tags = await Promise.all(tagPromises)
-    validTags.push(...tags.filter(Boolean).map(tag => tag!.id))
+
+  if (tags) {
+    const tagPromises = tags.map(tagId => getTagById(tagId))
+    const tagsData = await Promise.all(tagPromises)
+    validTags.push(...tagsData.filter(Boolean).map(tag => tag!.id))
   }
 
-  const { companyId, id, ...data } = body
   if (!id)
     return
 
