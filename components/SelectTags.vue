@@ -5,7 +5,7 @@ const model = defineModel<string[]>({
   default: [],
 })
 
-const { data } = await useFetch('/api/tags', { server: true })
+const { data } = await useFetch('/api/tags')
 
 const fullOptions = data.value?.map(tag => ({ label: tag.name, value: tag.id })) ?? []
 const options = ref(fullOptions)

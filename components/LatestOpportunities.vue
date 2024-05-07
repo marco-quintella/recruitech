@@ -4,7 +4,6 @@ const { data } = await useFetch('/api/processes', {
   query: {
     orderBy: 'createdAt',
   },
-  server: false,
 })
 </script>
 

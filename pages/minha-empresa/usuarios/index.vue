@@ -43,7 +43,6 @@ const { data: users, execute: onFetch, pending: isLoading } = await useFetch(
       page: computed(() => pagination?.value.page),
       pageSize: computed(() => pagination?.value.rowsPerPage),
     },
-    server: false,
   },
 )
 
