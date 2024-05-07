@@ -8,7 +8,7 @@ const $q = useQuasar()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const model = ref<ProcessInsert>({
+const model = ref<ProcessInsert & { tags?: string[] }>({
   companyId: '',
   contractType: ContractTypeEnum.full_time,
 
@@ -22,12 +22,10 @@ const model = ref<ProcessInsert>({
   salary_0: undefined,
   salary_1: undefined,
 
+  tags: [],
   title: '',
-  userId: '',
-})
 
-const relations = ref({
-  tags: undefined,
+  userId: '',
 })
 
 // Route protection
@@ -51,7 +49,7 @@ async function onSave() {
         companyId: user.value?.companyId,
         salary_0: Number(model.value.salary_0),
         salary_1: Number(model.value.salary_1),
-        tags: relations.value.tags,
+        tags: model.value.tags,
         userId: user.value?.id,
       },
       method: 'POST',
@@ -159,7 +157,7 @@ async function onSave() {
         />
 
         <SelectTags
-          v-model="relations.tags"
+          v-model="model.tags"
         />
         <p class="mb-4 text-xs text-primary">
           Selecione somente as principais Tags compatíveis com a vaga para obter melhore resultados.

@@ -9,7 +9,7 @@ const { data: processes } = await useFetch(`/api/processes`, {
   },
 })
 
-const model = ref<ProcessUpdate>({})
+const model = ref<ProcessUpdate & { tags?: string[] }>({})
 watch(processes, (newVal) => {
   if (newVal?.data?.[0]) {
     model.value = {
@@ -17,6 +17,7 @@ watch(processes, (newVal) => {
       cancelledAt: newVal.data[0].cancelledAt ? new Date(newVal.data[0].cancelledAt) : null,
       createdAt: new Date(newVal.data[0].createdAt),
       finishedAt: newVal.data[0].finishedAt ? new Date(newVal.data[0].finishedAt) : null,
+      tags: [],
       updatedAt: new Date(newVal.data[0].updatedAt),
     }
   }
@@ -133,6 +134,13 @@ async function onSave() {
           clearable
           class="mb-4"
         />
+
+        <SelectTags
+          v-model="model.tags"
+        />
+        <p class="mb-4 text-xs text-primary">
+          Selecione somente as principais Tags compatíveis com a vaga para obter melhore resultados.
+        </p>
 
         <div flex gap-4>
           <q-input
