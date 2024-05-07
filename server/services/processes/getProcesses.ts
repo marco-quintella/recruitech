@@ -1,4 +1,4 @@
-import { asc, count, desc, eq } from 'drizzle-orm'
+import { asc, count, desc, eq, inArray } from 'drizzle-orm'
 
 export async function getProcesses(
   filters?: Partial<Process>,
@@ -30,16 +30,11 @@ export async function getProcesses(
     processType: processes.processType,
     salary_0: processes.salary_0,
     salary_1: processes.salary_1,
-    tags: {
-      name: tags.name,
-    },
     title: processes.title,
     updatedAt: processes.updatedAt,
   })
     .from(processes)
     .leftJoin(companies, eq(processes.companyId, companies.id))
-    .leftJoin(processesToTags, eq(processesToTags.processId, processes.id))
-    .leftJoin(tags, eq(tags.id, processesToTags.tagId))
     .orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))
     .offset((page - 1) * pageSize)
     .limit(pageSize)
@@ -48,6 +43,7 @@ export async function getProcesses(
     .from(processes)
 
   if (filters) {
+    // O(2n) Filter
     const filterEntries = Object.entries(filters).filter(([, value]) => value !== undefined)
     for (const [key, value] of filterEntries) {
       if (key in processes) {
@@ -59,11 +55,39 @@ export async function getProcesses(
     }
   }
 
-  const data = await query
+  const processesData = await query
+
+  // Get Tags
+  // O(n) Map
+  const processesIds = processesData.map(({ id }) => id)
+  const tagsData = await db.select({
+    id: tags.id,
+    name: tags.name,
+    processId: processesToTags.processId,
+  }).from(processesToTags)
+    .leftJoin(tags, eq(processesToTags.tagId, tags.id))
+    .where(inArray(processesToTags.processId, processesIds))
+
+  // O(n) Reduce
+  const aggregatedTags = tagsData.reduce((acc, tag) => {
+    if (!acc[tag.processId])
+      acc[tag.processId] = []
+    acc[tag.processId].push({ id: tag.id, name: tag.name })
+    return acc
+  }, {} as Record<string, { name: string | null, id: string | null }[]>)
+
+  // O(n) Map
+  const returnData = processesData.map(proccess => ({
+    ...proccess,
+    tags: aggregatedTags[proccess.id] ?? [],
+  }))
+
+  // Total
   const totalData = await total
 
+  // O(3n) return
   return {
-    data,
+    data: returnData,
     meta: {
       pagination: {
         direction,

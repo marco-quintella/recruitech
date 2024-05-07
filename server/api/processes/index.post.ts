@@ -11,6 +11,8 @@ interface CreateProcessBody {
   salary_1?: string
   email?: string
   link?: string
+
+  // Realations
   tags?: string[]
 }
 
@@ -47,8 +49,8 @@ export default defineEventHandler(async (event) => {
       ProcessTypeEnum.link,
       ProcessTypeEnum.platform,
     ]),
-    salary_0: integerSchema.optional(),
-    salary_1: integerSchema.optional(),
+    salary_0: z.nullable(integerSchema),
+    salary_1: z.nullable(integerSchema),
     tags: z.array(z.string().trim().uuid()).optional(),
     title: z.string(),
   }))

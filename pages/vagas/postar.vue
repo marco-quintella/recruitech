@@ -26,6 +26,10 @@ const model = ref<ProcessInsert>({
   userId: '',
 })
 
+const relations = ref({
+  tags: undefined,
+})
+
 // Route protection
 watch(user, () => {
   if (!user.value)
@@ -47,12 +51,13 @@ async function onSave() {
         companyId: user.value?.companyId,
         salary_0: Number(model.value.salary_0),
         salary_1: Number(model.value.salary_1),
+        tags: relations.value.tags,
         userId: user.value?.id,
       },
       method: 'POST',
     })
 
-    navigateTo('/minha-empresa/vagas')
+    navigateTo('/minha-empresa/processos')
   }
   catch (e: any) {
     $q.notify({
@@ -67,7 +72,7 @@ async function onSave() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center pt-12>
+  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
     <h1>Nova Vaga</h1>
     <q-card
       b="1 primary solid rd-3"
@@ -92,7 +97,8 @@ async function onSave() {
               message: `<b>Tipos de processo:</b><br>
               <ul>
                 <li>- Recruitech: Realize o processo e gerencie os candidatos através da plataforma.</li>
-                <li>- Email: Receba os currículos diretamente por e-mail. Candidatos podem enviar o currículos através da plataforma ou através do próprio e-mail.</li>
+                <li>- Email: Receba os currículos diretamente por e-mail. Candidatos podem enviar o currículos
+                  através da plataforma ou através do próprio e-mail.</li>
                 <li>- Link: Utilize sua própria plataforma direcionando os candidatos para o seu link.</li>
               </ul>`,
             })"
@@ -152,26 +158,33 @@ async function onSave() {
           class="mb-4"
         />
 
+        <SelectTags
+          v-model="relations.tags"
+        />
+        <p class="mb-4 text-xs text-primary">
+          Selecione somente as principais Tags compatíveis com a vaga para obter melhore resultados.
+        </p>
+
         <div flex gap-4>
           <q-input
             v-model="model.salary_0"
-            label="Salário mínimo"
-            outlined
-            dense
-            type="number"
-            clearable
             :min="0"
             :rules="[(s: number) => (isDefined(s) ? s > 0 : true) ?? 'Valor mínimo deve ser maior que zero.']"
+            clearable
+            dense
+            label="Salário mínimo"
+            outlined
+            type="number"
           />
 
           <q-input
             v-model="model.salary_1"
+            :min="model.salary_0"
+            clearable
+            dense
             label="Salário máximo"
             outlined
-            dense
             type="number"
-            clearable
-            :min="model.salary_0"
             :rules="[
               (s: number) => (isDefined(s) ? Number(s) > 0 : true) ?? 'Valor mínimo deve ser maior que zero.',
               (s: number) => (isDefined(s) && isDefined(model.salary_0)

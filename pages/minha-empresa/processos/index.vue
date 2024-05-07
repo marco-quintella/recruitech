@@ -25,6 +25,7 @@ const { data: processes, pending: isLoading } = await useFetch('/api/processes',
     page: computed(() => pagination?.value.page),
     pageSize: computed(() => pagination?.value.rowsPerPage),
   },
+  server: false,
 })
 
 watch(processes, () => updatePagination(processes), { immediate: true })
@@ -46,7 +47,7 @@ async function onEdit(id: string) {
         <div>
           <q-btn
             color="primary"
-            @click="navigateTo('/minha-empresa/usuarios/incluir')"
+            @click="navigateTo('/vagas/postar')"
           >
             Incluir
           </q-btn>
