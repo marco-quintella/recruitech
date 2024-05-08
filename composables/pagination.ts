@@ -22,10 +22,10 @@ export function usePagination() {
   async function onRequest(
     props?: Parameters<NonNullable<QTableProps['onRequest']>>[0],
   ) {
-    pagination.value.page = props?.pagination?.page ?? pagination.value.page
-    pagination.value.rowsPerPage = props?.pagination?.rowsPerPage ?? pagination.value.rowsPerPage
+    pagination.value.page = props?.pagination?.page || pagination.value.page
+    pagination.value.rowsPerPage = props?.pagination?.rowsPerPage || pagination.value.rowsPerPage
     pagination.value.descending = props?.pagination?.descending ?? pagination.value.descending
-    pagination.value.sortBy = props?.pagination?.sortBy as string | undefined ?? pagination.value.sortBy
+    pagination.value.sortBy = props?.pagination?.sortBy as string | undefined || pagination.value.sortBy
   }
 
   return {
