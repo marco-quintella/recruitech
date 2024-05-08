@@ -14,21 +14,23 @@ const { data } = await useFetch('/api/processes', {
       v-for="process in data?.data"
       :key="process.id"
       b="2 primary rd-2"
-      flex cursor-pointer gap-4 p4
-      @click="navigateTo(`/vagas/${process.id}`)"
+      flex gap-4 p4
     >
       <q-img
         v-if="process.company?.logo"
         :src="process.company?.logo"
-        width="80px"
-        height="80px"
+        width="70px"
+        height="70px"
         alt="Logo da empresa"
       />
       <div flex flex-col gap-2>
-        <h3 hover:text-primary>
+        <h3
+          cursor-pointer hover:text-primary
+          @click="navigateTo(`/vagas/${process.id}`)"
+        >
           {{ process.title }}
         </h3>
-        <div class="grid grid-cols-2">
+        <div class="grid grid-cols-3">
           <div flex items-center gap-1>
             <div i-ph-building />
             {{ process.company?.name }}
@@ -54,6 +56,12 @@ const { data } = await useFetch('/api/processes', {
           <div flex items-center gap-1>
             <div i-ph-calendar />
             {{ $dayjs(process.createdAt).fromNow() }}
+          </div>
+          <div flex items-center gap-1>
+            <div i-ph-tag />
+            <div v-for="tag, index in process.tags" :key="tag.id">
+              {{ tag.name }}{{ index !== process.tags.length - 1 ? ', ' : '' }}
+            </div>
           </div>
         </div>
       </div>
