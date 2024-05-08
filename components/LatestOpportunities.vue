@@ -30,7 +30,7 @@ const { data } = await useFetch('/api/processes', {
         >
           {{ process.title }}
         </h3>
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 gap-2">
           <div flex items-center gap-1>
             <div i-ph-building />
             {{ process.company?.name }}
