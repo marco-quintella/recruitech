@@ -5,9 +5,11 @@ const { updateSession } = useAuth()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const { data: company, refresh } = await useFetch(`/api/companies/${user.value?.companyId}`, {
+const { data: company, refresh } = await useFetch(`/api/companies`, {
   method: 'GET',
-  watch: [user],
+  query: {
+    id: user.value?.companyId,
+  },
 })
 
 const model = ref<CompanyUpdate>({
@@ -64,9 +66,10 @@ async function uploadCompanyLogo() {
     reader.onload = async () => {
       const data = reader.result
 
-      await $fetch(`/api/companies/${user.value?.companyId}/logo`, {
+      await $fetch(`/api/companies/logo`, {
         body: {
           fileBase64: data,
+          id: user.value?.companyId,
         },
         method: 'POST',
       })

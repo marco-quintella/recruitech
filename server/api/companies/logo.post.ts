@@ -9,12 +9,17 @@ export default defineEventHandler<{
   }
 }>(async (event) => {
   // Validation Layer
-  const id = validateRouteParam(event, 'id', z.string().uuid())
   const { data: user } = await requireAuthSession(event)
-  validateIsCompanyAdmin(user, id)
-  const { fileBase64 } = await validateBody(event, z.object({
+
+  const { fileBase64, id } = await validateBody<{
+    fileBase64: string
+    id: string
+  }>(event, z.object({
     fileBase64: z.string().min(1),
+    id: z.string().trim().uuid(),
   }))
+
+  validateIsCompanyAdmin(user, id)
 
   let ext = 'png'
 

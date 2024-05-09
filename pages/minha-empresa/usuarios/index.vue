@@ -70,8 +70,11 @@ function editUser(user: User) {
   }).onOk(async (newRole: Role) => {
     try {
       $q.loading.show()
-      await $fetch(`/api/users/${user.id}`, {
-        body: { role: newRole },
+      await $fetch(`/api/users`, {
+        body: {
+          id: user.id,
+          role: newRole,
+        },
         method: 'PATCH',
       })
       onFetch()

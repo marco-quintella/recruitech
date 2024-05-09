@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { QImgProps } from 'quasar'
-
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 

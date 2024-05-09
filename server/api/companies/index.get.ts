@@ -2,7 +2,11 @@ import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
   // Validation Layer
-  const id = validateRouteParam(event, 'id', z.string().trim().uuid())
+  const { id } = await validateBody<{
+    id: string
+  }>(event, z.object({
+    id: z.string().trim().uuid(),
+  }))
 
   // Service Layer
   const company = await getCompanyById(id)

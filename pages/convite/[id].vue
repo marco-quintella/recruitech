@@ -13,12 +13,22 @@ if (!id)
 const {
   data: userInvite,
   error: userInviteError,
-} = await useFetch(`/api/users/invite/${id}`)
+} = await useFetch(`/api/users/invite`, {
+  method: 'get',
+  query: {
+    id,
+  },
+})
 
 const {
   data: company,
   error: companyError,
-} = await useFetch(`/api/companies/${userInvite.value?.companyId}`)
+} = await useFetch(`/api/companies`, {
+  method: 'get',
+  query: {
+    id: userInvite.value?.companyId,
+  },
+})
 
 const name = ref<string>()
 const email = ref<string | undefined>(userInvite.value?.email)
@@ -31,26 +41,26 @@ async function onSubmit() {
   try {
     $q.loading.show()
     await $fetch('/api/auth/invite/accept', {
-      method: 'POST',
       body: {
+        email: email.value,
         id,
         name: name.value,
-        email: email.value,
         password: password.value,
       },
+      method: 'POST',
     })
 
     $q.notify({
-      type: 'positive',
       message: 'Convite aceito com sucesso',
+      type: 'positive',
     })
 
     navigateTo('/auth/login')
   }
   catch (e: any) {
     $q.notify({
-      type: 'negative',
       message: e.data?.message || e.message || 'Erro ao aceitar convite',
+      type: 'negative',
     })
   }
   finally {

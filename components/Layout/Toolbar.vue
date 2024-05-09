@@ -59,7 +59,18 @@ async function onLogout() {
       <q-menu auto-close>
         <q-list v-if="loggedIn" style="min-width: 100px">
           <q-item
-            v-if="session?.data.role !== RoleEnum.candidate"
+            v-if="session?.data.role === RoleEnum.candidate"
+            clickable
+            @click="navigateTo('/meu-perfil')"
+          >
+            <q-item-section avatar>
+              <div i-ph-user text-5 />
+            </q-item-section>
+            <q-item-section>Perfil</q-item-section>
+          </q-item>
+
+          <q-item
+            v-else
             clickable
             @click="navigateTo('/minha-empresa')"
           >
