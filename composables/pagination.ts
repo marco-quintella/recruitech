@@ -12,7 +12,7 @@ export function usePagination() {
   function updatePagination(data?: MaybeRefOrGetter<any>) {
     const _data = toValue(data)
 
-    pagination.value.descending = _data?.meta?.pagination?.direction === 'desc' ?? 'asc'
+    pagination.value.descending = _data?.meta?.pagination?.direction === 'desc' || pagination.value.descending
     pagination.value.page = _data?.meta?.pagination?.page || pagination.value.page
     pagination.value.rowsNumber = _data?.meta?.pagination?.total || pagination.value.rowsNumber
     pagination.value.rowsPerPage = _data?.meta?.pagination?.pageSize || pagination.value.rowsPerPage
