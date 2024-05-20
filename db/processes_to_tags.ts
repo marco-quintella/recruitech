@@ -1,6 +1,5 @@
-import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
-
+import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core'
 import { processes } from './processes'
 import { tags } from './tags'
 

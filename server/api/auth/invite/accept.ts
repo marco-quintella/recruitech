@@ -10,23 +10,23 @@ export default defineEventHandler<{
 }>(async (event) => {
   // Validation Layer
   const { email, id, name, password } = await validateBody(event, z.object({
+    email: z.string().trim().email(),
     id: z.string().uuid(),
     name: z.string().trim(),
-    email: z.string().trim().email(),
     password: z.string().min(8),
   }))
 
   const publicUser = await getPublicUserById(id)
 
   if (!publicUser)
-    throw createError({ status: 404, message: 'Usuário não existe' })
+    throw createError({ message: 'Usuário não existe', status: 404 })
 
   // Service Layer
   return await updateUser(id, {
-    name,
-    email,
-    password: await hash(password),
-    invitePending: false,
     confirmedEmail: true,
+    email,
+    invitePending: false,
+    name,
+    password: await hash(password),
   })
 })

@@ -3,8 +3,8 @@ const route = useRoute()
 const token = route.name === 'auth-confirmar-email-token' ? route.params.token : undefined
 
 const { error } = await useFetch('/api/auth/confirm-email', {
-  method: 'POST',
   body: { token },
+  method: 'POST',
 })
 </script>
 

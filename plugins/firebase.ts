@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+import { initializeApp } from 'firebase/app'
 
 export default defineNuxtPlugin(() => {
   if (import.meta.client) {
@@ -11,8 +11,8 @@ export default defineNuxtPlugin(() => {
     return {
       provide: {
         firebase: {
-          app,
           analytics,
+          app,
         },
       },
     }

@@ -12,9 +12,9 @@ export async function validateBody<T = any>(
 
   if (!validation1.success) {
     throw createError({
+      data: validation1.error,
       statusCode: 400,
       statusMessage: customMessage ?? 'Dados inválidos',
-      data: validation1.error,
     })
   }
 

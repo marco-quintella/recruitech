@@ -5,9 +5,9 @@ export async function updateUser(id: string, data: Partial<UserInsert>) {
     .set(data)
     .where(eq(users.id, id))
     .returning({
+      email: users.email,
       id: users.id,
       name: users.name,
-      email: users.email,
       role: users.role,
     })
   return query?.[0]

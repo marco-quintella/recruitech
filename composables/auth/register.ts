@@ -8,8 +8,8 @@ export async function authRegister(body: {
   companyName?: string
 }) {
   await $fetch('/api/auth/register', {
-    method: 'POST',
     body,
+    method: 'POST',
   })
   await navigateTo('/auth/pos-registro')
 }

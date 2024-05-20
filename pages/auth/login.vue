@@ -20,9 +20,9 @@ async function onSubmit() {
   }
   catch (e: any) {
     $q.notify({
-      message: e.data?.message || 'Erro ao fazer login',
       color: 'negative',
       icon: 'report_problem',
+      message: e.data?.message || 'Erro ao fazer login',
     })
   }
   finally {

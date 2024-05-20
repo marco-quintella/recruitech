@@ -1,5 +1,5 @@
-import type { User } from '~/db/users'
 import { emailTokens } from '~/db/email-tokens'
+import type { User } from '~/db/users'
 
 export async function sendRegisterConfirmationEmail(user: User) {
   const insert = await db.insert(emailTokens).values({
@@ -11,14 +11,14 @@ export async function sendRegisterConfirmationEmail(user: User) {
   const { public: { frontend: { url } } } = useRuntimeConfig()
 
   await mailTransport.sendMail({
+    context: {
+      link: `${url}/auth/confirmar-email/${token}`,
+      name: user.name,
+    },
     from: '"Recruitech" <nao.responda@mqdev.com.br>',
-    to: user.email,
     subject: 'Confirmação de e-mail',
     // @ts-expect-error ignore this line
     template: 'register.confirmation.mail',
-    context: {
-      name: user.name,
-      link: `${url}/auth/confirmar-email/${token}`,
-    },
+    to: user.email,
   })
 }

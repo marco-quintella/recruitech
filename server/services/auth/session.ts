@@ -18,12 +18,12 @@ export async function useAuthSession(event: H3Event) {
 
   if (session.data.email) {
     const userQuery = await db.select({
+      companyId: users.companyId,
+      confirmedEmail: users.confirmedEmail,
+      email: users.email,
       id: users.id,
       name: users.name,
-      email: users.email,
       role: users.role,
-      confirmedEmail: users.confirmedEmail,
-      companyId: users.companyId,
     })
       .from(users)
       .where(eq(users.id, session.data.id))

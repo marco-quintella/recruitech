@@ -2,12 +2,12 @@ import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 export const locations = pgTable('locations', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  country: text('country'),
-  state: text('state'),
   city: text('city'),
-
+  country: text('country'),
   createAt: timestamp('created_at').notNull().defaultNow(),
+  id: uuid('id').defaultRandom().primaryKey(),
+
+  state: text('state'),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
 

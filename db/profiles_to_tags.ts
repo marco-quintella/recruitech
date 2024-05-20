@@ -1,6 +1,5 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, primaryKey, uuid } from 'drizzle-orm/pg-core'
-
 import { profiles } from './profiles'
 import { tags } from './tags'
 

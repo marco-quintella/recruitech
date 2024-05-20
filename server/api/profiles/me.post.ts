@@ -1,4 +1,4 @@
-import { string, z } from 'zod'
+import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
   const { data: session } = await requireAuthSession(event)

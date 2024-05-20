@@ -18,7 +18,6 @@ Uma plataforma de recrutamento em Nuxt 3
 - 🍍 [Pinia](https://pinia.vuejs.org/)
 - 🌀 [Quasar Components](https://quasar.dev/)
 - 🦾 [TypeScript](https://www.typescriptlang.org/)
-- 📲 [PWA](https://github.com/vite-pwa/nuxt)
 - 🐘 [Postgres](https://www.postgresql.org/)
 - 🐷 [Redis](https://redis.io/)
 - 😎 [Drizzle](https://orm.drizzle.team/)

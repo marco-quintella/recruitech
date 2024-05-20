@@ -29,13 +29,8 @@ function filterFn(val: FilterFnValue, update: FilterFnUpdate, _abort: FilterFnAb
     :options="options"
     input-debounce="350"
     label="Tags"
-    dense
-    emit-value
-    outlined
-    use-input
-    map-options
-    use-chips
-    multiple
+
+    dense emit-value outlined map-options use-input use-chips multiple
     @filter="filterFn"
   />
 </template>

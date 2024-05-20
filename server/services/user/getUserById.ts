@@ -2,14 +2,14 @@ import { eq } from 'drizzle-orm'
 
 export async function getPrivateUserById(id: string) {
   const query = await db.select({
-    id: users.id,
-    email: users.email,
-    name: users.name,
-    role: users.role,
     companyId: users.companyId,
-    invitePending: users.invitePending,
     confirmedEmail: users.confirmedEmail,
     createdAt: users.createdAt,
+    email: users.email,
+    id: users.id,
+    invitePending: users.invitePending,
+    name: users.name,
+    role: users.role,
     updatedAt: users.updatedAt,
   })
     .from(users)
