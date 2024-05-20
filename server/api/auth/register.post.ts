@@ -1,3 +1,4 @@
+import consola from 'consola'
 import { z } from 'zod'
 
 interface AuthRegisterBody {
@@ -11,7 +12,7 @@ interface AuthRegisterBody {
 export default defineEventHandler(async (event) => {
   const { auth: { password_salt } } = useRuntimeConfig()
   if (!password_salt) {
-    console.error('passwordSalt is not found in env')
+    consola.error('passwordSalt is not found in env')
     throw createError({ status: 500, statusMessage: 'Internal Server Error' })
   }
 
