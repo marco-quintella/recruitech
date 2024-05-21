@@ -5,7 +5,6 @@ export const companies = pgTable('companies', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   id: uuid('id').defaultRandom().primaryKey(),
   logo: text('logo'),
-
   name: text('name').notNull(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

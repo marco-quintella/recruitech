@@ -5,10 +5,8 @@ import { users } from './users'
 
 export const favorites = pgTable('favorites', {
   candidateId: uuid('candidate_id').references(() => users.id),
-
   id: uuid('id').defaultRandom().primaryKey(),
   processId: uuid('process_id').references(() => processes.id),
-
   userId: uuid('user_id').references(() => users.id).notNull(),
 })
 

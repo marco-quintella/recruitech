@@ -1,10 +1,8 @@
 {
-  "id": "07bf0c6c-fb9c-4c3a-996c-c709a6813121",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "companies": {
+    "public.companies": {
       "name": "companies",
       "schema": "",
       "columns": {
@@ -41,7 +39,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "discards": {
+    "public.discards": {
       "name": "discards",
       "schema": "",
       "columns": {
@@ -63,28 +61,28 @@
         "discards_process_id_processes_id_fk": {
           "name": "discards_process_id_processes_id_fk",
           "tableFrom": "discards",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "discards_user_id_users_id_fk": {
           "name": "discards_user_id_users_id_fk",
           "tableFrom": "discards",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -98,7 +96,7 @@
       },
       "uniqueConstraints": {}
     },
-    "favorites": {
+    "public.favorites": {
       "name": "favorites",
       "schema": "",
       "columns": {
@@ -120,28 +118,28 @@
         "favorites_process_id_processes_id_fk": {
           "name": "favorites_process_id_processes_id_fk",
           "tableFrom": "favorites",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "favorites_user_id_users_id_fk": {
           "name": "favorites_user_id_users_id_fk",
           "tableFrom": "favorites",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -155,7 +153,7 @@
       },
       "uniqueConstraints": {}
     },
-    "job_titles": {
+    "public.job_titles": {
       "name": "job_titles",
       "schema": "",
       "columns": {
@@ -192,7 +190,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "locations": {
+    "public.locations": {
       "name": "locations",
       "schema": "",
       "columns": {
@@ -241,7 +239,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "processes": {
+    "public.processes": {
       "name": "processes",
       "schema": "",
       "columns": {
@@ -356,47 +354,47 @@
         "processes_company_id_companies_id_fk": {
           "name": "processes_company_id_companies_id_fk",
           "tableFrom": "processes",
-          "tableTo": "companies",
           "columnsFrom": [
             "company_id"
           ],
+          "tableTo": "companies",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_user_id_users_id_fk": {
           "name": "processes_user_id_users_id_fk",
           "tableFrom": "processes",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_chosen_user_id_users_id_fk": {
           "name": "processes_chosen_user_id_users_id_fk",
           "tableFrom": "processes",
-          "tableTo": "users",
           "columnsFrom": [
             "chosen_user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "processes_to_job_titles": {
+    "public.processes_to_job_titles": {
       "name": "processes_to_job_titles",
       "schema": "",
       "columns": {
@@ -418,28 +416,28 @@
         "processes_to_job_titles_process_id_processes_id_fk": {
           "name": "processes_to_job_titles_process_id_processes_id_fk",
           "tableFrom": "processes_to_job_titles",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_job_titles_job_title_id_job_titles_id_fk": {
           "name": "processes_to_job_titles_job_title_id_job_titles_id_fk",
           "tableFrom": "processes_to_job_titles",
-          "tableTo": "job_titles",
           "columnsFrom": [
             "job_title_id"
           ],
+          "tableTo": "job_titles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -453,7 +451,7 @@
       },
       "uniqueConstraints": {}
     },
-    "processes_to_skills": {
+    "public.processes_to_skills": {
       "name": "processes_to_skills",
       "schema": "",
       "columns": {
@@ -475,28 +473,28 @@
         "processes_to_skills_process_id_processes_id_fk": {
           "name": "processes_to_skills_process_id_processes_id_fk",
           "tableFrom": "processes_to_skills",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_skills_skill_id_skills_id_fk": {
           "name": "processes_to_skills_skill_id_skills_id_fk",
           "tableFrom": "processes_to_skills",
-          "tableTo": "skills",
           "columnsFrom": [
             "skill_id"
           ],
+          "tableTo": "skills",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -510,7 +508,7 @@
       },
       "uniqueConstraints": {}
     },
-    "processes_to_locations": {
+    "public.processes_to_locations": {
       "name": "processes_to_locations",
       "schema": "",
       "columns": {
@@ -532,28 +530,28 @@
         "processes_to_locations_process_id_processes_id_fk": {
           "name": "processes_to_locations_process_id_processes_id_fk",
           "tableFrom": "processes_to_locations",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_locations_location_id_locations_id_fk": {
           "name": "processes_to_locations_location_id_locations_id_fk",
           "tableFrom": "processes_to_locations",
-          "tableTo": "locations",
           "columnsFrom": [
             "location_id"
           ],
+          "tableTo": "locations",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -567,7 +565,7 @@
       },
       "uniqueConstraints": {}
     },
-    "processes_to_tags": {
+    "public.processes_to_tags": {
       "name": "processes_to_tags",
       "schema": "",
       "columns": {
@@ -589,28 +587,28 @@
         "processes_to_tags_process_id_processes_id_fk": {
           "name": "processes_to_tags_process_id_processes_id_fk",
           "tableFrom": "processes_to_tags",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_tags_tag_id_tags_id_fk": {
           "name": "processes_to_tags_tag_id_tags_id_fk",
           "tableFrom": "processes_to_tags",
-          "tableTo": "tags",
           "columnsFrom": [
             "tag_id"
           ],
+          "tableTo": "tags",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -624,7 +622,7 @@
       },
       "uniqueConstraints": {}
     },
-    "profile_skills": {
+    "public.profile_skills": {
       "name": "profile_skills",
       "schema": "",
       "columns": {
@@ -652,28 +650,28 @@
         "profile_skills_profile_id_profiles_id_fk": {
           "name": "profile_skills_profile_id_profiles_id_fk",
           "tableFrom": "profile_skills",
-          "tableTo": "profiles",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profile_skills_skill_id_profiles_id_fk": {
           "name": "profile_skills_skill_id_profiles_id_fk",
           "tableFrom": "profile_skills",
-          "tableTo": "profiles",
           "columnsFrom": [
             "skill_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -687,7 +685,7 @@
       },
       "uniqueConstraints": {}
     },
-    "profiles": {
+    "public.profiles": {
       "name": "profiles",
       "schema": "",
       "columns": {
@@ -730,21 +728,21 @@
         "profiles_user_id_users_id_fk": {
           "name": "profiles_user_id_users_id_fk",
           "tableFrom": "profiles",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "profiles_to_job_titles": {
+    "public.profiles_to_job_titles": {
       "name": "profiles_to_job_titles",
       "schema": "",
       "columns": {
@@ -766,28 +764,28 @@
         "profiles_to_job_titles_profile_id_profiles_id_fk": {
           "name": "profiles_to_job_titles_profile_id_profiles_id_fk",
           "tableFrom": "profiles_to_job_titles",
-          "tableTo": "profiles",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profiles_to_job_titles_job_title_id_job_titles_id_fk": {
           "name": "profiles_to_job_titles_job_title_id_job_titles_id_fk",
           "tableFrom": "profiles_to_job_titles",
-          "tableTo": "job_titles",
           "columnsFrom": [
             "job_title_id"
           ],
+          "tableTo": "job_titles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -801,7 +799,7 @@
       },
       "uniqueConstraints": {}
     },
-    "profiles_to_skills": {
+    "public.profiles_to_skills": {
       "name": "profiles_to_skills",
       "schema": "",
       "columns": {
@@ -823,28 +821,28 @@
         "profiles_to_skills_profile_id_profiles_id_fk": {
           "name": "profiles_to_skills_profile_id_profiles_id_fk",
           "tableFrom": "profiles_to_skills",
-          "tableTo": "profiles",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profiles_to_skills_skill_id_skills_id_fk": {
           "name": "profiles_to_skills_skill_id_skills_id_fk",
           "tableFrom": "profiles_to_skills",
-          "tableTo": "skills",
           "columnsFrom": [
             "skill_id"
           ],
+          "tableTo": "skills",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -858,7 +856,7 @@
       },
       "uniqueConstraints": {}
     },
-    "profiles_to_tags": {
+    "public.profiles_to_tags": {
       "name": "profiles_to_tags",
       "schema": "",
       "columns": {
@@ -880,28 +878,28 @@
         "profiles_to_tags_profile_id_profiles_id_fk": {
           "name": "profiles_to_tags_profile_id_profiles_id_fk",
           "tableFrom": "profiles_to_tags",
-          "tableTo": "profiles",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profiles_to_tags_tag_id_tags_id_fk": {
           "name": "profiles_to_tags_tag_id_tags_id_fk",
           "tableFrom": "profiles_to_tags",
-          "tableTo": "tags",
           "columnsFrom": [
             "tag_id"
           ],
+          "tableTo": "tags",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -915,7 +913,7 @@
       },
       "uniqueConstraints": {}
     },
-    "skills": {
+    "public.skills": {
       "name": "skills",
       "schema": "",
       "columns": {
@@ -952,7 +950,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "tags": {
+    "public.tags": {
       "name": "tags",
       "schema": "",
       "columns": {
@@ -989,7 +987,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
+    "public.users": {
       "name": "users",
       "schema": "",
       "columns": {
@@ -1050,69 +1048,75 @@
         "users_company_id_companies_id_fk": {
           "name": "users_company_id_companies_id_fk",
           "tableFrom": "users",
-          "tableTo": "companies",
           "columnsFrom": [
             "company_id"
           ],
+          "tableTo": "companies",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "email"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
   },
   "enums": {
-    "contract_type": {
+    "public.contract_type": {
       "name": "contract_type",
-      "values": {
-        "full_time": "full_time",
-        "part_time": "part_time",
-        "contractor": "contractor",
-        "internship": "internship"
-      }
+      "schema": "public",
+      "values": [
+        "full_time",
+        "part_time",
+        "contractor",
+        "internship"
+      ]
     },
-    "experience_level": {
+    "public.experience_level": {
       "name": "experience_level",
-      "values": {
-        "entry": "entry",
-        "intermediate": "intermediate",
-        "senior": "senior"
-      }
+      "schema": "public",
+      "values": [
+        "entry",
+        "intermediate",
+        "senior"
+      ]
     },
-    "process_type": {
+    "public.process_type": {
       "name": "process_type",
-      "values": {
-        "platform": "platform",
-        "email": "email",
-        "link": "link"
-      }
+      "schema": "public",
+      "values": [
+        "platform",
+        "email",
+        "link"
+      ]
     },
-    "role": {
+    "public.role": {
       "name": "role",
-      "values": {
-        "system": "system",
-        "company_admin": "company_admin",
-        "recruiter": "recruiter",
-        "candidate": "candidate"
-      }
+      "schema": "public",
+      "values": [
+        "system",
+        "company_admin",
+        "recruiter",
+        "candidate"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "07bf0c6c-fb9c-4c3a-996c-c709a6813121",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }

@@ -5,13 +5,10 @@ import { users } from './users'
 
 export const discards = pgTable('discards', {
   candidateId: uuid('candidate_id').references(() => users.id),
-
-  created_at: timestamp('created_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
   id: uuid('id').defaultRandom().primaryKey(),
-
   processId: uuid('process_id').references(() => processes.id),
-
-  updated_at: timestamp('updated_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
   userId: uuid('user_id').references(() => users.id).notNull(),
 })
 

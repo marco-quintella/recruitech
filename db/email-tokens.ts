@@ -5,7 +5,6 @@ import { users } from './users'
 export const emailTokens = pgTable('email_tokens', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   id: uuid('id').defaultRandom().primaryKey(),
-
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   userId: uuid('user_id').notNull().references(() => users.id),
 })

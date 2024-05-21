@@ -3,10 +3,9 @@ import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 export const locations = pgTable('locations', {
   city: text('city'),
-  country: text('country'),
+  country: text('country').notNull(),
   createAt: timestamp('created_at').notNull().defaultNow(),
   id: uuid('id').defaultRandom().primaryKey(),
-
   state: text('state'),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })
