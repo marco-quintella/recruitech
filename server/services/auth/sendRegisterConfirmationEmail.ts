@@ -10,14 +10,14 @@ export async function sendRegisterConfirmationEmail(user: User) {
 
   const { public: { frontend: { url } } } = useRuntimeConfig()
 
-  await mailTransport.sendMail({
+  mailTransport.sendMail({
+    // @ts-expect-error ignore this line due to hbs plugin
     context: {
       link: `${url}/auth/confirmar-email/${token}`,
       name: user.name,
     },
     from: '"Recruitech" <nao.responda@mqdev.com.br>',
     subject: 'Confirmação de e-mail',
-    // @ts-expect-error ignore this line
     template: 'register.confirmation.mail',
     to: user.email,
   })

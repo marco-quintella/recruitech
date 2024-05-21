@@ -1,3 +1,4 @@
+import consola from 'consola'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
@@ -17,6 +18,16 @@ export default defineEventHandler(async (event) => {
     presentation,
     tags,
     userId: session.id,
+  })
+
+  jobManager.addJob({
+    cron: {
+      minute: 5,
+    },
+    key: `profile-${profile.id}`,
+    task: async () => {
+      consola.log('Profile updated:', profile.id)
+    },
   })
 
   return profile

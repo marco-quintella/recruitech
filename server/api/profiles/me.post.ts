@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import consola from 'consola'
 
 export default defineEventHandler(async (event) => {
   const { data: session } = await requireAuthSession(event)
@@ -11,9 +12,21 @@ export default defineEventHandler(async (event) => {
     tags: z.array(z.string().trim().uuid()).optional(),
   }))
 
-  return await createProfile({
+  const profile = await createProfile({
     presentation,
     tags,
     userId: session.id,
   })
+
+  jobManager.addJob({
+    cron: {
+      minute: 5,
+    },
+    key: `profile-${profile.id}`,
+    task: async () => {
+      const processes = await matchProfileToService(profile.userId)
+    },
+  })
+
+  return profile
 })
