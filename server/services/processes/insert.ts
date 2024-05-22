@@ -2,6 +2,7 @@ export async function insertProcess(
   value: ProcessInsert,
   relations?: {
     tags?: string[]
+    jobTitles?: string[]
   },
 ) {
   const validTags: string[] = []
@@ -9,6 +10,13 @@ export async function insertProcess(
     const tagPromises = relations.tags.map(tagId => getTagById(tagId))
     const tags = await Promise.all(tagPromises)
     validTags.push(...tags.filter(Boolean).map(tag => tag!.id))
+  }
+
+  const validJobTitles: string[] = []
+  if (relations?.jobTitles) {
+    const jobTitlePromises = relations.jobTitles.map(jobTitleId => getJobTitleById(jobTitleId))
+    const jobTitles = await Promise.all(jobTitlePromises)
+    validJobTitles.push(...jobTitles.filter(Boolean).map(jobTitle => jobTitle!.id))
   }
 
   const query = await db.insert(processes)
@@ -20,6 +28,14 @@ export async function insertProcess(
       .values(validTags.map(tagId => ({
         processId: query[0].id,
         tagId,
+      })))
+  }
+
+  if (validJobTitles.length) {
+    await db.insert(processesToJobTitles)
+      .values(validJobTitles.map(jobTitleId => ({
+        jobTitleId,
+        processId: query[0].id,
       })))
   }
 

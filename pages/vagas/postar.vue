@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import SelectJobTitles from '../../components/SelectJobTitles.vue'
 import SelectExperienceLevel from '~/components/SelectExperienceLevel.vue'
 import SelectProcessType from '~/components/SelectProcessType.vue'
 import type { ProcessInsert } from '~/db/processes'
@@ -10,23 +11,20 @@ const { user } = storeToRefs(userStore)
 
 const model = ref<ProcessInsert & {
   tags?: string[]
+  jobTitles?: string[]
 }>({
   companyId: '',
   contractType: ContractTypeEnum.full_time,
-
   description: '',
-
   email: '',
   experienceLevel: undefined,
+  jobTitles: [],
   link: '',
-
   processType: ProcessTypeEnum.platform,
   salary_0: undefined,
   salary_1: undefined,
-
   tags: [],
   title: '',
-
   userId: '',
 })
 
@@ -51,7 +49,6 @@ async function onSave() {
         companyId: user.value?.companyId,
         salary_0: Number(model.value.salary_0),
         salary_1: Number(model.value.salary_1),
-        tags: model.value.tags,
         userId: user.value?.id,
       },
       method: 'POST',
@@ -152,6 +149,14 @@ async function onSave() {
           :rules="[(val?: string) => !!val || 'Campo obrigatório']"
         />
 
+        <SelectJobTitles
+          v-model="model.jobTitles"
+        />
+        <p class="mb-4 text-xs text-primary">
+          Utilize os títulos de função para encontrar candidatos com
+          experiência e compatibilidade direta com a função desejada.
+        </p>
+
         <SelectExperienceLevel
           v-model="model.experienceLevel"
           clearable
@@ -162,7 +167,9 @@ async function onSave() {
           v-model="model.tags"
         />
         <p class="mb-4 text-xs text-primary">
-          Selecione somente as principais Tags compatíveis com a vaga para obter melhore resultados.
+          Selecione somente as principais Tags compatíveis com a vaga para
+          obter melhores resultados. Tags são utilizadas para refinar as
+          sugestões de candidatos.
         </p>
 
         <div flex gap-4>

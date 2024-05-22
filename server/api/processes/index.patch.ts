@@ -1,7 +1,14 @@
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const body = await validateBody<ProcessUpdate>(event, z.object({
+  const {
+    jobTitles,
+    tags,
+    ...process
+  } = await validateBody<ProcessUpdate & {
+    tags?: string[]
+    jobTitles?: string[]
+  }>(event, z.object({
     companyId: z.string().trim().uuid().optional(),
     contractType: z.enum([
       ContractTypeEnum.contractor,
@@ -17,6 +24,7 @@ export default defineEventHandler(async (event) => {
       ExperienceLevelEnum.senior,
     ]).optional(),
     id: z.string().trim().uuid(),
+    jobTitles: z.array(z.string().trim().uuid()).optional(),
     link: z.string().url().optional(),
     processType: z.enum([
       ProcessTypeEnum.email,
@@ -30,13 +38,13 @@ export default defineEventHandler(async (event) => {
     updatedAt: z.string().optional(),
   }))
 
-  if (body.processType === ProcessTypeEnum.email && !body.email) {
+  if (process.processType === ProcessTypeEnum.email && !process.email) {
     throw createError({
       status: 400,
       statusMessage: 'Um e-mail devem ser fornecidos',
     })
   }
-  else if (body.processType === ProcessTypeEnum.link && !body.link) {
+  else if (process.processType === ProcessTypeEnum.link && !process.link) {
     throw createError({
       status: 400,
       statusMessage: 'Um link deve ser fornecido',
@@ -44,7 +52,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const probableProcess = await getProcesses({
-    id: body.id,
+    id: process.id,
   })
 
   if (!probableProcess.data.length) {
@@ -55,7 +63,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const { data: user } = await requireAuthSession(event)
-  validateIsCompanyMember(user, body.companyId)
+  validateIsCompanyMember(user, process.companyId)
 
-  return await updateProcess(body)
+  return await updateProcess(process, {
+    jobTitles,
+    tags,
+  })
 })

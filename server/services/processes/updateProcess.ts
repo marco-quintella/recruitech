@@ -1,25 +1,46 @@
 import { eq } from 'drizzle-orm'
 
 export async function updateProcess(
-  body: ProcessUpdate & { tags?: string[] },
+  body: ProcessUpdate,
+  relations: {
+    tags?: string[]
+    jobTitles?: string[]
+  },
 ) {
-  const { companyId, id, tags, ...data } = body
-  const validTags: string[] = []
+  const { companyId, id, ...data } = body
+  const { jobTitles, tags } = relations
 
+  if (!id)
+    return
+
+  const validTags: string[] = []
   if (tags) {
     const tagPromises = tags.map(tagId => getTagById(tagId))
     const tagsData = await Promise.all(tagPromises)
     validTags.push(...tagsData.filter(Boolean).map(tag => tag!.id))
   }
 
-  if (!id)
-    return
-
   if (validTags.length) {
     await db.insert(processesToTags)
       .values(validTags.map(tagId => ({
         processId: id,
         tagId,
+      })),
+      ).onConflictDoNothing()
+  }
+
+  const validJobTitles: string[] = []
+  if (jobTitles) {
+    const jobTitlePromises = jobTitles.map(jobTitleId => getJobTitleById(jobTitleId))
+    const jobTitlesData = await Promise.all(jobTitlePromises)
+    validJobTitles.push(...jobTitlesData.filter(Boolean).map(jobTitle => jobTitle!.id))
+  }
+
+  if (validJobTitles.length) {
+    await db.insert(processesToJobTitles)
+      .values(validJobTitles.map(jobTitleId => ({
+        jobTitleId,
+        processId: id,
       })),
       ).onConflictDoNothing()
   }

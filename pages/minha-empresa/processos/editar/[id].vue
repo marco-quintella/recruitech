@@ -9,7 +9,11 @@ const { data: processes } = await useFetch(`/api/processes`, {
   },
 })
 
-const model = ref<ProcessUpdate & { tags?: string[] }>({})
+const model = ref<ProcessUpdate & {
+  tags?: string[]
+  jobTitles?: string[]
+}>({})
+
 watch(processes, (newVal) => {
   if (newVal?.data?.[0]) {
     model.value = {
@@ -17,6 +21,7 @@ watch(processes, (newVal) => {
       cancelledAt: newVal.data[0].cancelledAt ? new Date(newVal.data[0].cancelledAt) : null,
       createdAt: new Date(newVal.data[0].createdAt),
       finishedAt: newVal.data[0].finishedAt ? new Date(newVal.data[0].finishedAt) : null,
+      jobTitles: newVal?.data?.[0]?.jobTitles?.map(jobTitle => jobTitle.id),
       tags: newVal?.data?.[0]?.tags?.map(tag => tag.id),
       updatedAt: new Date(newVal.data[0].updatedAt),
     }
@@ -129,6 +134,14 @@ async function onSave() {
           :rules="[(val?: string) => !!val || 'Campo obrigatório']"
         />
 
+        <SelectJobTitles
+          v-model="model.jobTitles"
+        />
+        <p class="mb-4 text-xs text-primary">
+          Utilize os títulos de função para encontrar candidatos com
+          experiência e compatibilidade direta com a função desejada.
+        </p>
+
         <SelectExperienceLevel
           v-model="model.experienceLevel"
           clearable
@@ -139,7 +152,9 @@ async function onSave() {
           v-model="model.tags"
         />
         <p class="mb-4 text-xs text-primary">
-          Selecione somente as principais Tags compatíveis com a vaga para obter melhore resultados.
+          Selecione somente as principais Tags compatíveis com a vaga para
+          obter melhores resultados. Tags são utilizadas para refinar as
+          sugestões de candidatos.
         </p>
 
         <div flex gap-4>

@@ -14,6 +14,7 @@ interface CreateProcessBody {
 
   // Realations
   tags?: string[]
+  jobTitles?: string[]
 }
 
 export default defineEventHandler(async (event) => {
@@ -23,6 +24,7 @@ export default defineEventHandler(async (event) => {
     description,
     email,
     experienceLevel,
+    jobTitles,
     link,
     processType,
     salary_0,
@@ -43,6 +45,7 @@ export default defineEventHandler(async (event) => {
       ExperienceLevelEnum.intermediate,
       ExperienceLevelEnum.senior,
     ]).optional(),
+    jobTitles: z.array(z.string().trim().uuid()).optional(),
     link: z.string().optional(),
     processType: z.enum([
       ProcessTypeEnum.email,
@@ -84,5 +87,5 @@ export default defineEventHandler(async (event) => {
     salary_1: salary_1 ? salary_1.toString() : null,
     title,
     userId: user.id!,
-  }, { tags })
+  }, { jobTitles, tags })
 })

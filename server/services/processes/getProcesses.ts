@@ -56,10 +56,10 @@ export async function getProcesses(
   }
 
   const processesData = await query
+  const processesIds = processesData.map(({ id }) => id)
 
   // Get Tags
   // O(n) Map
-  const processesIds = processesData.map(({ id }) => id)
   const tagsData = await db.select({
     id: tags.id,
     name: tags.name,
@@ -77,9 +77,28 @@ export async function getProcesses(
     return acc
   }, {} as Record<string, { name: string, id: string }[]>)
 
+  // O(n) Get Job Titles
+  const jobTitlesData = await db.select({
+    id: jobTitles.id,
+    name: jobTitles.name,
+    processId: processesToJobTitles.processId,
+  }).from(processesToJobTitles)
+    .leftJoin(jobTitles, eq(processesToJobTitles.jobTitleId, jobTitles.id))
+    .where(inArray(processesToJobTitles.processId, processesIds))
+
+  // O(n) Reduce
+  const aggregatedJobTitles = jobTitlesData.reduce((acc, jobTitle) => {
+    if (!acc[jobTitle.processId])
+      acc[jobTitle.processId] = []
+    if (jobTitle.id && jobTitle.name)
+      acc[jobTitle.processId].push({ id: jobTitle.id, name: jobTitle.name })
+    return acc
+  }, {} as Record<string, { name: string, id: string }[]>)
+
   // O(n) Map
   const returnData = processesData.map(proccess => ({
     ...proccess,
+    jobTitles: aggregatedJobTitles[proccess.id] ?? [],
     tags: aggregatedTags[proccess.id] ?? [],
   }))
 
