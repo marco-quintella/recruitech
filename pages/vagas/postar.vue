@@ -8,7 +8,9 @@ const $q = useQuasar()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const model = ref<ProcessInsert & { tags?: string[] }>({
+const model = ref<ProcessInsert & {
+  tags?: string[]
+}>({
   companyId: '',
   contractType: ContractTypeEnum.full_time,
 
