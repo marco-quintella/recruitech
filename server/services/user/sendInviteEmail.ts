@@ -3,15 +3,17 @@ export async function sendInviteEmail(
   email: string,
   company: Company,
 ) {
+  const { public: { frontend: { url } } } = useRuntimeConfig()
+
   await mailTransport.sendMail({
+    // @ts-expect-error ignore this line
     context: {
       company: company.name,
       email,
-      link: `http://localhost:3000/convite/${id}`,
+      link: `${url}/convite/${id}`,
     },
     from: '"Recruitech" <nao.responda@mqdev.com.br>',
     subject: `${company.name} te convidou para se juntar ao Recruitech`,
-    // @ts-expect-error ignore this line
     template: 'user.invite',
     to: email,
   })
