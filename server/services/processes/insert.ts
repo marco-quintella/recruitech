@@ -3,6 +3,11 @@ export async function insertProcess(
   relations?: {
     tags?: string[]
     jobTitles?: string[]
+    location?: {
+      city?: string
+      country?: string
+      state?: string
+    }
   },
 ) {
   const validTags: string[] = []
@@ -18,6 +23,13 @@ export async function insertProcess(
     const jobTitles = await Promise.all(jobTitlePromises)
     validJobTitles.push(...jobTitles.filter(Boolean).map(jobTitle => jobTitle!.id))
   }
+
+  // Add Location
+  const locationEntry = await createLocation({
+    city: relations?.location?.city,
+    country: 'BR',
+    state: relations?.location?.state,
+  })
 
   const query = await db.insert(processes)
     .values(value)
@@ -39,5 +51,13 @@ export async function insertProcess(
       })))
   }
 
-  return query?.[0]
+  if (locationEntry) {
+    await db.insert(processesToLocations)
+      .values({
+        locationId: locationEntry.id,
+        processId: query[0].id,
+      })
+  }
+
+  return query[0]
 }

@@ -1,3 +1,4 @@
+import consola from 'consola'
 import { asc, count, desc, eq, inArray } from 'drizzle-orm'
 
 export async function getProcesses(
@@ -28,6 +29,7 @@ export async function getProcesses(
     id: processes.id,
     link: processes.link,
     processType: processes.processType,
+    remote: processes.remote,
     salary_0: processes.salary_0,
     salary_1: processes.salary_1,
     title: processes.title,
@@ -95,11 +97,29 @@ export async function getProcesses(
     return acc
   }, {} as Record<string, { name: string, id: string }[]>)
 
+  // Location
+  const locationData = await db.select({
+    city: locations.city,
+    country: locations.country,
+    processId: processesToLocations.processId,
+    state: locations.state,
+  }).from(processesToLocations)
+    .leftJoin(locations, eq(processesToLocations.locationId, locations.id))
+    .where(inArray(processesToLocations.processId, processesIds))
+
+  // O(n) Reduce
+  const aggregatedLocations = locationData.reduce((acc, location) => {
+    if (location.city && location.state && location.country)
+      acc[location.processId] = { city: location.city, country: location.country, state: location.state }
+    return acc
+  }, {} as Record<string, { city: string, country: string, state: string }>)
+
   // O(n) Map
   const returnData = processesData.map(proccess => ({
     ...proccess,
     jobTitles: aggregatedJobTitles[proccess.id] ?? [],
-    tags: aggregatedTags[proccess.id] ?? [],
+    location: aggregatedLocations[proccess.id],
+    tags: aggregatedTags?.[proccess.id] ?? [],
   }))
 
   // Total

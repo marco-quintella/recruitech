@@ -5,10 +5,15 @@ export async function updateProcess(
   relations: {
     tags?: string[]
     jobTitles?: string[]
+    location?: {
+      city?: string
+      country?: string
+      state?: string
+    }
   },
 ) {
   const { companyId, id, ...data } = body
-  const { jobTitles, tags } = relations
+  const { jobTitles, location, tags } = relations
 
   if (!id)
     return
@@ -43,6 +48,26 @@ export async function updateProcess(
         processId: id,
       })),
       ).onConflictDoNothing()
+  }
+
+  if (location?.city || location?.state) {
+    const locationEntry = await getLocationByProcessId(id)
+    if (locationEntry) {
+      await updateLocation({
+        city: location.city,
+        id: locationEntry.id,
+        state: location.state,
+      })
+    }
+    else {
+      const locationEntry = await createLocation(location)
+      await db.insert(processesToLocations)
+        .values({
+          locationId: locationEntry.id,
+          processId: id,
+        })
+        .onConflictDoNothing()
+    }
   }
 
   const query = await db.update(processes)

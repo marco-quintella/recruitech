@@ -50,6 +50,13 @@
       "when": 1713404118720,
       "tag": "0006_oval_sheva_callister",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1716508836294,
+      "tag": "0007_lowly_rocket_racer",
+      "breakpoints": true
     }
   ]
 }

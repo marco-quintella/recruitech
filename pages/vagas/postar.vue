@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SelectJobTitles from '../../components/SelectJobTitles.vue'
+import SelectJobTitles from '~/components/SelectJobTitles.vue'
 import SelectExperienceLevel from '~/components/SelectExperienceLevel.vue'
 import SelectProcessType from '~/components/SelectProcessType.vue'
 import type { ProcessInsert } from '~/db/processes'
@@ -12,6 +12,7 @@ const { user } = storeToRefs(userStore)
 const model = ref<ProcessInsert & {
   tags?: string[]
   jobTitles?: string[]
+  location?: { city?: string, state?: string, country?: string }
 }>({
   companyId: '',
   contractType: ContractTypeEnum.full_time,
@@ -20,7 +21,9 @@ const model = ref<ProcessInsert & {
   experienceLevel: undefined,
   jobTitles: [],
   link: '',
+  location: {},
   processType: ProcessTypeEnum.platform,
+  remote: RemoteTypeEnum.on_site,
   salary_0: undefined,
   salary_1: undefined,
   tags: [],
@@ -47,8 +50,6 @@ async function onSave() {
       body: {
         ...model.value,
         companyId: user.value?.companyId,
-        salary_0: Number(model.value.salary_0),
-        salary_1: Number(model.value.salary_1),
         userId: user.value?.id,
       },
       method: 'POST',
@@ -73,7 +74,9 @@ async function onSave() {
     <h1>Nova Vaga</h1>
     <q-card
       b="1 primary solid rd-3"
-      flat max-w-100 w-full flex flex-col gap-2 p-8
+      max-w="100 md:200"
+      flex="~ col"
+      flat w-full gap-2 p-8
     >
       <q-form class="flex flex-col gap-2" @submit="onSave">
         <div flex items-start gap-2>
@@ -172,7 +175,11 @@ async function onSave() {
           sugestões de candidatos.
         </p>
 
-        <div flex gap-4>
+        <RemoteRadio v-model="model.remote" class="mb-2" />
+
+        <SelectLocation v-model="model.location" />
+
+        <div mt-2 w-full flex gap-4>
           <q-input
             v-model="model.salary_0"
             :min="0"
@@ -182,6 +189,7 @@ async function onSave() {
             label="Salário mínimo"
             outlined
             type="number"
+            class="flex-1"
           />
 
           <q-input
@@ -199,6 +207,7 @@ async function onSave() {
                 : true
               ) ?? 'Valor máximo deve ser maior que o valor mínimo.',
             ]"
+            class="flex-1"
           />
         </div>
 

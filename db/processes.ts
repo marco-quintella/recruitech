@@ -12,6 +12,7 @@ import { processesToSkills } from './processes_to_skills'
 import { processesToTags } from './processes_to_tags'
 import { recommendations } from './recommendations'
 import { users } from './users'
+import { RemoteTypeEnum, remoteTypeEnum } from './remote-type'
 
 export const processes = pgTable('processes', {
   cancelledAt: timestamp('cancelled_at'),
@@ -31,6 +32,8 @@ export const processes = pgTable('processes', {
 
   link: text('link'),
   processType: processTypeEnum('process_type').notNull(),
+
+  remote: remoteTypeEnum('remote').default(RemoteTypeEnum.on_site).notNull(),
 
   salary_0: numeric('salary_0'),
   salary_1: numeric('salary_1'),

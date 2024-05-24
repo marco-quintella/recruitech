@@ -11,10 +11,16 @@ interface CreateProcessBody {
   salary_1?: string
   email?: string
   link?: string
+  remote?: RemoteType
 
   // Realations
   tags?: string[]
   jobTitles?: string[]
+  location?: {
+    city?: string
+    country?: string
+    state?: string
+  }
 }
 
 export default defineEventHandler(async (event) => {
@@ -26,7 +32,9 @@ export default defineEventHandler(async (event) => {
     experienceLevel,
     jobTitles,
     link,
+    location,
     processType,
+    remote,
     salary_0,
     salary_1,
     tags,
@@ -47,11 +55,17 @@ export default defineEventHandler(async (event) => {
     ]).optional(),
     jobTitles: z.array(z.string().trim().uuid()).optional(),
     link: z.string().optional(),
+    location: z.object({
+      city: z.string().optional(),
+      country: z.string().optional(),
+      state: z.string().optional(),
+    }).optional(),
     processType: z.enum([
       ProcessTypeEnum.email,
       ProcessTypeEnum.link,
       ProcessTypeEnum.platform,
     ]),
+    remote: z.enum([RemoteTypeEnum.full_remote, RemoteTypeEnum.hybrid, RemoteTypeEnum.on_site]),
     salary_0: z.nullable(integerSchema),
     salary_1: z.nullable(integerSchema),
     tags: z.array(z.string().trim().uuid()).optional(),
@@ -83,9 +97,10 @@ export default defineEventHandler(async (event) => {
     experienceLevel,
     link,
     processType,
+    remote,
     salary_0: salary_0 ? salary_0.toString() : null,
     salary_1: salary_1 ? salary_1.toString() : null,
     title,
     userId: user.id!,
-  }, { jobTitles, tags })
+  }, { jobTitles, location, tags })
 })

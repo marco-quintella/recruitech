@@ -3,11 +3,17 @@ import { z } from 'zod'
 export default defineEventHandler(async (event) => {
   const {
     jobTitles,
+    location,
     tags,
     ...process
   } = await validateBody<ProcessUpdate & {
     tags?: string[]
     jobTitles?: string[]
+    location?: {
+      city?: string
+      country?: string
+      state?: string
+    }
   }>(event, z.object({
     companyId: z.string().trim().uuid().optional(),
     contractType: z.enum([
@@ -26,11 +32,17 @@ export default defineEventHandler(async (event) => {
     id: z.string().trim().uuid(),
     jobTitles: z.array(z.string().trim().uuid()).optional(),
     link: z.string().url().optional(),
+    location: z.object({
+      city: z.string().optional(),
+      country: z.string().optional(),
+      state: z.string().optional(),
+    }).optional(),
     processType: z.enum([
       ProcessTypeEnum.email,
       ProcessTypeEnum.link,
       ProcessTypeEnum.platform,
     ]).optional(),
+    remote: z.enum([RemoteTypeEnum.full_remote, RemoteTypeEnum.hybrid, RemoteTypeEnum.on_site]).optional(),
     salary_0: numberSchema.optional(),
     salary_1: numberSchema.optional(),
     tags: z.array(z.string().trim().uuid()).optional(),
@@ -67,6 +79,7 @@ export default defineEventHandler(async (event) => {
 
   return await updateProcess(process, {
     jobTitles,
+    location,
     tags,
   })
 })
