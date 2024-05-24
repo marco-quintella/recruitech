@@ -2,6 +2,7 @@
 import type { Favorite } from '../../db/favorites'
 
 const $q = useQuasar()
+const { public: { frontend: { url } } } = useRuntimeConfig()
 
 const route = useRoute()
 const id = computed(() => route.params.id as string)
@@ -65,6 +66,14 @@ async function onFavorite() {
   finally {
     $q.loading.hide()
   }
+}
+
+function onCopy() {
+  navigator.clipboard.writeText(`${url}/vagas/${id.value}`)
+  $q.notify({
+    color: 'primary',
+    message: 'Link copiado',
+  })
 }
 </script>
 
@@ -143,6 +152,7 @@ async function onFavorite() {
           no-caps
           outline
           size="sm"
+          @click="onCopy"
         >
           <div i-ph-clipboard mr-2 />
           Copiar Link
