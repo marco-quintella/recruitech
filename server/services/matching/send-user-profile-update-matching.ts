@@ -1,5 +1,3 @@
-import consola from 'consola'
-
 export async function sendUserProfileUpdateMatching(userId: string) {
   const matchedProcesses = await matchProfileToProcess(userId)
 
