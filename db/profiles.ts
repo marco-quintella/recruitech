@@ -2,7 +2,7 @@ import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { locations } from './locations'
 import { profilesToJobTitles } from './profiles_to_job_titles'
-import { profilesToSkills } from './profiles_to_skills'
+import { profilesToTags } from './profiles_to_tags'
 import { users } from './users'
 
 export const profiles = pgTable('profiles', {
@@ -19,6 +19,6 @@ export const profiles = pgTable('profiles', {
 export const profileRelations = relations(profiles, ({ many, one }) => ({
   location: one(locations, { fields: [profiles.locationId], references: [locations.id] }),
   profilesToJobTitles: many(profilesToJobTitles),
-  profilesToSkills: many(profilesToSkills),
+  profilesToTags: many(profilesToTags),
   user: one(users, { fields: [profiles.userId], references: [users.id] }),
 }))

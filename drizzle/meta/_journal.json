@@ -57,6 +57,20 @@
       "when": 1716508836294,
       "tag": "0007_lowly_rocket_racer",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1716511587456,
+      "tag": "0008_special_clint_barton",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1716511624619,
+      "tag": "0009_hard_gargoyle",
+      "breakpoints": true
     }
   ]
 }

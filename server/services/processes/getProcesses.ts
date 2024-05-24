@@ -1,4 +1,3 @@
-import consola from 'consola'
 import { asc, count, desc, eq, inArray } from 'drizzle-orm'
 
 export async function getProcesses(

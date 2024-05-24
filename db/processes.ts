@@ -8,7 +8,6 @@ import { favorites } from './favorites'
 import { processTypeEnum } from './process-type'
 import { processesToJobTitles } from './processes_to_job_titles'
 import { processesToLocations } from './processes_to_locations'
-import { processesToSkills } from './processes_to_skills'
 import { processesToTags } from './processes_to_tags'
 import { recommendations } from './recommendations'
 import { users } from './users'
@@ -50,7 +49,6 @@ export const processRelations = relations(processes, ({ many, one }) => ({
   favorites: many(favorites),
   processesToJobTitles: many(processesToJobTitles),
   processesToLocations: many(processesToLocations),
-  processesToSkills: many(processesToSkills),
   processesToTags: many(processesToTags),
   recomendations: many(recommendations),
 }))
