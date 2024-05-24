@@ -15,3 +15,7 @@ export const favoriteRelations = relations(favorites, ({ one }) => ({
   process: one(processes, { fields: [favorites.processId], references: [processes.id] }),
   user: one(users, { fields: [favorites.userId], references: [users.id], relationName: 'user_favorites' }),
 }))
+
+export type Favorite = typeof favorites.$inferSelect
+export type FavoriteInsert = typeof favorites.$inferInsert
+export type FavoriteUpdate = Partial<FavoriteInsert>

@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import type { Favorite } from '../../db/favorites'
+
+const $q = useQuasar()
+
 const route = useRoute()
 const id = computed(() => route.params.id as string)
 
@@ -10,6 +14,58 @@ const { data } = await useFetch('/api/processes', {
 })
 
 const process = computed(() => data.value?.data?.[0])
+
+const { loggedIn, session } = useAuth()
+
+const favorites = ref<Favorite[]>()
+if (loggedIn && session.value?.data?.role === 'candidate') {
+  const { data: favoriteData } = await useFetch('/api/favorites', {
+    method: 'get',
+    query: {
+      userId: session.value?.data?.id,
+    },
+  })
+  if (favoriteData.value)
+    favorites.value = favoriteData.value
+}
+
+const isFavorite = computed(() => !!favorites.value?.length)
+
+async function onFavorite() {
+  if (!loggedIn.value)
+    return await navigateTo('/auth/login')
+
+  try {
+    $q.loading.show()
+    if (!isFavorite.value) {
+      const newFavorite = await $fetch('/api/favorites', {
+        body: {
+          processId: id.value,
+        },
+        method: 'POST',
+      })
+      favorites.value = [newFavorite]
+    }
+    else {
+      await $fetch('/api/favorites', {
+        body: {
+          processId: id.value,
+        },
+        method: 'DELETE',
+      })
+      favorites.value = []
+    }
+  }
+  catch (e: any) {
+    $q.notify({
+      message: e.data?.message || e.message || 'Erro ao salvar',
+      type: 'negative',
+    })
+  }
+  finally {
+    $q.loading.hide()
+  }
+}
 </script>
 
 <template>
@@ -67,12 +123,19 @@ const process = computed(() => data.value?.data?.[0])
       <!-- Comandos -->
       <div flex gap-2>
         <q-btn
+          v-if="session?.data?.role !== 'recruiter' && session?.data?.role !== 'company_admin'"
           color="primary"
-          no-caps
-          outline
           size="sm"
+          no-caps
+          :outline="!isFavorite"
+          @click="onFavorite"
         >
-          <div i-ph-star mr-2 />
+          <div
+            class="mr-2" :class="{
+              'i-ph-star': !isFavorite,
+              'i-ph-star-fill text-amber': isFavorite,
+            }"
+          />
           Favorito
         </q-btn>
         <q-btn
