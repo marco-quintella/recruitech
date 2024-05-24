@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import consola from 'consola'
 
 export default defineEventHandler(async (event) => {
   const { data: session } = await requireAuthSession(event)
@@ -23,8 +22,8 @@ export default defineEventHandler(async (event) => {
       minute: 5,
     },
     key: `profile-${profile.id}`,
-    task: async () => {
-      const processes = await matchProfileToService(profile.userId)
+    task: () => {
+      sendUserProfileUpdateMatching(profile.userId)
     },
   })
 
