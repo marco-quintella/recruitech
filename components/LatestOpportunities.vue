@@ -22,6 +22,7 @@ const { data } = await useFetch('/api/processes', {
         width="70px"
         height="70px"
         alt="Logo da empresa"
+        min-h-70px min-w-70px
       />
       <div flex flex-col gap-2>
         <h3
@@ -59,8 +60,11 @@ const { data } = await useFetch('/api/processes', {
           </div>
           <div flex items-center gap-1>
             <div i-ph-tag />
-            <div v-for="tag, index in process.tags" :key="tag.id">
-              {{ tag.name }}{{ index !== process.tags.length - 1 ? ', ' : '' }}
+            <div flex-1 truncate>
+              {{ process.tags.reduce((acc, curr, index) => {
+                acc += curr.name + (index !== process.tags.length - 1 ? ', ' : '')
+                return acc
+              }, '') }}
             </div>
           </div>
         </div>
