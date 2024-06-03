@@ -1,15 +1,18 @@
 import { z } from 'zod'
 
-type GetProcessesQuery = QueryObject & {
+export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'
   direction?: 'asc' | 'desc'
   page?: number
   pageSize?: number
   companyId?: string
   id?: string
+  search?: string
 }
 
-export default defineEventHandler(async (event) => {
+export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
+
+export default defineCachedEventHandler(async (event) => {
   const {
     companyId,
     direction = 'desc',
@@ -17,6 +20,7 @@ export default defineEventHandler(async (event) => {
     orderBy = 'updatedAt',
     page = 1,
     pageSize = 10,
+    search,
   } = await validateQuery<GetProcessesQuery>(event, z.object({
     companyId: z.string().uuid().optional(),
     direction: z.enum(['asc', 'desc']).optional(),
@@ -24,15 +28,23 @@ export default defineEventHandler(async (event) => {
     orderBy: z.enum(['updatedAt', 'createdAt']).optional(),
     page: numberSchema.optional(),
     pageSize: numberSchema.optional(),
+    search: z.string().trim().optional(),
   }))
 
   return await getProcesses({
-    companyId,
-    id,
-  }, {
-    direction,
-    orderBy,
-    page,
-    pageSize,
+    filters: {
+      companyId,
+      id,
+    },
+    pagination: {
+      direction,
+      orderBy,
+      page,
+      pageSize,
+    },
+    search,
   })
+}, {
+  base: 'redis',
+  maxAge: 15,
 })

@@ -29,7 +29,7 @@ export async function matchProfileToProcess(userId: string) {
   const p = Object.entries(processesToTags)
     .sort(([_keyA, valueA], [_keyB, valueB]) => valueB.length - valueA.length)
     .slice(0, 5)
-    .map(([process, _]) => getProcesses({ id: process }))
+    .map(([process, _]) => getProcesses({ filters: { id: process } }))
   const results = await Promise.all(p)
 
   return results.map(r => r.data[0]).filter(isDefined)

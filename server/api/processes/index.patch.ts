@@ -63,9 +63,9 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const probableProcess = await getProcesses({
+  const probableProcess = await getProcesses({ filters: {
     id: process.id,
-  })
+  } })
 
   if (!probableProcess.data.length) {
     throw createError({

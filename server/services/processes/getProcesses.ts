@@ -1,13 +1,15 @@
-import { asc, count, desc, eq, inArray } from 'drizzle-orm'
+import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
 
-export async function getProcesses(
-  filters?: Partial<Process>,
+export async function getProcesses({ filters, pagination, search }: {
+  filters?: Partial<Process>
   pagination?: {
     direction: 'asc' | 'desc'
     orderBy: 'updatedAt' | 'createdAt'
     page: number
     pageSize: number
-  },
+  }
+  search?: string
+},
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
@@ -56,8 +58,29 @@ export async function getProcesses(
     }
   }
 
+  if (!!search && search.length > 3) {
+    query.where(ilike(processes.title, `%${search}%`))
+    total.where(ilike(processes.title, `%${search}%`))
+  }
+
   const processesData = await query
   const processesIds = processesData.map(({ id }) => id)
+
+  if (!processesData || processesData.length === 0) {
+    return {
+      data: [],
+      meta: {
+        pagination: {
+          direction,
+          orderBy,
+          page,
+          pageSize,
+          total: 0,
+          totalPages: 0,
+        },
+      },
+    }
+  }
 
   // Get Tags
   // O(n) Map
