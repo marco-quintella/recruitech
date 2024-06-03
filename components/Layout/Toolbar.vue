@@ -32,12 +32,14 @@ async function onLogout() {
     <div i-ph-list text-6 md:hidden />
     <Logo cursor-pointer color2="primary-text" @click="navigateTo('/')" />
     <div flex="1" hidden gap-4 text-4 font-bold md:flex>
-      <div>Vagas</div>
-      <div>Empresas</div>
-      <div>Notícias</div>
-      <div hidden lg:block>
+      <layout-menu-link to="/vagas">
+        Vagas
+      </layout-menu-link>
+      <layout-menu-link>Empresas</layout-menu-link>
+      <layout-menu-link>Notícias</layout-menu-link>
+      <!-- <layout-menu-link hidden lg:block>
         Preparação
-      </div>
+      </layout-menu-link> -->
     </div>
     <q-btn
       v-if="session?.data?.role !== RoleEnum.candidate"
@@ -49,7 +51,7 @@ async function onLogout() {
       rounded
       font-bold
       !py-1
-      @click="navigateTo(loggedIn ? '/vagas/postar' : '/auth/registrar')"
+      :to="loggedIn ? '/vagas/postar' : '/auth/registrar'"
     >
       Postar Vaga
     </q-btn>
