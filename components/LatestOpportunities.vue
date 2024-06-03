@@ -10,11 +10,20 @@ const { data } = await useFetch('/api/processes', {
 <template>
   <div flex flex-col gap-4>
     <h2>Últimas Vagas</h2>
-    <div
+    <nuxt-link
       v-for="process in data?.data"
       :key="process.id"
-      b="2 primary rd-2"
-      flex gap-4 p4
+      b="2 primary rd-xl hover:l-12"
+      flex
+      cursor-pointer
+      gap-4
+      p4
+      text-background-text
+      ring-primary
+      transition-all
+      ease-in-out
+      hover:ring-2
+      :to="`/vagas/${process.id}`"
     >
       <q-img
         v-if="process.company?.logo"
@@ -25,10 +34,7 @@ const { data } = await useFetch('/api/processes', {
         min-h-70px min-w-70px
       />
       <div flex flex-col gap-2>
-        <h3
-          cursor-pointer hover:text-primary
-          @click="navigateTo(`/vagas/${process.id}`)"
-        >
+        <h3>
           {{ process.title }}
         </h3>
         <div class="grid grid-cols-3 gap-2">
@@ -69,6 +75,6 @@ const { data } = await useFetch('/api/processes', {
           </div>
         </div>
       </div>
-    </div>
+    </nuxt-link>
   </div>
 </template>
