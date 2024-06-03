@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { Favorite } from '../../db/favorites'
-
 const $q = useQuasar()
 const { public: { frontend: { url } } } = useRuntimeConfig()
 
