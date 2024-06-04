@@ -1,10 +1,12 @@
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
-  const { name } = await validateQuery<{
-    name: string
+  const { name, search } = await validateQuery<{
+    name?: string
+    search?: string
   }>(event, z.object({
-    name: z.string().trim().optional(),
+    name: z.string().trim().nullish(),
+    search: z.string().trim().nullish(),
   }))
 
   if (name) {
@@ -12,6 +14,6 @@ export default defineEventHandler(async (event) => {
     return tags
   }
 
-  const tags = await getTags()
+  const tags = await getTags({ search })
   return tags
 })

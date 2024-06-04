@@ -65,6 +65,9 @@ const { data: locations, pending } = await useFetch<GetLocationsResponse>('/api/
             }}
           </q-item-section>
         </q-item>
+        <q-item v-if="!locations.length" dense>
+          Nenhum resultado
+        </q-item>
       </q-list>
       <q-inner-loading :showing="pending">
         <q-spinner size="50px" color="primary" />

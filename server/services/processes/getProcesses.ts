@@ -1,6 +1,6 @@
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
 
-export async function getProcesses({ filters, locationId, pagination, search }: {
+export async function getProcesses({ filters, locationId, pagination, search, tagIds }: {
   filters?: Partial<Process>
   pagination?: {
     direction: 'asc' | 'desc'
@@ -10,6 +10,7 @@ export async function getProcesses({ filters, locationId, pagination, search }: 
   }
   search?: string
   locationId?: string
+  tagIds?: string[]
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
@@ -50,6 +51,20 @@ export async function getProcesses({ filters, locationId, pagination, search }: 
     if (locationQuery?.length) {
       processesQuery.where(
         inArray(processes.id, locationQuery.map(({ processId }) => processId)),
+      )
+    }
+  }
+
+  if (tagIds?.length) {
+    const tagsQuery = await db.select({
+      processId: processesToTags.processId,
+    })
+      .from(processesToTags)
+      .where(inArray(processesToTags.tagId, tagIds))
+
+    if (tagsQuery?.length) {
+      processesQuery.where(
+        inArray(processes.id, tagsQuery.map(({ processId }) => processId)),
       )
     }
   }

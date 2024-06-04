@@ -9,6 +9,7 @@ export type GetProcessesQuery = QueryObject & {
   id?: string
   search?: string
   locationId?: string
+  tags?: string | string[]
 }
 
 export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
@@ -23,6 +24,7 @@ export default defineCachedEventHandler(async (event) => {
     page = 1,
     pageSize = 10,
     search,
+    tags,
   } = await validateQuery<GetProcessesQuery>(event, z.object({
     companyId: z.string().uuid().nullish().or(z.string().max(0)),
     direction: z.enum(['asc', 'desc']).nullish(),
@@ -32,6 +34,7 @@ export default defineCachedEventHandler(async (event) => {
     page: numberSchema.nullish(),
     pageSize: numberSchema.nullish(),
     search: z.string().trim().nullish().or(z.string().max(0)),
+    tags: z.array(z.string().trim().uuid()).nullish().or(z.string().trim().uuid()),
   }))
 
   return await getProcesses({
@@ -47,8 +50,9 @@ export default defineCachedEventHandler(async (event) => {
       pageSize,
     },
     search,
+    tagIds: tags ? (Array.isArray(tags) ? tags : [tags]) : undefined,
   })
 }, {
   base: 'redis',
-  maxAge: 15,
+  maxAge: 5,
 })

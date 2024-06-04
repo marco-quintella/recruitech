@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { Location } from '~/db/locations'
 import type { GetProcessesResponse } from '~/server/api/processes/index.get'
 
 const search = ref<string>()
-const location = ref<Location>()
+const location = ref<GetLocationsResponse[0]>()
+const tags = ref<GetTagsResponse[0][]>([])
 
 const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes', {
   method: 'GET',
@@ -11,6 +11,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
     locationId: computed(() => location.value?.id),
     orderBy: 'createdAt',
     search,
+    tags: computed(() => tags.value.length ? tags.value.map(t => t.id) : undefined),
   },
 })
 </script>
@@ -30,19 +31,45 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
             debounce="750"
           />
         </div>
-        <div flex>
+        <div flex gap-2>
           <filter-location v-model="location" />
+          <filter-tag v-model="tags" />
         </div>
-      </div>
+        <div v-if="location || tags.length" flex flex-wrap>
+          <q-chip
+            v-if="location"
+            removable
+            @remove="location = undefined"
+          >
+            <q-img
+              v-if="location.country"
+              :src="`https://flagsapi.com/${location.country}/flat/16.png`"
+              size="16px"
+            />&nbsp;
+            {{ [location.city, location.state, location.country].filter(Boolean).join(', ') }}
+          </q-chip>
 
-      <opening-card
-        v-for="process in data?.data"
-        :key="process.id"
-        :process="process"
-      />
-      <q-inner-loading :showing="pending">
-        <q-spinner size="50px" color="primary" />
-      </q-inner-loading>
+          <div v-if="tags.length" flex gap-1>
+            <q-chip
+              v-for="tag in tags"
+              :key="tag.id"
+              removable
+              @remove="tags.splice(tags.indexOf(tag), 1)"
+            >
+              {{ tag.name }}
+            </q-chip>
+          </div>
+        </div>
+
+        <opening-card
+          v-for="process in data?.data"
+          :key="process.id"
+          :process="process"
+        />
+        <q-inner-loading :showing="pending">
+          <q-spinner size="50px" color="primary" />
+        </q-inner-loading>
+      </div>
     </div>
   </div>
 </template>
