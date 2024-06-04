@@ -13,6 +13,7 @@ export type GetProcessesQuery = QueryObject & {
   locationId?: string
   tags?: string | string[]
   contractTypes?: ContractType | ContractType[]
+  experienceLevels?: ExperienceLevel | ExperienceLevel[]
 }
 
 export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
@@ -22,6 +23,7 @@ export default defineCachedEventHandler(async (event) => {
     companyId,
     contractTypes,
     direction = 'desc',
+    experienceLevels,
     id,
     locationId,
     orderBy = 'updatedAt',
@@ -33,6 +35,7 @@ export default defineCachedEventHandler(async (event) => {
     companyId: z.string().uuid().nullish().or(z.string().max(0)),
     contractTypes: z.array(contractTypeSchema).nullish().or(contractTypeSchema),
     direction: z.enum(['asc', 'desc']).nullish(),
+    experienceLevels: z.array(experienceLevelSchema).nullish().or(experienceLevelSchema),
     id: z.string().trim().uuid().nullish(),
     locationId: z.string().trim().nullish().or(z.string().max(0)),
     orderBy: z.enum(['updatedAt', 'createdAt']).nullish(),
@@ -44,9 +47,11 @@ export default defineCachedEventHandler(async (event) => {
 
   return await getProcesses({
     contractTypes: Array.isArray(contractTypes) ? contractTypes : undefined,
+    experienceLevels: Array.isArray(experienceLevels) ? experienceLevels : undefined,
     filters: {
       companyId,
       contractType: !Array.isArray(contractTypes) ? contractTypes : undefined,
+      experienceLevel: !Array.isArray(experienceLevels) ? experienceLevels : undefined,
       id,
     },
     locationId,

@@ -1,4 +1,5 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
+import { z } from 'zod'
 
 export const experienceLevelEnum = pgEnum('experience_level', [
   'entry',
@@ -15,3 +16,11 @@ export const ExperienceLevelEnum = experienceLevelEnum.enumValues.reduce(
   },
   {},
 ) as Record<ExperienceLevel, ExperienceLevel>
+
+export const experienceLevelOptions: { label: string, value: ExperienceLevel }[] = [
+  { label: 'Junior', value: 'entry' },
+  { label: 'Pleno', value: 'intermediate' },
+  { label: 'Senior', value: 'senior' },
+]
+
+export const experienceLevelSchema = z.enum(Object.values(ExperienceLevelEnum) as [string])

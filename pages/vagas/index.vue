@@ -5,11 +5,13 @@ const search = ref<string>()
 const location = ref<GetLocationsResponse[0]>()
 const tags = ref<GetTagsResponse[0][]>([])
 const contractTypes = ref<typeof ContractTypeOptions>([])
+const experienceLevels = ref<typeof experienceLevelOptions>([])
 
 const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes', {
   method: 'GET',
   query: {
     contractTypes: computed(() => contractTypes.value.length ? contractTypes.value.map(t => t.value) : undefined),
+    experienceLevels: computed(() => experienceLevels.value.length ? experienceLevels.value.map(t => t.value) : undefined),
     locationId: computed(() => location.value?.id),
     orderBy: 'createdAt',
     search,
@@ -37,8 +39,18 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
           <filter-location v-model="location" />
           <filter-tag v-model="tags" />
           <filter-contract-type v-model="contractTypes" />
+          <filter-experience-level v-model="experienceLevels" />
         </div>
-        <div v-if="location || tags.length || contractTypes.length" flex flex-wrap>
+        <div
+          v-if="
+            location
+              || tags.length
+              || contractTypes.length
+              || experienceLevels.length
+          "
+          flex
+          flex-wrap
+        >
           <q-chip
             v-if="location"
             removable
@@ -73,20 +85,35 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
               {{ contractType.label }}
             </q-chip>
           </div>
+
+          <div v-if="experienceLevels.length" flex gap-1>
+            <q-chip
+              v-for="experienceLevel in experienceLevels"
+              :key="experienceLevel.value"
+              removable
+              @remove="experienceLevels.splice(experienceLevels.indexOf(experienceLevel), 1)"
+            >
+              {{ experienceLevel.label }}
+            </q-chip>
+          </div>
         </div>
-      </div>
 
-      <opening-card
-        v-for="process in data?.data"
-        :key="process.id"
-        :process="process"
-      />
-      <q-inner-loading :showing="pending">
-        <q-spinner size="50px" color="primary" />
-      </q-inner-loading>
+        <opening-card
+          v-for="process in data?.data"
+          :key="process.id"
+          :process="process"
+        />
+        <q-inner-loading :showing="pending">
+          <q-spinner size="50px" color="primary" />
+        </q-inner-loading>
 
-      <div v-if="data?.meta?.pagination?.total === 0 || !data" class="text-grey-6 text-center">
-        Nenhuma vaga encontrada
+        <div
+          v-if="data?.meta?.pagination?.total === 0
+            || !data"
+          text="gray-6 center"
+        >
+          Nenhuma vaga encontrada
+        </div>
       </div>
     </div>
   </div>

@@ -1,8 +1,10 @@
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
 import type { ContractType } from '../../../db/contract-type'
+import type { ExperienceLevel } from '../../../db/experience-level'
 
 export async function getProcesses({
   contractTypes,
+  experienceLevels,
   filters,
   locationId,
   pagination,
@@ -20,6 +22,7 @@ export async function getProcesses({
   locationId?: string
   tagIds?: string[]
   contractTypes?: ContractType[]
+  experienceLevels?: ExperienceLevel[]
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
@@ -81,6 +84,12 @@ export async function getProcesses({
   if (contractTypes?.length) {
     processesQuery.where(
       inArray(processes.contractType, contractTypes),
+    )
+  }
+
+  if (experienceLevels?.length) {
+    processesQuery.where(
+      inArray(processes.experienceLevel, experienceLevels),
     )
   }
 
