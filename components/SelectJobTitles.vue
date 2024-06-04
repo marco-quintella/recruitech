@@ -25,17 +25,17 @@ function filterFn(val: FilterFnValue, update: FilterFnUpdate, _abort: FilterFnAb
 
 <template>
   <q-select
+    v-model="model"
     :options="options"
-    dense
-    emit-value
     input-debounce="350"
     label="Título da Função"
+    dense
+    emit-value
     map-options
-    multiple
     outlined
     use-chips
     use-input
-    v-model="model"
+    multiple
     @filter="filterFn"
   />
 </template>

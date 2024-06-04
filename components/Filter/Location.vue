@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { Location } from '~/db/locations'
 import type { GetLocationsResponse } from '~/server/services/locations/getLocations'
 
 const model = defineModel<GetLocationsResponse[0]>()
