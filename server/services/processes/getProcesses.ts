@@ -1,6 +1,14 @@
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
+import type { ContractType } from '../../../db/contract-type'
 
-export async function getProcesses({ filters, locationId, pagination, search, tagIds }: {
+export async function getProcesses({
+  contractTypes,
+  filters,
+  locationId,
+  pagination,
+  search,
+  tagIds,
+}: {
   filters?: Partial<Process>
   pagination?: {
     direction: 'asc' | 'desc'
@@ -11,6 +19,7 @@ export async function getProcesses({ filters, locationId, pagination, search, ta
   search?: string
   locationId?: string
   tagIds?: string[]
+  contractTypes?: ContractType[]
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
@@ -67,6 +76,12 @@ export async function getProcesses({ filters, locationId, pagination, search, ta
         inArray(processes.id, tagsQuery.map(({ processId }) => processId)),
       )
     }
+  }
+
+  if (contractTypes?.length) {
+    processesQuery.where(
+      inArray(processes.contractType, contractTypes),
+    )
   }
 
   processesQuery.orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))

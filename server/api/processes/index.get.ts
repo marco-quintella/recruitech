@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import type { ContractType } from '../../../db/contract-type'
+import { contractTypeSchema } from '../../../db/contract-type'
 
 export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'
@@ -10,6 +12,7 @@ export type GetProcessesQuery = QueryObject & {
   search?: string
   locationId?: string
   tags?: string | string[]
+  contractTypes?: ContractType | ContractType[]
 }
 
 export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
@@ -17,6 +20,7 @@ export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
 export default defineCachedEventHandler(async (event) => {
   const {
     companyId,
+    contractTypes,
     direction = 'desc',
     id,
     locationId,
@@ -27,6 +31,7 @@ export default defineCachedEventHandler(async (event) => {
     tags,
   } = await validateQuery<GetProcessesQuery>(event, z.object({
     companyId: z.string().uuid().nullish().or(z.string().max(0)),
+    contractTypes: z.array(contractTypeSchema).nullish().or(contractTypeSchema),
     direction: z.enum(['asc', 'desc']).nullish(),
     id: z.string().trim().uuid().nullish(),
     locationId: z.string().trim().nullish().or(z.string().max(0)),
@@ -38,8 +43,10 @@ export default defineCachedEventHandler(async (event) => {
   }))
 
   return await getProcesses({
+    contractTypes: Array.isArray(contractTypes) ? contractTypes : undefined,
     filters: {
       companyId,
+      contractType: !Array.isArray(contractTypes) ? contractTypes : undefined,
       id,
     },
     locationId,

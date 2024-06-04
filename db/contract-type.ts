@@ -1,4 +1,5 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
+import { z } from 'zod'
 
 export const contractTypeEnum = pgEnum('contract_type', [
   'full_time',
@@ -16,3 +17,24 @@ export const ContractTypeEnum = contractTypeEnum.enumValues.reduce(
   },
   {},
 ) as Record<ContractType, ContractType>
+
+export const ContractTypeOptions: { label: string, value: ContractType }[] = [
+  {
+    label: 'CLT',
+    value: ContractTypeEnum.full_time,
+  },
+  {
+    label: 'Meio Período',
+    value: ContractTypeEnum.part_time,
+  },
+  {
+    label: 'PJ',
+    value: ContractTypeEnum.contractor,
+  },
+  {
+    label: 'Estágio',
+    value: ContractTypeEnum.internship,
+  },
+]
+
+export const contractTypeSchema = z.enum(Object.values(ContractTypeEnum) as [string])
