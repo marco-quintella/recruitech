@@ -14,3 +14,7 @@ export const locationRelations = relations(locations, ({ many }) => ({
   processesToLocations: many(processesToLocations),
   users: many(users),
 }))
+
+export type Location = typeof locations.$inferSelect
+export type LocationInsert = typeof locations.$inferInsert
+export type LocationUpdate = Partial<LocationInsert>

@@ -1,6 +1,6 @@
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
 
-export async function getProcesses({ filters, pagination, search }: {
+export async function getProcesses({ filters, locationId, pagination, search }: {
   filters?: Partial<Process>
   pagination?: {
     direction: 'asc' | 'desc'
@@ -9,11 +9,12 @@ export async function getProcesses({ filters, pagination, search }: {
     pageSize: number
   }
   search?: string
+  locationId?: string
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
-  const query = db.select({
+  const processesQuery = db.select({
     cancelledAt: processes.cancelledAt,
     company: {
       id: companies.id,
@@ -38,7 +39,22 @@ export async function getProcesses({ filters, pagination, search }: {
   })
     .from(processes)
     .leftJoin(companies, eq(processes.companyId, companies.id))
-    .orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))
+
+  if (locationId?.length) {
+    const locationQuery = await db.select({
+      processId: processesToLocations.processId,
+    })
+      .from(processesToLocations)
+      .where(eq(processesToLocations.locationId, locationId))
+
+    if (locationQuery?.length) {
+      processesQuery.where(
+        inArray(processes.id, locationQuery.map(({ processId }) => processId)),
+      )
+    }
+  }
+
+  processesQuery.orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))
     .offset((page - 1) * pageSize)
     .limit(pageSize)
 
@@ -52,7 +68,7 @@ export async function getProcesses({ filters, pagination, search }: {
     for (const [key, value] of filterEntries) {
       if (key in processes) {
         // @ts-expect-error generic typing inference
-        query.where(eq(processes[key], value))
+        processesQuery.where(eq(processes[key], value))
         // @ts-expect-error generic typing inference
         total.where(eq(processes[key], value))
       }
@@ -61,15 +77,15 @@ export async function getProcesses({ filters, pagination, search }: {
 
   if (!!search && search.length > 3) {
     // Title Search
-    query.where(ilike(processes.title, `%${search}%`))
+    processesQuery.where(ilike(processes.title, `%${search}%`))
     total.where(ilike(processes.title, `%${search}%`))
 
     // Company Search
-    query.where(ilike(companies.name, `%${search}%`))
+    processesQuery.where(ilike(companies.name, `%${search}%`))
     total.where(ilike(companies.name, `%${search}%`))
   }
 
-  const processesData = await query
+  const processesData = await processesQuery
   const processesIds = processesData.map(({ id }) => id)
 
   if (!processesData || processesData.length === 0) {

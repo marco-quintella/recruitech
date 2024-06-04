@@ -8,6 +8,7 @@ export type GetProcessesQuery = QueryObject & {
   companyId?: string
   id?: string
   search?: string
+  locationId?: string
 }
 
 export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
@@ -17,18 +18,20 @@ export default defineCachedEventHandler(async (event) => {
     companyId,
     direction = 'desc',
     id,
+    locationId,
     orderBy = 'updatedAt',
     page = 1,
     pageSize = 10,
     search,
   } = await validateQuery<GetProcessesQuery>(event, z.object({
-    companyId: z.string().uuid().optional(),
-    direction: z.enum(['asc', 'desc']).optional(),
-    id: z.string().uuid().optional(),
-    orderBy: z.enum(['updatedAt', 'createdAt']).optional(),
-    page: numberSchema.optional(),
-    pageSize: numberSchema.optional(),
-    search: z.string().trim().optional(),
+    companyId: z.string().uuid().nullish().or(z.string().max(0)),
+    direction: z.enum(['asc', 'desc']).nullish(),
+    id: z.string().trim().uuid().nullish(),
+    locationId: z.string().trim().nullish().or(z.string().max(0)),
+    orderBy: z.enum(['updatedAt', 'createdAt']).nullish(),
+    page: numberSchema.nullish(),
+    pageSize: numberSchema.nullish(),
+    search: z.string().trim().nullish().or(z.string().max(0)),
   }))
 
   return await getProcesses({
@@ -36,6 +39,7 @@ export default defineCachedEventHandler(async (event) => {
       companyId,
       id,
     },
+    locationId,
     pagination: {
       direction,
       orderBy,
