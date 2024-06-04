@@ -23,4 +23,4 @@ export const experienceLevelOptions: { label: string, value: ExperienceLevel }[]
   { label: 'Senior', value: 'senior' },
 ]
 
-export const experienceLevelSchema = z.enum(Object.values(ExperienceLevelEnum) as [string])
+export const experienceLevelSchema = z.enum(experienceLevelEnum.enumValues)

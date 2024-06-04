@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-const model = defineModel<typeof contractTypeOptions>({ default: [] })
+const model = defineModel<typeof remoteTypeOptions>({ default: [] })
 
-function onAdd(contractType: typeof contractTypeOptions[0]) {
-  if (model.value.includes(contractType))
+function onAdd(remoteType: typeof remoteTypeOptions[0]) {
+  if (model.value.includes(remoteType))
     return
-  model.value.push(contractType)
+  model.value.push(remoteType)
 }
 </script>
 
 <template>
-  <q-btn color="primary" dense unelevated label="Tipo de Contrato">
+  <q-btn color="primary" dense unelevated label="Modalidade">
     <q-menu max-height="350px" flex flex-col gap-2 overflow-hidden p-2>
       <div flex justify-between gap-4>
-        <span font-bold>Tipo de Contrato</span>
+        <span font-bold>Modalidade</span>
 
         <div
           v-close-popup cursor-pointer
@@ -28,16 +28,16 @@ function onAdd(contractType: typeof contractTypeOptions[0]) {
 
       <q-list overflow-auto>
         <q-item
-          v-for="contractType in contractTypeOptions"
-          :key="contractType.value"
+          v-for="remoteType in remoteTypeOptions"
+          :key="remoteType.value"
           v-ripple
           v-close-popup
           clickable
           dense
-          @click="onAdd(contractType)"
+          @click="onAdd(remoteType)"
         >
           <q-item-section>
-            {{ contractType.label }}
+            {{ remoteType.label }}
           </q-item-section>
         </q-item>
       </q-list>

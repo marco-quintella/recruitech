@@ -1,4 +1,5 @@
 import { pgEnum } from 'drizzle-orm/pg-core'
+import { z } from 'zod'
 
 export const remoteTypeEnum = pgEnum('remote_type', [
   'full_remote',
@@ -15,3 +16,20 @@ export const RemoteTypeEnum = remoteTypeEnum.enumValues.reduce(
   },
   {},
 ) as Record<RemoteType, RemoteType>
+
+export const remoteTypeOptions: { value: RemoteType, label: string }[] = [
+  {
+    label: 'Remoto',
+    value: 'full_remote',
+  },
+  {
+    label: 'Híbrido',
+    value: 'hybrid',
+  },
+  {
+    label: 'Local',
+    value: 'on_site',
+  },
+]
+
+export const remoteTypeSchema = z.enum(remoteTypeEnum.enumValues)

@@ -18,7 +18,7 @@ export const ContractTypeEnum = contractTypeEnum.enumValues.reduce(
   {},
 ) as Record<ContractType, ContractType>
 
-export const ContractTypeOptions: { label: string, value: ContractType }[] = [
+export const contractTypeOptions: { label: string, value: ContractType }[] = [
   {
     label: 'CLT',
     value: ContractTypeEnum.full_time,
@@ -37,4 +37,4 @@ export const ContractTypeOptions: { label: string, value: ContractType }[] = [
   },
 ]
 
-export const contractTypeSchema = z.enum(Object.values(ContractTypeEnum) as [string])
+export const contractTypeSchema = z.enum(contractTypeEnum.enumValues)

@@ -4,8 +4,9 @@ import type { GetProcessesResponse } from '~/server/api/processes/index.get'
 const search = ref<string>()
 const location = ref<GetLocationsResponse[0]>()
 const tags = ref<GetTagsResponse[0][]>([])
-const contractTypes = ref<typeof ContractTypeOptions>([])
+const contractTypes = ref<typeof contractTypeOptions>([])
 const experienceLevels = ref<typeof experienceLevelOptions>([])
+const remoteTypes = ref<typeof remoteTypeOptions>([])
 
 const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes', {
   method: 'GET',
@@ -14,6 +15,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
     experienceLevels: computed(() => experienceLevels.value.length ? experienceLevels.value.map(t => t.value) : undefined),
     locationId: computed(() => location.value?.id),
     orderBy: 'createdAt',
+    remoteTypes: computed(() => remoteTypes.value.length ? remoteTypes.value.map(t => t.value) : undefined),
     search,
     tags: computed(() => tags.value.length ? tags.value.map(t => t.id) : undefined),
   },
@@ -40,6 +42,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
           <filter-tag v-model="tags" />
           <filter-contract-type v-model="contractTypes" />
           <filter-experience-level v-model="experienceLevels" />
+          <filter-remote-type v-model="remoteTypes" />
         </div>
         <div
           v-if="
@@ -47,6 +50,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
               || tags.length
               || contractTypes.length
               || experienceLevels.length
+              || remoteTypes.length
           "
           flex
           flex-wrap
@@ -94,6 +98,17 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
               @remove="experienceLevels.splice(experienceLevels.indexOf(experienceLevel), 1)"
             >
               {{ experienceLevel.label }}
+            </q-chip>
+          </div>
+
+          <div v-if="remoteTypes.length" flex gap-1>
+            <q-chip
+              v-for="remoteType in remoteTypes"
+              :key="remoteType.value"
+              removable
+              @remove="remoteTypes.splice(remoteTypes.indexOf(remoteType), 1)"
+            >
+              {{ remoteType.label }}
             </q-chip>
           </div>
         </div>

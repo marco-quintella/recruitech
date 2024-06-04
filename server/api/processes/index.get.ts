@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { ContractType } from '../../../db/contract-type'
 import { contractTypeSchema } from '../../../db/contract-type'
+import type { RemoteType } from '../../../db/remote-type'
 
 export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'
@@ -14,6 +15,7 @@ export type GetProcessesQuery = QueryObject & {
   tags?: string | string[]
   contractTypes?: ContractType | ContractType[]
   experienceLevels?: ExperienceLevel | ExperienceLevel[]
+  remoteTypes?: RemoteType | RemoteType[]
 }
 
 export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
@@ -29,6 +31,7 @@ export default defineCachedEventHandler(async (event) => {
     orderBy = 'updatedAt',
     page = 1,
     pageSize = 10,
+    remoteTypes,
     search,
     tags,
   } = await validateQuery<GetProcessesQuery>(event, z.object({
@@ -41,6 +44,7 @@ export default defineCachedEventHandler(async (event) => {
     orderBy: z.enum(['updatedAt', 'createdAt']).nullish(),
     page: numberSchema.nullish(),
     pageSize: numberSchema.nullish(),
+    remoteTypes: z.array(remoteTypeSchema).nullish().or(remoteTypeSchema),
     search: z.string().trim().nullish().or(z.string().max(0)),
     tags: z.array(z.string().trim().uuid()).nullish().or(z.string().trim().uuid()),
   }))
@@ -53,6 +57,7 @@ export default defineCachedEventHandler(async (event) => {
       contractType: !Array.isArray(contractTypes) ? contractTypes : undefined,
       experienceLevel: !Array.isArray(experienceLevels) ? experienceLevels : undefined,
       id,
+      remote: !Array.isArray(remoteTypes) ? remoteTypes : undefined,
     },
     locationId,
     pagination: {
@@ -61,6 +66,7 @@ export default defineCachedEventHandler(async (event) => {
       page,
       pageSize,
     },
+    remoteTypes: Array.isArray(remoteTypes) ? remoteTypes : undefined,
     search,
     tagIds: tags ? (Array.isArray(tags) ? tags : [tags]) : undefined,
   })

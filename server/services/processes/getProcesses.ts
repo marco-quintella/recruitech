@@ -8,6 +8,7 @@ export async function getProcesses({
   filters,
   locationId,
   pagination,
+  remoteTypes,
   search,
   tagIds,
 }: {
@@ -23,6 +24,7 @@ export async function getProcesses({
   tagIds?: string[]
   contractTypes?: ContractType[]
   experienceLevels?: ExperienceLevel[]
+  remoteTypes?: RemoteType[]
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
@@ -90,6 +92,12 @@ export async function getProcesses({
   if (experienceLevels?.length) {
     processesQuery.where(
       inArray(processes.experienceLevel, experienceLevels),
+    )
+  }
+
+  if (remoteTypes?.length) {
+    processesQuery.where(
+      inArray(processes.remote, remoteTypes),
     )
   }
 
