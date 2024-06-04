@@ -44,6 +44,7 @@ export async function getProcesses({ filters, pagination, search }: {
 
   const total = db.select({ count: count() })
     .from(processes)
+    .leftJoin(companies, eq(processes.companyId, companies.id))
 
   if (filters) {
     // O(2n) Filter
@@ -59,8 +60,13 @@ export async function getProcesses({ filters, pagination, search }: {
   }
 
   if (!!search && search.length > 3) {
+    // Title Search
     query.where(ilike(processes.title, `%${search}%`))
     total.where(ilike(processes.title, `%${search}%`))
+
+    // Company Search
+    query.where(ilike(companies.name, `%${search}%`))
+    total.where(ilike(companies.name, `%${search}%`))
   }
 
   const processesData = await query
