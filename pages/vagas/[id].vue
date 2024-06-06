@@ -88,7 +88,7 @@ function onCopy() {
         />
         <div flex="~ col 1" gap-2>
           <h1>{{ process.title }}</h1>
-          <div grid grid-cols-1 w-full gap-2 md:grid-cols-3 sm:grid-cols-2>
+          <div w-full flex flex-wrap gap-2 md:grid-cols-3 sm:grid-cols-2>
             <div flex items-center gap-1>
               <div i-ph-building />
               {{ process.company?.name }}
@@ -115,13 +115,16 @@ function onCopy() {
               <div i-ph-calendar />
               {{ $dayjs(process.createdAt).fromNow() }}
             </div>
-            <div flex items-center gap-1>
+            <div
+              v-for="tag of process.tags"
+              :key="tag.id"
+              flex
+              items-center
+              gap-1
+            >
               <div i-ph-tag />
               <div flex-1>
-                {{ process.tags.reduce((acc, curr, index) => {
-                  acc += curr.name + (process && index !== process.tags.length - 1 ? ', ' : '')
-                  return acc
-                }, '') }}
+                {{ tag.name }}
               </div>
             </div>
           </div>

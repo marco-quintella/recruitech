@@ -30,7 +30,7 @@ defineProps<{ process: GetProcessesResponse['data'][0] }>()
       <h3>
         {{ process.title }}
       </h3>
-      <div class="grid grid-cols-3 gap-2">
+      <div class="flex flex-wrap gap-x-4 gap-y-2">
         <div flex items-center gap-1>
           <div i-ph-building />
           {{ process.company?.name }}
@@ -57,13 +57,16 @@ defineProps<{ process: GetProcessesResponse['data'][0] }>()
           <div i-ph-calendar />
           {{ $dayjs(process.createdAt).fromNow() }}
         </div>
-        <div flex items-center gap-1>
+        <div
+          v-for="tag of process.tags"
+          :key="tag.id"
+          flex
+          items-center
+          gap-1
+        >
           <div i-ph-tag />
           <div flex-1 truncate>
-            {{ process.tags.reduce((acc, curr, index) => {
-              acc += curr.name + (index !== process.tags.length - 1 ? ', ' : '')
-              return acc
-            }, '') }}
+            {{ tag.name }}
           </div>
         </div>
       </div>

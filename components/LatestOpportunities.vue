@@ -10,7 +10,7 @@ const { data } = await useFetch<GetProcessesResponse>('/api/processes', {
 </script>
 
 <template>
-  <div flex flex-col gap-4>
+  <div max-w-full flex flex-col gap-4>
     <h2>Últimas Vagas</h2>
     <opening-card
       v-for="process in data?.data"
