@@ -76,6 +76,7 @@ export default defineNuxtConfig({
     '@artmizu/nuxt-prometheus',
     'nuxt-security',
     'dayjs-nuxt',
+    '@nuxtjs/mdc',
   ],
 
   nitro: {

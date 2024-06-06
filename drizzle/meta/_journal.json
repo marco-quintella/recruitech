@@ -71,6 +71,13 @@
       "when": 1716511624619,
       "tag": "0009_hard_gargoyle",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1717632624461,
+      "tag": "0010_ancient_master_mold",
+      "breakpoints": true
     }
   ]
 }

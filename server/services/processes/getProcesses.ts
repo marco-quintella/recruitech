@@ -1,6 +1,6 @@
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
-import type { ContractType } from '../../../db/contract-type'
-import type { ExperienceLevel } from '../../../db/experience-level'
+import type { ContractType } from '~/db/contract-type'
+import type { ExperienceLevel } from '~/db/experience-level'
 
 export async function getProcesses({
   contractTypes,

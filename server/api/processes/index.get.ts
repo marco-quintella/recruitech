@@ -1,7 +1,8 @@
+import consola from 'consola'
 import { z } from 'zod'
-import type { ContractType } from '../../../db/contract-type'
-import { contractTypeSchema } from '../../../db/contract-type'
-import type { RemoteType } from '../../../db/remote-type'
+import type { ContractType } from '~/db/contract-type'
+import { contractTypeSchema } from '~/db/contract-type'
+import type { RemoteType } from '~/db/remote-type'
 
 export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'
@@ -72,5 +73,6 @@ export default defineCachedEventHandler(async (event) => {
   })
 }, {
   base: 'redis',
-  maxAge: 5,
+  maxAge: 15,
+  name: 'getProcesses',
 })

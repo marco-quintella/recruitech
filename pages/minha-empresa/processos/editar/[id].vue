@@ -12,6 +12,7 @@ const { data: processes } = await useFetch(`/api/processes`, {
 const model = ref<ProcessUpdate & {
   tags?: string[]
   jobTitles?: string[]
+  location?: { city?: string, state?: string, country?: string }
 }>({})
 
 watch(processes, (newVal) => {
@@ -56,7 +57,7 @@ async function onSave() {
     <h1>Editar Processo</h1>
     <q-card
       b="1 primary solid rd-3"
-      flat max-w-100 w-full flex flex-col gap-2 p-8
+      flat max-w-2xl w-full flex flex-col gap-2 p-8
     >
       <q-form
         class="flex flex-col gap-2"
@@ -156,6 +157,10 @@ async function onSave() {
           obter melhores resultados. Tags são utilizadas para refinar as
           sugestões de candidatos.
         </p>
+
+        <RemoteRadio v-model="model.remote" class="mb-2" />
+
+        <SelectLocation v-model="model.location" />
 
         <div flex gap-4>
           <q-input

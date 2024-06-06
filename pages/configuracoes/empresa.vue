@@ -145,7 +145,3 @@ async function uploadCompanyLogo() {
     </q-card>
   </div>
 </template>
-
-<style lang="sass">
-
-</style>

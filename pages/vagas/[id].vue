@@ -166,7 +166,9 @@ function onCopy() {
         </q-btn>
       </div>
       <!-- Descrição -->
-      <div>{{ process.description }}</div>
+      <div class="vaga">
+        <MDC :value="process.description" tag="article" />
+      </div>
       <div>
         <q-btn
           v-if="process.processType === ProcessTypeEnum.platform"
@@ -196,6 +198,47 @@ function onCopy() {
   </div>
 </template>
 
-<style>
+<style lang="sass">
+.vaga
+  h1
+    font-size: 1.25rem
+    margin-block: .75rem
+    font-weight: 700
 
+  h2
+    font-size: 1rem
+    margin-block: .5rem
+    font-weight: 600
+
+    a
+      text-transform: none
+
+  h3
+    font-size: .85rem
+    margin-block: .5rem
+    font-weight: 600
+
+    a
+      text-transform: none
+
+  h4
+    font-size: .85rem
+    margin-block: .5rem
+    font-weight: 600
+
+    a
+      text-transform: none
+
+  li
+    list-style-type: circle
+
+  a
+    @apply text-background-text hover:bg-primary hover:text-primary-text
+    color: inherit
+    font-weight: inherit
+    text-decoration: underline
+
+  p
+    font-size: .85rem
+    margin-block-end: .25rem
 </style>

@@ -1,8 +1,9 @@
+import consola from 'consola'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
   // Validation Layer
-  const { id } = await validateBody<{
+  const { id } = await validateQuery<{
     id: string
   }>(event, z.object({
     id: z.string().trim().uuid(),

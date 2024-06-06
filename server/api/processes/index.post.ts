@@ -66,8 +66,8 @@ export default defineEventHandler(async (event) => {
       ProcessTypeEnum.platform,
     ]),
     remote: z.enum([RemoteTypeEnum.full_remote, RemoteTypeEnum.hybrid, RemoteTypeEnum.on_site]),
-    salary_0: z.nullable(integerSchema),
-    salary_1: z.nullable(integerSchema),
+    salary_0: integerSchema.nullish(),
+    salary_1: integerSchema.nullish(),
     tags: z.array(z.string().trim().uuid()).optional(),
     title: z.string(),
   }))

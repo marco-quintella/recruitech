@@ -1,13 +1,14 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { index, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 
 export const tags = pgTable('tags', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   id: uuid('id').defaultRandom().primaryKey(),
-
   name: text('name').notNull(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
-})
+}, t => ({
+  nameIdx: index('name_idx').on(t.name),
+}))
 
 export const tagRelations = relations(tags, ({ many }) => ({
   processesToTags: many(processesToTags),
