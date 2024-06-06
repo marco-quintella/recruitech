@@ -1,4 +1,3 @@
-import consola from 'consola'
 import { z } from 'zod'
 import type { ContractType } from '~/db/contract-type'
 import { contractTypeSchema } from '~/db/contract-type'

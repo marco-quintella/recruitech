@@ -1,3 +1,4 @@
+import consola from 'consola'
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
 import type { ContractType } from '~/db/contract-type'
 import type { ExperienceLevel } from '~/db/experience-level'
@@ -52,8 +53,11 @@ export async function getProcesses({
     title: processes.title,
     updatedAt: processes.updatedAt,
   })
-    .from(processes)
+    .from(processes).$dynamic()
     .leftJoin(companies, eq(processes.companyId, companies.id))
+
+  const total = db.select({ count: count() })
+    .from(processes).$dynamic()
 
   if (locationId?.length) {
     const locationQuery = await db.select({
@@ -63,9 +67,9 @@ export async function getProcesses({
       .where(eq(processesToLocations.locationId, locationId))
 
     if (locationQuery?.length) {
-      processesQuery.where(
-        inArray(processes.id, locationQuery.map(({ processId }) => processId)),
-      )
+      const processesIds = locationQuery.map(({ processId }) => processId)
+      processesQuery.where(inArray(processes.id, processesIds))
+      total.where(inArray(processes.id, processesIds))
     }
   }
 
@@ -77,37 +81,33 @@ export async function getProcesses({
       .where(inArray(processesToTags.tagId, tagIds))
 
     if (tagsQuery?.length) {
-      processesQuery.where(
-        inArray(processes.id, tagsQuery.map(({ processId }) => processId)),
-      )
+      const processesIds = tagsQuery.map(({ processId }) => processId)
+      processesQuery.where(inArray(processes.id, processesIds))
+      total.where(inArray(processes.id, processesIds))
     }
   }
 
   if (contractTypes?.length) {
-    processesQuery.where(
-      inArray(processes.contractType, contractTypes),
-    )
+    processesQuery.where(inArray(processes.contractType, contractTypes))
+    total.where(inArray(processes.contractType, contractTypes))
   }
 
   if (experienceLevels?.length) {
-    processesQuery.where(
-      inArray(processes.experienceLevel, experienceLevels),
-    )
+    processesQuery.where(inArray(processes.experienceLevel, experienceLevels))
+    total.where(inArray(processes.experienceLevel, experienceLevels))
   }
 
   if (remoteTypes?.length) {
-    processesQuery.where(
-      inArray(processes.remote, remoteTypes),
-    )
+    processesQuery.where(inArray(processes.remote, remoteTypes))
+    total.where(inArray(processes.remote, remoteTypes))
   }
 
-  processesQuery.orderBy(direction === 'asc' ? asc(processes[orderBy]) : desc(processes[orderBy]))
+  processesQuery.orderBy(direction === 'asc'
+    ? asc(processes[orderBy])
+    : desc(processes[orderBy]),
+  )
     .offset((page - 1) * pageSize)
     .limit(pageSize)
-
-  const total = db.select({ count: count() })
-    .from(processes)
-    .leftJoin(companies, eq(processes.companyId, companies.id))
 
   if (filters) {
     // O(2n) Filter
