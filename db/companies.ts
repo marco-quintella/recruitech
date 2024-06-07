@@ -1,14 +1,21 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
 import { locations } from './locations'
+import { companySizeEnum } from './company.size'
 
 export const companies = pgTable('companies', {
+  companySize: companySizeEnum('company_size'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
+  facebook: text('facebook'),
   hqLocation: uuid('hq_location').references(() => locations.id),
   id: uuid('id').defaultRandom().primaryKey(),
+  instagram: text('instagram'),
+  linkedin: text('linkedin'),
   logo: text('logo'),
   name: text('name').notNull().unique(),
+  twitter: text('twitter'),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  website: text('website'),
 }, company => ({
   nameIdx: uniqueIndex().on(company.name),
 }))
