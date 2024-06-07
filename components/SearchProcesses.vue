@@ -39,7 +39,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
           debounce="750"
         />
       </div>
-      <div flex gap-2>
+      <div flex flex-wrap gap-2>
         <filter-location v-model="location" />
         <filter-tag v-model="tags" />
         <filter-contract-type v-model="contractTypes" />
