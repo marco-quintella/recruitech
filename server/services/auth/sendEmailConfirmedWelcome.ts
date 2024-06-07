@@ -9,8 +9,8 @@ export async function sendEmailConfirmedWelcome(user: User) {
       link: url,
       name: user.name,
     },
-    from: '"Recruitech" <nao.responda@mqdev.com.br>',
-    subject: 'Bem-vindo ao Recruitech',
+    from: '"GetJobs.Tech" <nao.responda@mqdev.com.br>',
+    subject: 'Bem-vindo ao GetJobs.Tech',
     template: 'confirmed.mail',
     to: user.email,
   })

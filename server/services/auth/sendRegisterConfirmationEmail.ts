@@ -16,7 +16,7 @@ export async function sendRegisterConfirmationEmail(user: User) {
       link: `${url}/auth/confirmar-email/${token}`,
       name: user.name,
     },
-    from: '"Recruitech" <nao.responda@mqdev.com.br>',
+    from: '"GetJobs.Tech" <nao.responda@mqdev.com.br>',
     subject: 'Confirmação de e-mail',
     template: 'register.confirmation.mail',
     to: user.email,

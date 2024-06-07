@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Recruitech Docs"
-  text: "Documentação do Projeto Recruitech"
+  name: "GetJobs.Tech Docs"
+  text: "Documentação do Projeto GetJobs.Tech"
   tagline: My great project tagline
   actions:
     - theme: brand

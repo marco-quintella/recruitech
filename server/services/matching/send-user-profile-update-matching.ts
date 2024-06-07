@@ -15,7 +15,7 @@ export async function sendUserProfileUpdateMatching(userId: string) {
       name: user.name,
       processes: matchedProcesses,
     },
-    from: '"Recruitech" <nao.responda@mqdev.com.br>',
+    from: '"GetJobs.Tech" <nao.responda@mqdev.com.br>',
     subject: 'Você têm novas oportunidades de emprego!',
     template: 'user.new.opportunities',
     to: '2om.marco.quintella@gmail.com',

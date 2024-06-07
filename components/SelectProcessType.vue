@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const options = [
   {
-    label: 'Recruitech',
+    label: 'GetJobs.Tech',
     value: ProcessTypeEnum.platform,
   },
   {

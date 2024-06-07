@@ -12,8 +12,8 @@ export async function sendInviteEmail(
       email,
       link: `${url}/convite/${id}`,
     },
-    from: '"Recruitech" <nao.responda@mqdev.com.br>',
-    subject: `${company.name} te convidou para se juntar ao Recruitech`,
+    from: '"GetJobs.Tech" <nao.responda@mqdev.com.br>',
+    subject: `${company.name} te convidou para se juntar ao GetJobs.Tech`,
     template: 'user.invite',
     to: email,
   })

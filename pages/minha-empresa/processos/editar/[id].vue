@@ -80,7 +80,7 @@ async function onSave() {
               html: true,
               message: `<b>Tipos de processo:</b><br>
               <ul>
-                <li>- Recruitech: Realize o processo e gerencie os candidatos através da plataforma.</li>
+                <li>- GetJobs.Tech: Realize o processo e gerencie os candidatos através da plataforma.</li>
                 <li>- Email: Receba os currículos diretamente por e-mail. Candidatos podem enviar o currículos através da plataforma ou através do próprio e-mail.</li>
                 <li>- Link: Utilize sua própria plataforma direcionando os candidatos para o seu link.</li>
               </ul>`,

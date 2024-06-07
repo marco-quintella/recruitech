@@ -10,7 +10,7 @@
         bg-gradient-to-r px8 py16 text-primary-text
       >
         <div>
-          <h1>Recrute com a Recruitech</h1>
+          <h1>Recrute com a GetJobs.Tech</h1>
           <p>
             Escolha o plano que melhor se encaixa nas necessidades da sua empresa.
           </p>

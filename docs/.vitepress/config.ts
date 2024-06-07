@@ -2,8 +2,8 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/recruitech/',
-  description: 'Documentação do Projeto Recruitech',
+  base: '/GetJobs.Tech/',
+  description: 'Documentação do Projeto GetJobs.Tech',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -25,5 +25,5 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
     ],
   },
-  title: 'Recruitech Docs',
+  title: 'GetJobs.Tech Docs',
 })
