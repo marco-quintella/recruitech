@@ -44,21 +44,9 @@ if (!company.value)
             </div>
             <div class="space-y-2">
               <div class="text-primary font-600">
-                Tipo de Empresa
-              </div>
-              <div>TODO: PRIVADA ? PÚBLICA</div>
-            </div>
-            <div class="space-y-2">
-              <div class="text-primary font-600">
                 Tamanho
               </div>
               <div>TODO: QUANTIDADE DE PESSOAS</div>
-            </div>
-            <div class="space-y-2">
-              <div class="text-primary font-600">
-                Ano de fundação
-              </div>
-              <div>TODO: ANO</div>
             </div>
           </div>
         </div>
