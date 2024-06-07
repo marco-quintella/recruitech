@@ -21,7 +21,7 @@ const {
 })
 
 const {
-  data: company,
+  data,
   error: companyError,
 } = await useFetch(`/api/companies`, {
   method: 'get',
@@ -29,6 +29,8 @@ const {
     id: userInvite.value?.companyId,
   },
 })
+
+const company = computed(() => data.value?.data?.[0])
 
 const name = ref<string>()
 const email = ref<string | undefined>(userInvite.value?.email)

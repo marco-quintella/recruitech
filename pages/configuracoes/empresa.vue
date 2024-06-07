@@ -5,12 +5,13 @@ const { updateSession } = useAuth()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const { data: company, refresh } = await useFetch(`/api/companies`, {
+const { data, refresh } = await useFetch(`/api/companies`, {
   method: 'GET',
   query: {
     id: user.value?.companyId,
   },
 })
+const company = computed(() => data.value?.data?.[0])
 
 const model = ref<CompanyUpdate>({
   name: company.value?.name,

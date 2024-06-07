@@ -1,24 +1,24 @@
 import { z } from 'zod'
 
+export type GetCompaniesQuery = QueryObject & {
+  id?: string
+  search?: string
+}
+
 export default defineCachedEventHandler(async (event) => {
   // Validation Layer
-  const { id } = await validateQuery<{
-    id?: string
-  }>(event, z.object({
+  const { id, search } = await validateQuery<GetCompaniesQuery>(event, z.object({
     id: z.string().trim().uuid().nullish(),
+    search: z.string().trim().nullish().or(z.string().max(0)),
   }))
 
   // Service Layer
-  if (id) {
-    const company = await getCompanyById(id)
-
-    if (!company)
-      throw createError({ status: 404, statusMessage: 'Empresa não encontrada' })
-
-    return company
-  }
-
-  return getCompanies()
+  return getCompanies({
+    filters: {
+      id,
+    },
+    search,
+  })
 }, {
   base: 'redis',
   maxAge: 15,

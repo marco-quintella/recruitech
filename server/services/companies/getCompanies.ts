@@ -1,9 +1,9 @@
-import { and, asc, count, countDistinct, desc, eq, isNull, sql, sumDistinct } from 'drizzle-orm'
+import { and, asc, count, desc, eq, ilike, isNull, sql } from 'drizzle-orm'
 
 export async function getCompanies({
-  // filters,
+  filters,
   pagination,
-  // search,
+  search,
 }: {
   filters?: Partial<Company>
   pagination?: {
@@ -38,7 +38,23 @@ export async function getCompanies({
   const total = db.select({ count: count() })
     .from(companies)
 
-  companiesQuery.orderBy(direction === 'asc' ? asc(companies[orderBy]) : desc(companies[orderBy]))
+  if (filters) {
+    if (filters.id) {
+      companiesQuery.where(eq(companies.id, filters.id))
+      total.where(eq(companies.id, filters.id))
+    }
+  }
+
+  if (!!search && search.length > 3) {
+    companiesQuery.where(ilike(companies.name, `%${search}%`))
+    total.where(ilike(companies.name, `%${search}%`))
+  }
+
+  companiesQuery.orderBy(
+    direction === 'asc'
+      ? asc(companies[orderBy])
+      : desc(companies[orderBy]),
+  )
     .offset((page - 1) * pageSize)
     .limit(pageSize)
 
