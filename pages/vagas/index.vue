@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div flex justify-center>
+  <q-page padding flex justify-center>
     <SearchProcesses max-w-2xl />
-  </div>
+  </q-page>
 </template>

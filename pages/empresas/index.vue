@@ -11,7 +11,7 @@ const companies = computed(() => data.value?.data)
 </script>
 
 <template>
-  <div flex justify-center>
+  <q-page padding flex justify-center>
     <div max-w-4xl w-full flex flex-col gap-4>
       <h2>Empresas</h2>
 
@@ -61,5 +61,5 @@ const companies = computed(() => data.value?.data)
         </div>
       </div>
     </div>
-  </div>
+  </q-page>
 </template>

@@ -28,8 +28,8 @@ const menu = [
 </script>
 
 <template>
-  <div
-    h-full
+  <q-page
+    padding
     flex
     gap-4
     :class="{
@@ -78,5 +78,5 @@ const menu = [
       </div>
     </template>
     <NuxtPage />
-  </div>
+  </q-page>
 </template>

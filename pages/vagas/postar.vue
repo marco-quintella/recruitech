@@ -70,7 +70,7 @@ async function onSave() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
+  <q-page padding flex flex-col items-center gap-4 pt-12>
     <h1>Nova Vaga</h1>
     <q-card
       b="1 primary solid rd-3"
@@ -214,5 +214,5 @@ async function onSave() {
         <q-btn color="primary" label="Postar" type="submit" />
       </q-form>
     </q-card>
-  </div>
+  </q-page>
 </template>

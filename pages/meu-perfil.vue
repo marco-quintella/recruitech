@@ -62,8 +62,9 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div
-    h-fit w-full flex flex-col
+  <q-page
+    padding
+    flex flex-col
     items-center gap-4 pt-12
   >
     <h2>Meu Perfil</h2>
@@ -108,5 +109,5 @@ async function onSubmit() {
         />
       </q-form>
     </q-card>
-  </div>
+  </q-page>
 </template>

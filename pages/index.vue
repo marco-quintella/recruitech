@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div w-full flex justify-center>
+  <q-page padding flex justify-center>
     <div max-w-320 w-full flex flex-col gap-8>
       <HomePageHero w-full />
       <div w-full flex flex-col gap-8 sm:flex-row>
@@ -31,5 +31,5 @@ definePageMeta({
         <LatestOpportunities flex-1 />
       </div>
     </div>
-  </div>
+  </q-page>
 </template>

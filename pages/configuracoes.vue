@@ -1,10 +1,15 @@
 <script lang="ts" setup>
+const { loggedIn } = useAuth()
+
+if (!loggedIn.value)
+  navigateTo('/auth/login')
+
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 </script>
 
 <template>
-  <div h-full flex gap-4>
+  <q-page padding flex gap-4>
     <div flex flex-col items-center gap-4>
       <h2 text-6 font-semibold>
         Configurações
@@ -31,7 +36,7 @@ const { user } = storeToRefs(userStore)
     </div>
     <q-separator vertical />
     <NuxtPage />
-  </div>
+  </q-page>
 </template>
 
 <style></style>

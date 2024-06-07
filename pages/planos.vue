@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div flex justify-center>
+  <q-page padding flex justify-center>
     <div max-w-300 w-full flex flex-col gap-8>
       <div
         w-full b-rd-2 from-secondary to-primary
@@ -147,7 +147,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <style></style>

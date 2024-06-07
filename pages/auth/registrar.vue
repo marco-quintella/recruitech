@@ -42,9 +42,9 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="flex justify-center pt-10vh">
+  <q-page padding class="flex items-center justify-center">
     <q-card
-      flat max-w-100 w-full p-8
+      flat max-w-md w-full p-8
       b="1 primary solid rd-3"
     >
       <q-form
@@ -127,7 +127,7 @@ async function onSubmit() {
         </p>
       </q-form>
     </q-card>
-  </div>
+  </q-page>
 </template>
 
 <style lang="sass">

@@ -72,75 +72,77 @@ async function onSubmit() {
 </script>
 
 <template>
-  <q-card mx-auto h-fit max-w-100 w-full flex flex-col items-center px-8 pb-8 pt-4>
-    <template v-if="!userInviteError && !companyError && userInvite?.invitePending">
-      <h2>Aceitar convite para {{ company?.name }}</h2>
+  <q-page padding flex items-center justify-center>
+    <q-card max-w-md w-full flex flex-col items-center px-8 pb-8 pt-4>
+      <template v-if="!userInviteError && !companyError && userInvite?.invitePending">
+        <h2>Aceitar convite para {{ company?.name }}</h2>
 
-      <q-form flex flex-col gap-2 @submit="onSubmit">
-        <p text-center>
-          Você foi convidado como Recrutador para empresa Apple.
-          Complete seus dados de acesso abaixo para aceitar o convite.
-        </p>
+        <q-form flex flex-col gap-2 @submit="onSubmit">
+          <p text-center>
+            Você foi convidado como Recrutador para empresa Apple.
+            Complete seus dados de acesso abaixo para aceitar o convite.
+          </p>
 
-        <q-separator />
+          <q-separator />
 
-        <q-input
-          v-model="name"
-          label="Nome"
-          outlined
-          dense
-          :rules="[
-            (v?: string) => !!v || 'Obrigatório',
-          ]"
-        />
+          <q-input
+            v-model="name"
+            label="Nome"
+            outlined
+            dense
+            :rules="[
+              (v?: string) => !!v || 'Obrigatório',
+            ]"
+          />
 
-        <q-input
-          v-model="email"
-          label="E-mail"
-          outlined
-          dense
-          readonly
-          :rules="[
-            (v?: string) => !!v || 'E-mail é obrigatório',
-            (v?: string) => !!v && /.+@.+\..+/.test(v) || 'E-mail inválido',
-          ]"
-        />
+          <q-input
+            v-model="email"
+            label="E-mail"
+            outlined
+            dense
+            readonly
+            :rules="[
+              (v?: string) => !!v || 'E-mail é obrigatório',
+              (v?: string) => !!v && /.+@.+\..+/.test(v) || 'E-mail inválido',
+            ]"
+          />
 
-        <q-input
-          v-model="password"
-          label="Senha"
-          outlined
-          dense
-          type="password"
-          :rules="[
-            (v?: string) => !!v || 'Obrigatório',
-            (v: string) => v.length >= 8 || 'Senha deve ter no mínimo 8 caracteres',
-          ]"
-        />
+          <q-input
+            v-model="password"
+            label="Senha"
+            outlined
+            dense
+            type="password"
+            :rules="[
+              (v?: string) => !!v || 'Obrigatório',
+              (v: string) => v.length >= 8 || 'Senha deve ter no mínimo 8 caracteres',
+            ]"
+          />
 
-        <q-input
-          v-model="passwordConfirmation"
-          label="Repita sua senha"
-          outlined
-          dense
-          type="password"
-          :rules="[
-            (v?: string) => !!v || 'Obrigatório',
-            (v: string) => v.length >= 8 || 'Senha deve ter no mínimo 8 caracteres',
-            (v: string) => v === password || 'Senhas não conferem',
-          ]"
-        />
+          <q-input
+            v-model="passwordConfirmation"
+            label="Repita sua senha"
+            outlined
+            dense
+            type="password"
+            :rules="[
+              (v?: string) => !!v || 'Obrigatório',
+              (v: string) => v.length >= 8 || 'Senha deve ter no mínimo 8 caracteres',
+              (v: string) => v === password || 'Senhas não conferem',
+            ]"
+          />
 
-        <q-btn
-          color="primary"
-          text-color="primary-text"
-          label="Salvar"
-          type="submit"
-        />
-      </q-form>
-    </template>
-    <template v-else>
-      <h2>Não foi possível localizar o convite.</h2>
-    </template>
-  </q-card>
+          <q-btn
+            color="primary"
+            text-color="primary-text"
+            label="Salvar"
+            type="submit"
+          />
+        </q-form>
+      </template>
+      <template v-else>
+        <h2>Não foi possível localizar o convite.</h2>
+      </template>
+    </q-card>
+  </q-page>
 </template>

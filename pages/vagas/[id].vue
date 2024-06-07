@@ -76,7 +76,7 @@ function onCopy() {
 </script>
 
 <template>
-  <div flex justify-center md:p-8>
+  <q-page padding flex justify-center>
     <div v-if="process" flex="~ col" max-w-200 w-2xl gap-4>
       <!-- Header -->
       <div flex gap-4>
@@ -201,7 +201,7 @@ function onCopy() {
         </div>
       </div>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <style lang="sass">

@@ -16,8 +16,8 @@ if (!company.value)
 </script>
 
 <template>
-  <div mx-auto max-w-400>
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)_300px]">
+  <q-page padding>
+    <div class="grid grid-cols-1 mx-auto max-w-400 gap-6 lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)_300px]">
       <aside hidden lg:block space-y-6>
         <div primary-border>
           <h3 p-4>
@@ -92,7 +92,7 @@ if (!company.value)
         </div>
       </aside>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <style>

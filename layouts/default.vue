@@ -1,8 +1,17 @@
+<script lang="ts" setup>
+const showDrawer = ref(false)
+
+function toggleDrawer() {
+  showDrawer.value = !showDrawer.value
+}
+</script>
+
 <template>
-  <div h-full flex flex-col>
-    <LayoutToolbar />
-    <main class="flex-1 p-4">
+  <q-layout view="hHh Lpr lff" h-full flex flex-col>
+    <LayoutToolbar @toggle-drawer="toggleDrawer" />
+    <layout-drawer v-model="showDrawer" />
+    <q-page-container>
       <slot />
-    </main>
-  </div>
+    </q-page-container>
+  </q-layout>
 </template>
