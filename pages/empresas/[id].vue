@@ -68,7 +68,7 @@ if (!company.value)
       </aside>
 
       <div space-y-6>
-        <div class="relative flex gap-4 overflow-hidden primary-border px-4 pt-6 -mx-4 lg:mx-0 space-y-1.5 lg:px-6 lg:py-6 md:px-8 md:-mx-8">
+        <div class="relative flex gap-4 overflow-hidden primary-border px-4 py-6 lg:mx-0 space-y-1.5 lg:px-6 lg:py-6 md:px-8">
           <CompanyAvatar :src="company?.logo" :name="company?.name ?? ''" size="68px" />
           <div flex flex-col>
             <h1>{{ company?.name }}</h1>
