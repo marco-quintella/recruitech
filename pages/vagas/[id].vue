@@ -89,10 +89,13 @@ function onCopy() {
         <div flex="~ col 1" gap-2>
           <h1>{{ process.title }}</h1>
           <div w-full flex flex-wrap gap-2 md:grid-cols-3 sm:grid-cols-2>
-            <div flex items-center gap-1>
+            <nuxt-link
+              flex items-center gap-1
+              :to="`/empresas/${process.company?.id}`"
+            >
               <div i-ph-building />
               {{ process.company?.name }}
-            </div>
+            </nuxt-link>
             <div v-if="process.contractType" flex items-center gap-1>
               <div i-ph-file />
               {{ parseContractType(process.contractType) }}
