@@ -1,4 +1,3 @@
-import consola from 'consola'
 import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
 import type { ContractType } from '~/db/contract-type'
 import type { ExperienceLevel } from '~/db/experience-level'
