@@ -35,7 +35,9 @@ async function onLogout() {
       <layout-menu-link to="/vagas">
         Vagas
       </layout-menu-link>
-      <layout-menu-link>Empresas</layout-menu-link>
+      <layout-menu-link to="/empresas">
+        Empresas
+      </layout-menu-link>
       <layout-menu-link>Notícias</layout-menu-link>
       <!-- <layout-menu-link hidden lg:block>
         Preparação
