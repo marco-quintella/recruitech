@@ -58,6 +58,10 @@ export default defineNuxtConfig({
     inlineStyles: false,
   },
 
+  googleAdsense: {
+    id: 'ca-pub-7015724364902511',
+  },
+
   imports: {
     dirs: [
       './db/**/*',
@@ -77,6 +81,7 @@ export default defineNuxtConfig({
     'nuxt-security',
     'dayjs-nuxt',
     '@nuxtjs/mdc',
+    '@nuxtjs/google-adsense',
   ],
 
   nitro: {
