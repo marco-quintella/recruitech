@@ -7,7 +7,7 @@ export const tags = pgTable('tags', {
   name: text('name').notNull(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 }, t => ({
-  nameIdx: index('name_idx').on(t.name),
+  tagsNameIndex: index().on(t.name),
 }))
 
 export const tagRelations = relations(tags, ({ many }) => ({
