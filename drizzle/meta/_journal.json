@@ -78,6 +78,20 @@
       "when": 1717632624461,
       "tag": "0010_ancient_master_mold",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1717717143396,
+      "tag": "0011_solid_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1717717721808,
+      "tag": "0012_slim_puppet_master",
+      "breakpoints": true
     }
   ]
 }
