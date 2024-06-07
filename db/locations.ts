@@ -11,6 +11,7 @@ export const locations = pgTable('locations', {
 })
 
 export const locationRelations = relations(locations, ({ many }) => ({
+  companies: many(companies),
   processesToLocations: many(processesToLocations),
   users: many(users),
 }))

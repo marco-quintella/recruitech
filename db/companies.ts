@@ -1,8 +1,10 @@
 import { relations } from 'drizzle-orm'
-import { index, pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { locations } from './locations'
 
 export const companies = pgTable('companies', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
+  hqLocation: uuid('hq_location').references(() => locations.id),
   id: uuid('id').defaultRandom().primaryKey(),
   logo: text('logo'),
   name: text('name').notNull().unique(),
@@ -11,7 +13,8 @@ export const companies = pgTable('companies', {
   nameIdx: uniqueIndex().on(company.name),
 }))
 
-export const companyRelations = relations(companies, ({ many }) => ({
+export const companyRelations = relations(companies, ({ many, one }) => ({
+  locations: one(locations, { fields: [companies.hqLocation], references: [locations.id] }),
   processes: many(processes),
   users: many(users),
 }))
