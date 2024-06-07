@@ -18,13 +18,11 @@ defineProps<{ process: GetProcessesResponse['data'][0] }>()
     hover:ring-2
     :to="`/vagas/${process.id}`"
   >
-    <q-img
+    <CompanyAvatar
       v-if="process.company?.logo"
       :src="process.company?.logo"
-      width="70px"
-      height="70px"
-      alt="Logo da empresa"
-      min-h-70px min-w-70px
+      :name="process.company?.name ?? ''"
+      size="48px"
     />
     <div flex flex-col gap-2>
       <h3>
