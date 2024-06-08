@@ -5,23 +5,33 @@ const { updateSession } = useAuth()
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const { data, refresh } = await useFetch(`/api/companies`, {
+const { data: company, refresh } = await useFetch(`/api/companies/details`, {
   method: 'GET',
   query: {
     id: user.value?.companyId,
   },
 })
-const company = computed(() => data.value?.data?.[0])
 
-const model = ref<CompanyUpdate>({
+const model = ref<CompanyUpdate & {
+  location?: { city?: string, state?: string, country?: string }
+}>({
+  companySize: company.value?.companySize,
+  facebook: company.value?.facebook,
+  id: company.value?.id,
+  instagram: company.value?.instagram,
+  linkedin: company.value?.linkedin,
+  location: {
+    city: company.value?.locations?.city ?? undefined,
+    country: company.value?.locations?.country,
+    state: company.value?.locations?.state ?? undefined,
+  },
   name: company.value?.name,
+  shortDescription: company.value?.shortDescription,
+  twitter: company.value?.twitter,
+  website: company.value?.website,
 })
 
 const newLogo = ref<File>()
-
-const hasDiff = computed(() => {
-  return model.value.name !== company.value?.name
-})
 
 async function onSubmit() {
   if (!model.value.name || !company.value?.id)
@@ -30,10 +40,7 @@ async function onSubmit() {
   try {
     $q.loading.show()
     await $fetch('/api/companies', {
-      body: {
-        id: company.value.id,
-        name: model.value.name,
-      },
+      body: model.value,
       method: 'patch',
     })
 
@@ -93,37 +100,47 @@ async function uploadCompanyLogo() {
 </script>
 
 <template>
-  <div h-fit w-full flex flex-col items-center gap-4 pt-12>
+  <div h-fit w-full flex flex-col items-center gap-4>
     <h1>Dados da Empresa</h1>
     <q-card
       b="1 primary solid rd-3"
-      flat max-w-100 w-full flex flex-col gap-2 p-8
+      flat max-w-xl w-full flex flex-col gap-2 p-8
     >
-      <div v-if="company?.logo" class="flex justify-center">
-        <q-img :src="company.logo" class="w-50%" />
-      </div>
-      <div class="flex flex-col gap-1">
-        <q-file
-          v-model="newLogo"
-          :label="company?.logo ? 'Mudar Logo' : 'Enviar Logo'"
-          accept="image/*"
-          dense
-          max-file-size="2097152"
-          outlined
+      <div
+        v-if="company?.logo"
+        class="w-full flex gap-4"
+      >
+        <company-avatar
+          :src="company.logo"
+          :name="company.name"
+          size="98px"
         />
-        <p text-3 text-primary>
-          Utilize uma imagem tamanho máximo de 2MB
-        </p>
-        <q-btn
-          v-if="newLogo"
-          color="primary"
-          text-color="primary-text"
-          label="Salvar Logo"
-          dense
-          @click="uploadCompanyLogo"
-        />
+
+        <div flex="~ 1 col" justify-center gap-1>
+          <q-file
+            v-model="newLogo"
+            :label="company?.logo ? 'Mudar Logo' : 'Enviar Logo'"
+            accept="image/*"
+            dense
+            max-file-size="2097152"
+            outlined
+          />
+          <p text-3 text-primary>
+            Utilize uma imagem tamanho máximo de 2MB
+          </p>
+          <q-btn
+            v-if="newLogo"
+            color="primary"
+            text-color="primary-text"
+            label="Salvar Logo"
+            dense
+            @click="uploadCompanyLogo"
+          />
+        </div>
       </div>
-      <q-separator />
+
+      <q-separator my-2 />
+
       <q-form flex flex-col gap-2 @submit="onSubmit">
         <q-input
           v-model="model.name"
@@ -135,8 +152,70 @@ async function uploadCompanyLogo() {
           ]"
         />
 
+        <q-input
+          v-model="model.shortDescription"
+          label="Descrição Curta"
+          outlined
+          dense
+          :rules="[
+            (v?: string) => !v ? true : v.length <= 120 || 'Máximo de 120 caracteres',
+          ]"
+        />
+
+        <div pb-4>
+          <select-company-size
+            v-model="model.companySize"
+          />
+        </div>
+
+        <div>Localização da Matriz</div>
+        <select-location
+          v-model="model.location"
+        />
+
+        <q-separator my-2 />
+
+        <q-input
+          v-model="model.website"
+          label="Link Website"
+          outlined
+          dense
+          :rules="[urlRuleNullish]"
+        />
+
+        <q-input
+          v-model="model.facebook"
+          label="Link Facebook"
+          outlined
+          dense
+          :rules="[urlRuleNullish]"
+        />
+
+        <q-input
+          v-model="model.twitter"
+          label="Link Twitter"
+          outlined
+          dense
+          :rules="[urlRuleNullish]"
+        />
+
+        <q-input
+          v-model="model.instagram"
+          label="Link Instagram"
+          outlined
+          dense
+          :rules="[urlRuleNullish]"
+        />
+
+        <q-input
+          v-model="model.linkedin"
+          label="Link LinkedIn"
+          outlined
+          dense
+          :rules="[urlRuleNullish]"
+        />
+
         <q-btn
-          v-if="hasDiff"
           color="primary"
           text-color="primary-text"
           label="Salvar"

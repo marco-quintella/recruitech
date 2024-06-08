@@ -17,13 +17,24 @@ export async function getCompanies({
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
   const companiesQuery = db.select({
+    companySize: companies.companySize,
+    facebook: companies.facebook,
     id: companies.id,
+    instagram: companies.instagram,
+    linkedin: companies.linkedin,
+    location: {
+      city: locations.city,
+      country: locations.country,
+      state: locations.state,
+    },
     logo: companies.logo,
     name: companies.name,
     openings: sql`count('*') - 1`.mapWith(Number),
+    twitter: companies.twitter,
+    website: companies.website,
   })
-    .from(companies)
-    .leftJoin(
+    .from(companies).$dynamic()
+    .innerJoin(
       processes,
       and(
         eq(processes.companyId, companies.id),
@@ -33,7 +44,8 @@ export async function getCompanies({
         ),
       ),
     )
-    .groupBy(companies.id)
+    .innerJoin(locations, eq(companies.hqLocation, locations.id))
+    .groupBy(companies.id, locations.country, locations.state, locations.city)
 
   const total = db.select({ count: count() })
     .from(companies)

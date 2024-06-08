@@ -37,11 +37,7 @@ export default defineEventHandler(async (event) => {
       country: z.string().optional(),
       state: z.string().optional(),
     }).optional(),
-    processType: z.enum([
-      ProcessTypeEnum.email,
-      ProcessTypeEnum.link,
-      ProcessTypeEnum.platform,
-    ]).optional(),
+    processType: z.enum(processTypeEnum.enumValues).optional(),
     remote: z.enum([RemoteTypeEnum.full_remote, RemoteTypeEnum.hybrid, RemoteTypeEnum.on_site]).optional(),
     salary_0: numberSchema.optional(),
     salary_1: numberSchema.optional(),

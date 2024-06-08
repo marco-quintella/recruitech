@@ -1,0 +1,1 @@
+ALTER TABLE "companies" ADD COLUMN "short_description" text;

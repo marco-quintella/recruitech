@@ -13,6 +13,7 @@ export const companies = pgTable('companies', {
   linkedin: text('linkedin'),
   logo: text('logo'),
   name: text('name').notNull().unique(),
+  shortDescription: text('short_description'),
   twitter: text('twitter'),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
   website: text('website'),

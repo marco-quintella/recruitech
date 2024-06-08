@@ -9,12 +9,12 @@ const { user } = storeToRefs(userStore)
 </script>
 
 <template>
-  <q-page padding flex gap-4>
+  <q-page padding flex flex-col gap-4 md:flex-row>
     <div flex flex-col items-center gap-4>
       <h2 text-6 font-semibold>
         Configurações
       </h2>
-      <q-list style="min-width: 100px" w-full>
+      <q-list style="min-width: 100px" w-full flex flex-wrap md:block>
         <q-item clickable @click="navigateTo('/configuracoes/usuario')">
           <q-item-section avatar>
             <div i-ph-user text-5 />
@@ -34,7 +34,8 @@ const { user } = storeToRefs(userStore)
         </q-item>
       </q-list>
     </div>
-    <q-separator vertical />
+    <q-separator md:hidden />
+    <q-separator vertical hidden md:block />
     <NuxtPage />
   </q-page>
 </template>
