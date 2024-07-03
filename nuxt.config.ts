@@ -50,12 +50,16 @@ export default defineNuxtConfig({
     // but missing on offline, disabling extraction it until fixed
     payloadExtraction: false,
     renderJsonPayloads: true,
-    // typedPages: true,
+    typedPages: true,
   },
 
   features: {
     // For UnoCSS
     inlineStyles: false,
+  },
+
+  future: {
+    compatibilityVersion: 4,
   },
 
   googleAdsense: {

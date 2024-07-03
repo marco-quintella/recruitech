@@ -7,6 +7,7 @@ import { favorites } from './favorites'
 import { profiles } from './profiles'
 import { recommendations } from './recommendations'
 import { roleEnum } from './role'
+import { files } from './files'
 
 export const users = pgTable('users', {
   // Relations
