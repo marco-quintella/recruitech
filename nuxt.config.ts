@@ -50,7 +50,7 @@ export default defineNuxtConfig({
     // but missing on offline, disabling extraction it until fixed
     payloadExtraction: false,
     renderJsonPayloads: true,
-    typedPages: true,
+    // typedPages: true,
   },
 
   features: {
@@ -58,9 +58,9 @@ export default defineNuxtConfig({
     inlineStyles: false,
   },
 
-  future: {
-    compatibilityVersion: 4,
-  },
+  // future: {
+  //   compatibilityVersion: 4,
+  // },
 
   googleAdsense: {
     id: 'ca-pub-7015724364902511',
@@ -158,4 +158,6 @@ export default defineNuxtConfig({
       crossOriginResourcePolicy: 'cross-origin',
     },
   },
+
+  compatibilityDate: '2024-07-03',
 })

@@ -7,12 +7,14 @@ import { users } from './users'
 
 export const profiles = pgTable('profiles', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
+  cv: text('cv'),
+
   id: uuid('id').defaultRandom().primaryKey(),
-
   locationId: uuid('location_id').references(() => locations.id),
-  presentation: text('presentation'),
 
+  presentation: text('presentation'),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
+
   userId: uuid('user_id').references(() => users.id).notNull(),
 })
 

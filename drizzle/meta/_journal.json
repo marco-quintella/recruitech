@@ -127,6 +127,27 @@
       "when": 1720023594823,
       "tag": "0017_tiresome_squirrel_girl",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1720049280685,
+      "tag": "0018_cloudy_living_tribunal",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1720057759856,
+      "tag": "0019_glossy_thunderbolt_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1720058317434,
+      "tag": "0020_whole_black_cat",
+      "breakpoints": true
     }
   ]
 }
