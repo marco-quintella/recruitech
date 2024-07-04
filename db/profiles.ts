@@ -4,6 +4,7 @@ import { locations } from './locations'
 import { profilesToJobTitles } from './profiles_to_job_titles'
 import { profilesToTags } from './profiles_to_tags'
 import { users } from './users'
+import { applications } from './applications'
 
 export const profiles = pgTable('profiles', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
@@ -19,6 +20,7 @@ export const profiles = pgTable('profiles', {
 })
 
 export const profileRelations = relations(profiles, ({ many, one }) => ({
+  applications: many(applications),
   location: one(locations, { fields: [profiles.locationId], references: [locations.id] }),
   profilesToJobTitles: many(profilesToJobTitles),
   profilesToTags: many(profilesToTags),

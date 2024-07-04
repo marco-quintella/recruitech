@@ -189,7 +189,7 @@ function onCopy() {
           v-else-if="process.processType === ProcessTypeEnum.link"
           color="primary"
           w-full
-          @click="navigateTo(`/aplicar/${process?.id}`)"
+          @click="navigateTo(`/vagas/${process?.id}/aplicar`)"
         >
           Candidatar-se
           <div i-ph-arrow-up-right ml-2 />
