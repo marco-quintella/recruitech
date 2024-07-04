@@ -1,6 +1,4 @@
 import { z } from 'zod'
-import consola from 'consola'
-import { createApplication } from '../../services/applications/createApplication'
 
 export default defineEventHandler(async (event) => {
   const { data: user } = await requireAuthSession(event)

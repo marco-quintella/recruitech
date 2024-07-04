@@ -15,6 +15,16 @@ const process = computed(() => processResponse.value?.data?.[0])
 const { data: profile } = await useFetch('/api/profiles/me')
 const tags = computed(() => profile.value?.tags.map(tag => tag.name).join(', '))
 
+const { data: applicationsResponse } = await useFetch('/api/applications', {
+  method: 'get',
+  params: {
+    processId,
+    profileId: computed(() => profile.value?.id),
+  },
+})
+
+const alreadyApplied = computed(() => applicationsResponse.value?.data?.length)
+
 async function onApply() {
   try {
     if (!profile.value?.id)
@@ -87,11 +97,12 @@ async function onApply() {
         </div>
 
         <q-btn
+          :disabled="alreadyApplied"
           color="primary"
           no-caps w-full
           @click="onApply"
         >
-          Confirmar Candidatura
+          {{ alreadyApplied ? 'Candidatura já realizada' : 'Confirmar Candidatura' }}
         </q-btn>
       </div>
     </div>
