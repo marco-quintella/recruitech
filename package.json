@@ -22,7 +22,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.11",
     "drizzle-orm": "^0.31.2",
-    "firebase": "^10.12.2",
+    "firebase": "^10.12.3",
     "i18n-iso-countries": "^7.11.2",
     "postgres": "^3.4.4",
     "quasar": "2.16.4",
@@ -30,7 +30,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.21.2",
+    "@antfu/eslint-config": "^2.21.3",
     "@artmizu/nuxt-prometheus": "^2.3.1",
     "@iconify-json/ph": "^1.1.13",
     "@iconify-json/twemoji": "^1.1.15",
@@ -42,15 +42,15 @@
     "@pinia/nuxt": "^0.5.1",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-express-handlebars": "^4.0.5",
-    "@unocss/eslint-config": "^0.61.0",
-    "@unocss/eslint-plugin": "^0.61.0",
-    "@unocss/nuxt": "^0.61.0",
+    "@unocss/eslint-config": "^0.61.2",
+    "@unocss/eslint-plugin": "^0.61.2",
+    "@unocss/nuxt": "^0.61.2",
     "@vueuse/nuxt": "^10.11.0",
     "consola": "^3.2.3",
     "dayjs-nuxt": "^2.1.9",
     "drizzle-kit": "^0.22.8",
-    "eslint": "npm:eslint-ts-patch@^8.57.0-0",
     "eslint-plugin-format": "^0.1.2",
+    "eslint": "npm:eslint-ts-patch@^8.57.0-0",
     "eslint-ts-patch": "^8.57.0-0",
     "nodemailer": "^6.9.14",
     "nodemailer-express-handlebars": "^6.1.2",
@@ -63,6 +63,6 @@
     "sass": "^1.77.6",
     "typescript": "^5.5.3",
     "vitepress": "^1.2.3",
-    "vue-tsc": "^2.0.24"
+    "vue-tsc": "^2.0.26"
   }
 }
