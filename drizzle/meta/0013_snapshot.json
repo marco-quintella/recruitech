@@ -1,7 +1,5 @@
 {
-  "id": "806a6e38-0543-4577-9c06-a75066ff0cc4",
-  "prevId": "40760e44-6f5a-4c1a-8d1c-0bd17276aa14",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.companies": {
@@ -50,36 +48,44 @@
       },
       "indexes": {
         "companies_name_index": {
-          "name": "companies_name_index",
           "columns": [
-            "name"
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": true
+          "with": {},
+          "name": "companies_name_index",
+          "isUnique": true,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {
         "companies_hq_location_locations_id_fk": {
           "name": "companies_hq_location_locations_id_fk",
           "tableFrom": "companies",
-          "tableTo": "locations",
           "columnsFrom": [
             "hq_location"
           ],
+          "tableTo": "locations",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "companies_name_unique": {
           "name": "companies_name_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "name"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     },
@@ -132,41 +138,41 @@
         "discards_candidate_id_users_id_fk": {
           "name": "discards_candidate_id_users_id_fk",
           "tableFrom": "discards",
-          "tableTo": "users",
           "columnsFrom": [
             "candidate_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "discards_process_id_processes_id_fk": {
           "name": "discards_process_id_processes_id_fk",
           "tableFrom": "discards",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "discards_user_id_users_id_fk": {
           "name": "discards_user_id_users_id_fk",
           "tableFrom": "discards",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -209,15 +215,15 @@
         "email_tokens_user_id_users_id_fk": {
           "name": "email_tokens_user_id_users_id_fk",
           "tableFrom": "email_tokens",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -258,41 +264,41 @@
         "favorites_candidate_id_users_id_fk": {
           "name": "favorites_candidate_id_users_id_fk",
           "tableFrom": "favorites",
-          "tableTo": "users",
           "columnsFrom": [
             "candidate_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "favorites_process_id_processes_id_fk": {
           "name": "favorites_process_id_processes_id_fk",
           "tableFrom": "favorites",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "favorites_user_id_users_id_fk": {
           "name": "favorites_user_id_users_id_fk",
           "tableFrom": "favorites",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -406,28 +412,28 @@
         "processes_to_job_titles_job_title_id_job_titles_id_fk": {
           "name": "processes_to_job_titles_job_title_id_job_titles_id_fk",
           "tableFrom": "processes_to_job_titles",
-          "tableTo": "job_titles",
           "columnsFrom": [
             "job_title_id"
           ],
+          "tableTo": "job_titles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_job_titles_process_id_processes_id_fk": {
           "name": "processes_to_job_titles_process_id_processes_id_fk",
           "tableFrom": "processes_to_job_titles",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -463,28 +469,28 @@
         "processes_to_locations_location_id_locations_id_fk": {
           "name": "processes_to_locations_location_id_locations_id_fk",
           "tableFrom": "processes_to_locations",
-          "tableTo": "locations",
           "columnsFrom": [
             "location_id"
           ],
+          "tableTo": "locations",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_locations_process_id_processes_id_fk": {
           "name": "processes_to_locations_process_id_processes_id_fk",
           "tableFrom": "processes_to_locations",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -520,28 +526,28 @@
         "processes_to_tags_process_id_processes_id_fk": {
           "name": "processes_to_tags_process_id_processes_id_fk",
           "tableFrom": "processes_to_tags",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_to_tags_tag_id_tags_id_fk": {
           "name": "processes_to_tags_tag_id_tags_id_fk",
           "tableFrom": "processes_to_tags",
-          "tableTo": "tags",
           "columnsFrom": [
             "tag_id"
           ],
+          "tableTo": "tags",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -681,41 +687,41 @@
         "processes_chosen_user_id_users_id_fk": {
           "name": "processes_chosen_user_id_users_id_fk",
           "tableFrom": "processes",
-          "tableTo": "users",
           "columnsFrom": [
             "chosen_user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_company_id_companies_id_fk": {
           "name": "processes_company_id_companies_id_fk",
           "tableFrom": "processes",
-          "tableTo": "companies",
           "columnsFrom": [
             "company_id"
           ],
+          "tableTo": "companies",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "processes_user_id_users_id_fk": {
           "name": "processes_user_id_users_id_fk",
           "tableFrom": "processes",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -743,28 +749,28 @@
         "profiles_to_job_titles_job_title_id_job_titles_id_fk": {
           "name": "profiles_to_job_titles_job_title_id_job_titles_id_fk",
           "tableFrom": "profiles_to_job_titles",
-          "tableTo": "job_titles",
           "columnsFrom": [
             "job_title_id"
           ],
+          "tableTo": "job_titles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profiles_to_job_titles_profile_id_profiles_id_fk": {
           "name": "profiles_to_job_titles_profile_id_profiles_id_fk",
           "tableFrom": "profiles_to_job_titles",
-          "tableTo": "profiles",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -800,28 +806,28 @@
         "profiles_to_tags_profile_id_profiles_id_fk": {
           "name": "profiles_to_tags_profile_id_profiles_id_fk",
           "tableFrom": "profiles_to_tags",
-          "tableTo": "profiles",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "profiles",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profiles_to_tags_tag_id_tags_id_fk": {
           "name": "profiles_to_tags_tag_id_tags_id_fk",
           "tableFrom": "profiles_to_tags",
-          "tableTo": "tags",
           "columnsFrom": [
             "tag_id"
           ],
+          "tableTo": "tags",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -884,28 +890,28 @@
         "profiles_location_id_locations_id_fk": {
           "name": "profiles_location_id_locations_id_fk",
           "tableFrom": "profiles",
-          "tableTo": "locations",
           "columnsFrom": [
             "location_id"
           ],
+          "tableTo": "locations",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "profiles_user_id_users_id_fk": {
           "name": "profiles_user_id_users_id_fk",
           "tableFrom": "profiles",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -933,28 +939,28 @@
         "recommendations_process_id_processes_id_fk": {
           "name": "recommendations_process_id_processes_id_fk",
           "tableFrom": "recommendations",
-          "tableTo": "processes",
           "columnsFrom": [
             "process_id"
           ],
+          "tableTo": "processes",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         },
         "recommendations_user_id_users_id_fk": {
           "name": "recommendations_user_id_users_id_fk",
           "tableFrom": "recommendations",
-          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
+          "tableTo": "users",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {
@@ -1002,11 +1008,19 @@
       },
       "indexes": {
         "tags_name_index": {
-          "name": "tags_name_index",
           "columns": [
-            "name"
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "tags_name_index",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
@@ -1089,25 +1103,25 @@
         "users_company_id_companies_id_fk": {
           "name": "users_company_id_companies_id_fk",
           "tableFrom": "users",
-          "tableTo": "companies",
           "columnsFrom": [
             "company_id"
           ],
+          "tableTo": "companies",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "nullsNotDistinct": false,
           "columns": [
             "email"
-          ]
+          ],
+          "nullsNotDistinct": false
         }
       }
     }
@@ -1163,8 +1177,10 @@
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "806a6e38-0543-4577-9c06-a75066ff0cc4",
+  "prevId": "40760e44-6f5a-4c1a-8d1c-0bd17276aa14"
 }

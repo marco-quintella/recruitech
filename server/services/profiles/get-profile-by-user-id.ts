@@ -15,7 +15,7 @@ export async function getProfileByUserId(userId: string) {
   })
     .from(profilesToTags)
     .leftJoin(tags, eq(profilesToTags.tagId, tags.id))
-    .where(eq(profilesToTags.profileId, profileQuery[0].id))
+    .where(eq(profilesToTags.profileId, profileQuery[0]?.id))
 
   return {
     ...profileQuery?.[0],

@@ -43,7 +43,8 @@ async function onFavorite() {
         },
         method: 'POST',
       })
-      favorites.value = [newFavorite]
+      if (newFavorite)
+        favorites.value = [newFavorite]
     }
     else {
       await $fetch('/api/favorites', {
@@ -188,6 +189,7 @@ function onCopy() {
           v-else-if="process.processType === ProcessTypeEnum.link"
           color="primary"
           w-full
+          @click="navigateTo(`/vagas/${process?.id}/aplicar`)"
         >
           Candidatar-se
           <div i-ph-arrow-up-right ml-2 />

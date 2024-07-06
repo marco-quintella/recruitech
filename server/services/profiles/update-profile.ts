@@ -4,15 +4,18 @@ interface UpdateProfileData {
   presentation?: string
   userId: string
   tags?: string[]
+  cv?: string
 }
 
 export async function updateProfile({
+  cv,
   presentation,
   tags,
   userId,
 }: UpdateProfileData) {
   const profileQuery = await db.update(profiles)
     .set({
+      cv,
       presentation,
     })
     .where(eq(profiles.userId, userId))

@@ -58,6 +58,10 @@ export default defineNuxtConfig({
     inlineStyles: false,
   },
 
+  // future: {
+  //   compatibilityVersion: 4,
+  // },
+
   googleAdsense: {
     id: 'ca-pub-7015724364902511',
   },
@@ -154,4 +158,6 @@ export default defineNuxtConfig({
       crossOriginResourcePolicy: 'cross-origin',
     },
   },
+
+  compatibilityDate: '2024-07-03',
 })
