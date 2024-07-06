@@ -2967,7 +2967,7 @@ packages:
       vite-plugin-inspect: 0.8.1(@nuxt/kit@3.11.1)(rollup@2.79.1)(vite@5.2.6)
       vite-plugin-vue-inspector: 4.0.2(vite@5.2.6)
       which: 3.0.1
-      ws: 8.16.0
+      ws: 8.18.0
     transitivePeerDependencies:
       - bluebird
       - bufferutil
@@ -6900,7 +6900,7 @@ packages:
       unhead: 1.8.10
       vue: 3.4.15(typescript@5.4.3)
       vue-bundle-renderer: 2.0.0
-      ws: 8.16.0
+      ws: 8.18.0
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -12997,8 +12997,8 @@ packages:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
-  /ws@8.16.0:
-    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
+  /ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
