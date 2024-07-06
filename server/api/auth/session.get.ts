@@ -1,4 +1,3 @@
 export default defineEventHandler(async (event) => {
-  const session = await useAuthSession(event)
-  return session
+  return await useAuthSession(event)
 })

@@ -1,14 +1,14 @@
 import process from 'node:process'
-import type { Config } from 'drizzle-kit'
+import { defineConfig } from 'drizzle-kit'
 
 if (!process.env.DATABASE_URL)
   throw new Error('DATABASE_URL environment variable is required')
 
-export default {
-  schema: './db/*',
-  out: './drizzle',
-  driver: 'pg',
+export default defineConfig({
   dbCredentials: {
-    connectionString: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL,
   },
-} satisfies Config
+  dialect: 'postgresql',
+  out: './drizzle',
+  schema: './db/*',
+})

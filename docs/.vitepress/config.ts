@@ -2,27 +2,28 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Recruitech Docs",
-  description: "Documentação do Projeto Recruitech",
+  base: '/GetJobs.Tech/',
+  description: 'Documentação do Projeto GetJobs.Tech',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { link: '/', text: 'Home' },
+      { link: '/markdown-examples', text: 'Examples' },
     ],
 
     sidebar: [
       {
-        text: 'Examples',
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
+          { link: '/markdown-examples', text: 'Markdown Examples' },
+          { link: '/api-examples', text: 'Runtime API Examples' },
+        ],
+        text: 'Examples',
+      },
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
-    ]
-  }
+      { icon: 'github', link: 'https://github.com/vuejs/vitepress' },
+    ],
+  },
+  title: 'GetJobs.Tech Docs',
 })

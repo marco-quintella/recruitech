@@ -5,11 +5,11 @@ import type { Role } from '~/db/role'
 const $q = useQuasar()
 
 const model = reactive({
-  name: undefined as string | undefined,
+  companyName: undefined as string | undefined,
   email: undefined as string | undefined,
+  name: undefined as string | undefined,
   password: undefined as string | undefined,
   role: 'candidate' as Role,
-  companyName: undefined as string | undefined,
 })
 
 async function onSubmit() {
@@ -19,20 +19,20 @@ async function onSubmit() {
   try {
     $q.loading.show()
     await authRegister({
-      name: model.name,
-      email: model.email,
-      password: model.password,
-      role: model.role,
       companyName: model.role === 'company_admin'
         ? model.companyName
         : undefined,
+      email: model.email,
+      name: model.name,
+      password: model.password,
+      role: model.role,
     })
   }
   catch (e: any) {
     $q.notify({
-      message: e.data?.message || 'Erro ao fazer login',
       color: 'negative',
       icon: 'report_problem',
+      message: e.data?.message || 'Erro ao fazer login',
     })
   }
   finally {
@@ -42,9 +42,9 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="flex justify-center pt-10vh">
+  <q-page padding class="flex items-center justify-center">
     <q-card
-      flat max-w-100 w-full p-8
+      flat max-w-md w-full p-8
       b="1 primary solid rd-3"
     >
       <q-form
@@ -127,7 +127,7 @@ async function onSubmit() {
         </p>
       </q-form>
     </q-card>
-  </div>
+  </q-page>
 </template>
 
 <style lang="sass">

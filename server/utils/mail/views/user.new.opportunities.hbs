@@ -1,0 +1,41 @@
+<div style="font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 1.5rem; text-align: center;">
+  <div style="text-align: center;">
+    <h1 style="font-size: xx-large; font-weight: 700;">Você tem novas oportunidades</h1>
+  </div>
+  <div style="text-align: left; width: 100%; padding-bottom: 2rem;">
+    <p style="padding-bottom: 1rem;">Olá {{{ name }}},</p>
+    <p>
+      Confira as oportunidades que combinam com seu perfil!
+    </p>
+
+    {{#each processes}}
+      <div style="padding: 1rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; margin-top: 1rem; display: flex; gap: 1rem;">
+        {{#if company.logo}}
+          <img src="{{this.company.logo}}" alt="{{this.company.name}}" style="width: 100px; height: 100px; object-fit: contain; border-radius: 0.375rem; margin-right: 0.5rem">
+        {{/if}}
+        <div style="display: block;">
+          <a href="https://dev.recruitech.mqdev.com.br/vagas/{{this.id}}" style="font-size: large; font-weight: 700; margin: 0px;">{{this.title}}</a>
+          <p style="font-size: medium; margin: 0px;">{{this.company.name}}</p>
+
+          {{#each tags}}
+            {{#if @first}}
+              <p style="font-size: small; font-weight: 700; margin: 0px;">Tags:</p>
+            {{/if}}
+            <span style="background-color: #edf2f7; color: #2d3748; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: small;">{{this.name}}</span>
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+
+    <p>Atenciosamente,</p>
+    <p>Time GetJobs.Tech</p>
+  </div>
+  <div style="margin-left: auto; margin-right: auto;">
+    <a
+      style="padding: 0.75rem; background-color: blueviolet; font-weight: bold; text-decoration: none; color: white; white-space: nowrap; border-radius: 0.375rem; font-size: 0.875rem; transition: background-color 0.2s, color 0.2s; outline: none; box-shadow: none; border: none; cursor: pointer; pointer-events: auto; user-select: none; min-height: 2.5rem; padding-left: 1rem; padding-right: 1rem; width: 100%;"
+      href="{{link}}"
+    >
+      Acessar GetJobs.Tech
+    </a>
+  </div>
+</div>

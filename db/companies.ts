@@ -1,17 +1,32 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
-import { users } from './users'
-import { process } from './process'
+import { pgTable, text, timestamp, uniqueIndex, uuid } from 'drizzle-orm/pg-core'
+import { locations } from './locations'
+import { companySizeEnum } from './company.size'
 
 export const companies = pgTable('companies', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  name: text('name').notNull(),
-
+  companySize: companySizeEnum('company_size'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
+  facebook: text('facebook'),
+  hqLocation: uuid('hq_location').references(() => locations.id),
+  id: uuid('id').defaultRandom().primaryKey(),
+  instagram: text('instagram'),
+  linkedin: text('linkedin'),
+  logo: text('logo'),
+  name: text('name').notNull().unique(),
+  shortDescription: text('short_description'),
+  twitter: text('twitter'),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
-})
-
-export const companyRelations = relations(companies, ({ many }) => ({
-  users: many(users),
-  processes: many(process),
+  website: text('website'),
+}, company => ({
+  nameIdx: uniqueIndex().on(company.name),
 }))
+
+export const companyRelations = relations(companies, ({ many, one }) => ({
+  locations: one(locations, { fields: [companies.hqLocation], references: [locations.id] }),
+  processes: many(processes),
+  users: many(users),
+}))
+
+export type Company = typeof companies.$inferSelect
+export type CompanyInsert = typeof companies.$inferInsert
+export type CompanyUpdate = Partial<typeof companies.$inferInsert>

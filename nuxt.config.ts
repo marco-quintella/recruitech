@@ -1,44 +1,27 @@
 import process from 'node:process'
-import { pwa } from './config/pwa'
 import { appDescription } from './constants/index'
 
 export default defineNuxtConfig({
-  modules: [
-    '@nuxtjs/color-mode',
-    '@pinia/nuxt',
-    '@unocss/nuxt',
-    '@vite-pwa/nuxt',
-    '@vueuse/nuxt',
-    'nuxt-module-eslint-config',
-    'nuxt-quasar-ui',
-  ],
-
-  imports: {
-    dirs: ['/db/**/*'],
-  },
-
-  runtimeConfig: {
-    auth: {
-      name: 'nuxt-session',
-      password: process.env.NUXT_AUTH_PASSWORD || '',
-    },
-    mail: {
-      from: '',
-      host: '',
-      port: 465,
-      auth: {
-        user: '',
-        pass: '',
-      },
+  app: {
+    head: {
+      link: [
+        { href: '/favicon.ico', rel: 'icon', sizes: 'any' },
+        { href: '/logo-symbol-only.svg', rel: 'icon', type: 'image/svg+xml' },
+        { href: '/logo-symbol-only.png', rel: 'apple-touch-icon' },
+      ],
+      meta: [
+        { content: 'width=device-width, initial-scale=1', name: 'viewport' },
+        { content: appDescription, name: 'description' },
+        { content: 'black-translucent', name: 'apple-mobile-web-app-status-bar-style' },
+        { content: 'white', media: '(prefers-color-scheme: light)', name: 'theme-color' },
+        { content: '#222222', media: '(prefers-color-scheme: dark)', name: 'theme-color' },
+      ],
+      viewport: 'width=device-width,initial-scale=1',
     },
   },
 
-  experimental: {
-    // when using generate, payload js assets included in sw precache manifest
-    // but missing on offline, disabling extraction it until fixed
-    payloadExtraction: false,
-    renderJsonPayloads: true,
-    typedPages: true,
+  colorMode: {
+    classSuffix: '',
   },
 
   css: [
@@ -46,56 +29,28 @@ export default defineNuxtConfig({
     'assets/main.sass',
   ],
 
-  colorMode: {
-    classSuffix: '',
+  dayjs: {
+    defaultLocale: 'pt-br',
+    locales: ['pt-br'],
   },
-
-  quasar: {
-    plugins: ['Notify', 'Dialog', 'Loading'],
-    sassVariables: 'assets/variables.sass',
-  },
-
-  nitro: {
-    imports: {
-      dirs: ['/db/**/*'],
-    },
-    storage: {
-      '.data:auth': { driver: 'fs', base: './.data/auth' },
-    },
-    esbuild: {
-      options: {
-        target: 'esnext',
-      },
-    },
-    prerender: {
-      crawlLinks: false,
-      routes: ['/'],
-      ignore: ['/hi'],
-    },
-  },
-
-  app: {
-    head: {
-      viewport: 'width=device-width,initial-scale=1',
-      link: [
-        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
-        { rel: 'icon', type: 'image/svg+xml', href: '/nuxt.svg' },
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-      ],
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: appDescription },
-        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-        { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
-        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
-      ],
-    },
-  },
-
-  pwa,
 
   devtools: {
     enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
+
+  eslintConfig: {
+    setup: false,
+  },
+
+  experimental: {
+    // when using generate, payload js assets included in sw precache manifest
+    // but missing on offline, disabling extraction it until fixed
+    payloadExtraction: false,
+    renderJsonPayloads: true,
+    // typedPages: true,
   },
 
   features: {
@@ -103,7 +58,106 @@ export default defineNuxtConfig({
     inlineStyles: false,
   },
 
-  eslintConfig: {
-    setup: false,
+  // future: {
+  //   compatibilityVersion: 4,
+  // },
+
+  googleAdsense: {
+    id: 'ca-pub-7015724364902511',
   },
+
+  imports: {
+    dirs: [
+      './db/**/*',
+      './composables/**/*',
+    ],
+  },
+
+  modules: [
+    '@nuxtjs/color-mode',
+    '@pinia/nuxt',
+    '@unocss/nuxt',
+    '@vueuse/nuxt',
+    'nuxt-module-eslint-config',
+    'nuxt-quasar-ui',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@artmizu/nuxt-prometheus',
+    'nuxt-security',
+    'dayjs-nuxt',
+    '@nuxtjs/mdc',
+    '@nuxtjs/google-adsense',
+  ],
+
+  nitro: {
+    esbuild: {
+      options: {
+        target: 'esnext',
+      },
+    },
+    imports: {
+      dirs: [
+        './db/**/*',
+        './server/services/**/*',
+        './server/utils/**/*',
+      ],
+    },
+    // prerender: {
+    //   crawlLinks: false,
+    //   ignore: ['/hi'],
+    //   routes: ['/'],
+    // },
+    storage: {
+      '.data:auth': { base: './.data/auth', driver: 'fs' },
+      'redis': {
+        driver: 'redis',
+        url: process.env.REDIS_URL,
+      },
+    },
+  },
+
+  quasar: {
+    plugins: ['Notify', 'Dialog', 'Loading'],
+    sassVariables: 'assets/variables.sass',
+  },
+
+  runtimeConfig: {
+    auth: {
+      name: 'nuxt-session',
+      password: '',
+      password_salt: '',
+    },
+    mail: {
+      auth: {
+        pass: '',
+        user: '',
+      },
+      from: '',
+      host: '',
+      port: 465,
+    },
+    public: {
+      firebase: {
+        apiKey: '',
+        appId: '',
+        authDomain: '',
+        measurementId: '',
+        messagingSenderId: '',
+        projectId: '',
+        storageBucket: '',
+      },
+      frontend: {
+        url: '',
+      },
+    },
+  },
+
+  security: {
+    headers: {
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'credentialless',
+      crossOriginResourcePolicy: 'cross-origin',
+    },
+  },
+
+  compatibilityDate: '2024-07-03',
 })

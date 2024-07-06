@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "invite_pending" boolean DEFAULT false NOT NULL;
