@@ -3,12 +3,16 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import * as applications from '~/db/applications'
 import * as companies from '~/db/companies'
+import * as jobTitles from '~/db/job-titles'
 import * as locations from '~/db/locations'
 import * as processes from '~/db/processes'
 import * as processesToJobTitles from '~/db/processes_to_job_titles'
 import * as processesToLocations from '~/db/processes_to_locations'
 import * as processesToTags from '~/db/processes_to_tags'
 import * as profiles from '~/db/profiles'
+import * as profilesToJobTitles from '~/db/profiles_to_job_titles'
+import * as profilesToTags from '~/db/profiles_to_tags'
+import * as tags from '~/db/tags'
 import * as users from '~/db/users'
 
 if (!process.env.DATABASE_URL)
@@ -26,5 +30,9 @@ export const db = drizzle(queryClient, {
     ...processesToTags,
     ...profiles,
     ...users,
+    ...profilesToTags,
+    ...profilesToJobTitles,
+    ...tags,
+    ...jobTitles,
   },
 })

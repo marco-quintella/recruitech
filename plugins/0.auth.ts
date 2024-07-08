@@ -3,8 +3,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   if (nuxtApp.payload.error)
     return {}
 
-  const { data: session, refresh: updateSession }
-   = await useFetch('/api/auth/session')
+  const { data: session, refresh: updateSession } = await useFetch('/api/auth/session')
 
   const loggedIn = computed(() => !!session.value?.data?.email)
 
@@ -59,3 +58,24 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
   }
 })
+
+declare module '#app' {
+  interface NuxtApp {
+    $auth: {
+      loggedIn: Ref<boolean>
+      redirectTo: Ref<string>
+      session: Ref<{
+        readonly data: {
+          id: string
+          name: string
+          email: string
+          role: Role
+          confirmedEmail: boolean
+          companyId: string | null
+        }
+        readonly id: string | undefined
+      } | null>
+      updateSession: () => Promise<void>
+    }
+  }
+}

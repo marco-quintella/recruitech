@@ -5,6 +5,8 @@ const $q = useQuasar()
 
 const { loggedIn, session } = useAuth()
 
+const isCompanyOrAdmin = computed(() => session.value?.data?.role && session.value.data.role !== RoleEnum.candidate)
+
 async function onLogout() {
   $q.dialog({
     cancel: 'Não',
@@ -35,6 +37,9 @@ async function onLogout() {
       <div i-ph-list text-6 md:hidden @click="emit('toggle-drawer')" />
       <Logo cursor-pointer color2="primary-text" @click="navigateTo('/')" />
       <div flex="1" hidden gap-4 text-4 font-bold md:flex>
+        <layout-menu-link v-if="isCompanyOrAdmin" to="/candidatos">
+          Candidatos
+        </layout-menu-link>
         <layout-menu-link to="/vagas">
           Vagas
         </layout-menu-link>
@@ -122,7 +127,3 @@ async function onLogout() {
     </q-toolbar>
   </q-header>
 </template>
-
-<style lang="sass">
-
-</style>
