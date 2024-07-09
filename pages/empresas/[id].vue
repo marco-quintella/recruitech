@@ -26,38 +26,6 @@ const contractTypes = computed(() => company.value?.processesTypes?.length
     type => contractTypeOptions.find(op => op.value === type)?.label,
   )
   : undefined)
-
-const availableLocations = computed(() => company.value?.availableLocations?.length
-  ? company.value?.availableLocations.map(
-    location => ({
-      label: [
-        location.country,
-        location.state,
-        location.city,
-      ].filter(Boolean).join(', '),
-      value: {
-        city: location.city ?? undefined,
-        country: location.country,
-        state: location.state ?? undefined,
-      },
-    }),
-  ).reduce(
-    (acc: {
-      label: string
-      value: {
-        city: string | undefined
-        country: string
-        state: string | undefined
-      }
-    }[], curr) => {
-      if (!curr?.label || acc.some(entry => entry.label === curr?.label))
-        return acc
-      acc.push(curr)
-      return acc
-    },
-    [],
-  )
-  : undefined)
 </script>
 
 <template>
@@ -91,19 +59,11 @@ const availableLocations = computed(() => company.value?.availableLocations?.len
                 {{ t }}
               </q-chip>
             </div>
-            <div v-if="availableLocations" class="space-y-2">
+            <div v-if="company.availableLocations" class="space-y-2">
               <div class="text-primary font-600">
                 Locais de Contratação
               </div>
-              <q-chip v-for="{ label, value } of availableLocations" :key="label" dense>
-                <q-img
-                  v-if="value.country"
-                  :src="`https://flagsapi.com/${value.country}/flat/64.png`"
-                  size="16px"
-                  mr-1
-                />
-                {{ label }}
-              </q-chip>
+              <location-badges :locations="company.availableLocations" />
             </div>
             <div v-if="company.companySize" class="space-y-2">
               <div class="text-primary font-600">

@@ -24,6 +24,8 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
+  compatibilityDate: '2024-07-03',
+
   css: [
     '@unocss/reset/tailwind.css',
     'assets/main.sass',
@@ -70,6 +72,7 @@ export default defineNuxtConfig({
     dirs: [
       './db/**/*',
       './composables/**/*',
+      './stores/**/*',
     ],
   },
 
@@ -99,6 +102,7 @@ export default defineNuxtConfig({
         './db/**/*',
         './server/services/**/*',
         './server/utils/**/*',
+        './lib/*',
       ],
     },
     // prerender: {
@@ -158,6 +162,4 @@ export default defineNuxtConfig({
       crossOriginResourcePolicy: 'cross-origin',
     },
   },
-
-  compatibilityDate: '2024-07-03',
 })

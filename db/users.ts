@@ -7,24 +7,16 @@ import { favorites } from './favorites'
 import { profiles } from './profiles'
 import { recommendations } from './recommendations'
 import { roleEnum } from './role'
-import { files } from './files'
 
 export const users = pgTable('users', {
-  // Relations
   companyId: uuid('company_id').references(() => companies.id),
   confirmedEmail: boolean('confirmed_email').notNull().default(false),
-  // Metadata
   createdAt: timestamp('created_at').notNull().defaultNow(),
   email: text('email').notNull().unique(),
-  // Data
   id: uuid('id').defaultRandom().primaryKey(),
-
-  // Flags
   invitePending: boolean('invite_pending').notNull().default(false),
   name: text('name').notNull(),
-
   password: text('password').notNull(),
-
   role: roleEnum('role').notNull(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

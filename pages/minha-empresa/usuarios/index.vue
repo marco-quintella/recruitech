@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
+import type { AsyncDataRequestStatus } from '#app'
 
 const $q = useQuasar()
 const userStore = useUserStore()
@@ -32,7 +33,7 @@ const columns: QTableProps['columns'] = [
 
 const { onRequest, pagination, updatePagination } = usePagination()
 
-const { data: users, execute: onFetch, pending: isLoading } = await useFetch(
+const { data: users, execute: onFetch, status } = await useFetch(
   `/api/users/company`,
   {
     method: 'get',
@@ -113,7 +114,7 @@ function editUser(user: User) {
         v-model:pagination="pagination"
         :columns="columns"
         :rows="rows"
-        :loading="isLoading"
+        :loading="status === 'pending'"
         row-key="id"
         binary-state-sort
         w-full

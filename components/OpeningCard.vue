@@ -71,7 +71,3 @@ defineProps<{ process: GetProcessesResponse['data'][0] }>()
     </div>
   </nuxt-link>
 </template>
-
-<style>
-
-</style>
