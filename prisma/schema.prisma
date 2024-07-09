@@ -1,0 +1,266 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model applications {
+  created_at DateTime  @default(now()) @db.Timestamp(6)
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  process_id String    @db.Uuid
+  profile_id String    @db.Uuid
+  updated_at DateTime  @default(now()) @db.Timestamp(6)
+  processes  processes @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "applications_process_id_processes_id_fk")
+  profiles   profiles  @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "applications_profile_id_profiles_id_fk")
+
+  @@index([process_id], map: "applications_process_id_index")
+  @@index([profile_id], map: "applications_profile_id_index")
+}
+
+model companies {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String        @unique(map: "companies_name_index")
+  created_at        DateTime      @default(now()) @db.Timestamp(6)
+  updated_at        DateTime      @default(now()) @db.Timestamp(6)
+  logo              String?
+  hq_location       String?       @db.Uuid
+  company_size      company_size?
+  facebook          String?
+  instagram         String?
+  linkedin          String?
+  twitter           String?
+  website           String?
+  short_description String?
+  locations         locations?    @relation(fields: [hq_location], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "companies_hq_location_locations_id_fk")
+  processes         processes[]
+  users             users[]
+}
+
+model discards {
+  process_id                         String?    @db.Uuid
+  user_id                            String     @db.Uuid
+  id                                 String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  candidate_id                       String?    @db.Uuid
+  created_at                         DateTime   @default(now()) @db.Timestamp(6)
+  updated_at                         DateTime   @default(now()) @db.Timestamp(6)
+  users_discards_candidate_idTousers users?     @relation("discards_candidate_idTousers", fields: [candidate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discards_candidate_id_users_id_fk")
+  processes                          processes? @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discards_process_id_processes_id_fk")
+  users_discards_user_idTousers      users      @relation("discards_user_idTousers", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "discards_user_id_users_id_fk")
+}
+
+model email_tokens {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  users      users    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "email_tokens_user_id_users_id_fk")
+}
+
+model favorites {
+  process_id                          String?    @db.Uuid
+  user_id                             String     @db.Uuid
+  id                                  String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  candidate_id                        String?    @db.Uuid
+  users_favorites_candidate_idTousers users?     @relation("favorites_candidate_idTousers", fields: [candidate_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "favorites_candidate_id_users_id_fk")
+  processes                           processes? @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "favorites_process_id_processes_id_fk")
+  users_favorites_user_idTousers      users      @relation("favorites_user_idTousers", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "favorites_user_id_users_id_fk")
+}
+
+model job_titles {
+  id                      String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                    String
+  created_at              DateTime                  @default(now()) @db.Timestamp(6)
+  updated_at              DateTime                  @default(now()) @db.Timestamp(6)
+  processes_to_job_titles processes_to_job_titles[]
+  profiles_to_job_titles  profiles_to_job_titles[]
+}
+
+model locations {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  country                String
+  state                  String?
+  city                   String?
+  created_at             DateTime                 @default(now()) @db.Timestamp(6)
+  updated_at             DateTime                 @default(now()) @db.Timestamp(6)
+  companies              companies[]
+  processes_to_locations processes_to_locations[]
+  profiles               profiles[]
+}
+
+model processes {
+  id                                    String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_id                            String                    @db.Uuid
+  user_id                               String                    @db.Uuid
+  process_type                          process_type
+  title                                 String
+  description                           String
+  contract_type                         contract_type
+  experience_level                      experience_level?
+  salary_0                              Decimal?                  @db.Decimal
+  salary_1                              Decimal?                  @db.Decimal
+  email                                 String?
+  link                                  String?
+  finished_at                           DateTime?                 @db.Timestamp(6)
+  cancelled_at                          DateTime?                 @db.Timestamp(6)
+  chosen_user_id                        String?                   @db.Uuid
+  created_at                            DateTime                  @default(now()) @db.Timestamp(6)
+  updated_at                            DateTime                  @default(now()) @db.Timestamp(6)
+  remote                                remote_type               @default(on_site)
+  applications                          applications[]
+  discards                              discards[]
+  favorites                             favorites[]
+  users_processes_chosen_user_idTousers users?                    @relation("processes_chosen_user_idTousers", fields: [chosen_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_chosen_user_id_users_id_fk")
+  companies                             companies                 @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_company_id_companies_id_fk")
+  users_processes_user_idTousers        users                     @relation("processes_user_idTousers", fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_user_id_users_id_fk")
+  processes_to_job_titles               processes_to_job_titles[]
+  processes_to_locations                processes_to_locations[]
+  processes_to_tags                     processes_to_tags[]
+  recommendations                       recommendations[]
+}
+
+model processes_to_job_titles {
+  process_id   String     @db.Uuid
+  job_title_id String     @db.Uuid
+  job_titles   job_titles @relation(fields: [job_title_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_to_job_titles_job_title_id_job_titles_id_fk")
+  processes    processes  @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_to_job_titles_process_id_processes_id_fk")
+
+  @@id([process_id, job_title_id], map: "processes_to_job_titles_process_id_job_title_id_pk")
+}
+
+model processes_to_locations {
+  process_id  String    @db.Uuid
+  location_id String    @db.Uuid
+  locations   locations @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_to_locations_location_id_locations_id_fk")
+  processes   processes @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_to_locations_process_id_processes_id_fk")
+
+  @@id([process_id, location_id], map: "processes_to_locations_process_id_location_id_pk")
+}
+
+model processes_to_tags {
+  process_id String    @db.Uuid
+  tag_id     String    @db.Uuid
+  processes  processes @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_to_tags_process_id_processes_id_fk")
+  tags       tags      @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "processes_to_tags_tag_id_tags_id_fk")
+
+  @@id([process_id, tag_id], map: "processes_to_tags_process_id_tag_id_pk")
+}
+
+model profiles {
+  id                     String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  presentation           String?
+  user_id                String                   @db.Uuid
+  created_at             DateTime                 @default(now()) @db.Timestamp(6)
+  updated_at             DateTime                 @default(now()) @db.Timestamp(6)
+  location_id            String?                  @db.Uuid
+  cv                     String?
+  applications           applications[]
+  locations              locations?               @relation(fields: [location_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_location_id_locations_id_fk")
+  users                  users                    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_users_id_fk")
+  profiles_to_job_titles profiles_to_job_titles[]
+  profiles_to_tags       profiles_to_tags[]
+}
+
+model profiles_to_job_titles {
+  profile_id   String     @db.Uuid
+  job_title_id String     @db.Uuid
+  job_titles   job_titles @relation(fields: [job_title_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_to_job_titles_job_title_id_job_titles_id_fk")
+  profiles     profiles   @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_to_job_titles_profile_id_profiles_id_fk")
+
+  @@id([profile_id, job_title_id], map: "profiles_to_job_titles_profile_id_job_title_id_pk")
+}
+
+model profiles_to_tags {
+  profile_id String   @db.Uuid
+  tag_id     String   @db.Uuid
+  profiles   profiles @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_to_tags_profile_id_profiles_id_fk")
+  tags       tags     @relation(fields: [tag_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_to_tags_tag_id_tags_id_fk")
+
+  @@id([profile_id, tag_id], map: "profiles_to_tags_profile_id_tag_id_pk")
+}
+
+model recommendations {
+  process_id String    @db.Uuid
+  user_id    String    @db.Uuid
+  processes  processes @relation(fields: [process_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "recommendations_process_id_processes_id_fk")
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "recommendations_user_id_users_id_fk")
+
+  @@id([process_id, user_id], map: "recommendations_process_id_user_id_pk")
+}
+
+model tags {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String
+  created_at        DateTime            @default(now()) @db.Timestamp(6)
+  updated_at        DateTime            @default(now()) @db.Timestamp(6)
+  processes_to_tags processes_to_tags[]
+  profiles_to_tags  profiles_to_tags[]
+
+  @@index([name], map: "tags_name_index")
+}
+
+model users {
+  id                                        String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                                      String
+  email                                     String            @unique(map: "users_email_unique")
+  password                                  String
+  created_at                                DateTime          @default(now()) @db.Timestamp(6)
+  updated_at                                DateTime          @default(now()) @db.Timestamp(6)
+  role                                      role
+  company_id                                String?           @db.Uuid
+  confirmed_email                           Boolean           @default(false)
+  invite_pending                            Boolean           @default(false)
+  discards_discards_candidate_idTousers     discards[]        @relation("discards_candidate_idTousers")
+  discards_discards_user_idTousers          discards[]        @relation("discards_user_idTousers")
+  email_tokens                              email_tokens[]
+  favorites_favorites_candidate_idTousers   favorites[]       @relation("favorites_candidate_idTousers")
+  favorites_favorites_user_idTousers        favorites[]       @relation("favorites_user_idTousers")
+  processes_processes_chosen_user_idTousers processes[]       @relation("processes_chosen_user_idTousers")
+  processes_processes_user_idTousers        processes[]       @relation("processes_user_idTousers")
+  profiles                                  profiles[]
+  recommendations                           recommendations[]
+  companies                                 companies?        @relation(fields: [company_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_company_id_companies_id_fk")
+}
+
+enum company_size {
+  to5         @map("1to5")
+  to10        @map("6to10")
+  to30        @map("11to30")
+  to50        @map("31to50")
+  to100       @map("51to100")
+  moreThan100
+}
+
+enum contract_type {
+  full_time
+  part_time
+  contractor
+  internship
+}
+
+enum experience_level {
+  entry
+  intermediate
+  senior
+}
+
+enum process_type {
+  platform
+  email
+  link
+}
+
+enum remote_type {
+  full_remote
+  hybrid
+  on_site
+}
+
+enum role {
+  system
+  company_admin
+  recruiter
+  candidate
+}

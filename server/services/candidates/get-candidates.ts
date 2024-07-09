@@ -1,8 +1,5 @@
-import { count } from 'drizzle-orm'
-
 export async function getCandidates({
   pagination,
-  search,
 }: {
   search?: string
   pagination?: {
@@ -12,51 +9,61 @@ export async function getCandidates({
 }) {
   const { page = 1, pageSize = 10 } = pagination ?? {}
 
-  const query = await db.query.profiles.findMany({
-    limit: pageSize,
-    offset: page - 1,
-    with: {
-      location: true,
-      profilesToJobTitles: {
-        with: {
-          jobTitle: {
-            columns: {
-              id: true,
-              name: true,
+  const query = await prisma.$transaction([
+    prisma.profiles.count(),
+    prisma.profiles.findMany({
+      select: {
+        created_at: true,
+        cv: true,
+        id: true,
+        location_id: false,
+        locations: true,
+        presentation: true,
+        profiles_to_job_titles: {
+          select: {
+            job_titles: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
           },
         },
-      },
-      profilesToTags: {
-        with: {
-          tag: {
-            columns: {
-              id: true,
-              name: true,
+        profiles_to_tags: {
+          select: {
+            tags: {
+              select: {
+                id: true,
+                name: true,
+              },
             },
           },
         },
-      },
-      user: {
-        columns: {
-          id: true,
-          name: true,
+        updated_at: true,
+        user_id: false,
+        users: {
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
-    },
-  })
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+  ])
 
-  const mapped = query.map(profile => ({
+  const [total, profiles] = query
+
+  const mapped = profiles.map(profile => ({
     ...profile,
-    jobTitles: profile.profilesToJobTitles.map(p => p.jobTitle),
-    locationId: undefined,
-    profilesToJobTitles: undefined,
-    profilesToTags: undefined,
-    tags: profile.profilesToTags.map(p => p.tag),
-    userId: undefined,
+    jobTitles: profile.profiles_to_job_titles.map(p => p.job_titles),
+    profiles_to_job_titles: undefined,
+    profiles_to_tags: undefined,
+    tags: profile.profiles_to_tags.map(p => p.tags),
+    user: profile.users,
+    users: undefined,
   }))
-
-  const total = await db.select({ count: count() }).from(profiles)
 
   return {
     data: mapped,
@@ -64,8 +71,8 @@ export async function getCandidates({
       pagination: {
         page,
         pageSize,
-        total: total[0].count,
-        totalPages: Math.ceil(total[0].count / pageSize),
+        total,
+        totalPages: Math.ceil(total / pageSize),
       },
     },
   }
