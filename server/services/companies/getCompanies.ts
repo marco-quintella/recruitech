@@ -1,5 +1,3 @@
-import { and, asc, count, desc, eq, ilike, isNull, sql } from 'drizzle-orm'
-
 export async function getCompanies({
   filters,
   pagination,
@@ -16,72 +14,59 @@ export async function getCompanies({
 } = {}) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
-  const companiesQuery = db.select({
-    companySize: companies.companySize,
-    facebook: companies.facebook,
-    id: companies.id,
-    instagram: companies.instagram,
-    linkedin: companies.linkedin,
-    location: {
-      city: locations.city,
-      country: locations.country,
-      state: locations.state,
-    },
-    logo: companies.logo,
-    name: companies.name,
-    openings: sql`count('*') - 1`.mapWith(Number),
-    twitter: companies.twitter,
-    website: companies.website,
-  })
-    .from(companies).$dynamic()
-    .innerJoin(
-      processes,
-      and(
-        eq(processes.companyId, companies.id),
-        and(
-          isNull(processes.finishedAt),
-          isNull(processes.cancelledAt),
-        ),
-      ),
-    )
-    .innerJoin(locations, eq(companies.hqLocation, locations.id))
-    .groupBy(companies.id, locations.country, locations.state, locations.city)
-
-  const total = db.select({ count: count() })
-    .from(companies)
-
-  if (filters) {
-    if (filters.id) {
-      companiesQuery.where(eq(companies.id, filters.id))
-      total.where(eq(companies.id, filters.id))
-    }
-  }
-
-  if (!!search && search.length > 3) {
-    companiesQuery.where(ilike(companies.name, `%${search}%`))
-    total.where(ilike(companies.name, `%${search}%`))
-  }
-
-  companiesQuery.orderBy(
-    direction === 'asc'
-      ? asc(companies[orderBy])
-      : desc(companies[orderBy]),
-  )
-    .offset((page - 1) * pageSize)
-    .limit(pageSize)
-
-  const execute = await Promise.all([companiesQuery, total])
+  const [total, companies] = await prisma.$transaction([
+    prisma.companies.count({
+      where: {
+        id: filters?.id,
+        name: {
+          contains: `%${search}%`,
+        },
+      },
+    }),
+    prisma.companies.findMany({
+      orderBy: {
+        [orderBy]: direction,
+      },
+      select: {
+        companySize: true,
+        facebook: true,
+        hqLocation: true,
+        id: true,
+        instagram: true,
+        linkedin: true,
+        location: true,
+        logo: true,
+        name: true,
+        processes: {
+          where: {
+            cancelledAt: null,
+            finishedAt: null,
+          },
+        },
+        short_description: true,
+        website: true,
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      where: {
+        id: filters?.id,
+        name: {
+          contains: `%${search}%`,
+        },
+      },
+    }),
+  ])
 
   return {
-    data: execute[0],
+    data: companies,
     meta: {
       pagination: {
         direction,
         orderBy,
         page,
         pageSize,
-        total: execute[1][0].count,
-        totalPages: Math.ceil(execute[1][0].count / pageSize),
+        total,
+        totalPages: Math.ceil(total / pageSize),
       },
     },
   }

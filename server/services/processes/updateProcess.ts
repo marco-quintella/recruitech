@@ -1,18 +1,14 @@
-import { eq } from 'drizzle-orm'
+import type { Prisma } from '@prisma/client'
 
 export async function updateProcess(
-  body: ProcessUpdate,
+  body: Prisma.processesUpdateInput,
   relations: {
     tags?: string[]
     jobTitles?: string[]
-    location?: {
-      city?: string
-      country?: string
-      state?: string
-    }
+    location?: Prisma.locationsCreateInput
   },
 ) {
-  const { companyId, id, ...data } = body
+  const { company, id, ...data } = body
   const { jobTitles, location, tags } = relations
 
   if (!id)
@@ -25,15 +21,6 @@ export async function updateProcess(
     validTags.push(...tagsData.filter(Boolean).map(tag => tag!.id))
   }
 
-  if (validTags.length) {
-    await db.insert(processesToTags)
-      .values(validTags.map(tagId => ({
-        processId: id,
-        tagId,
-      })),
-      ).onConflictDoNothing()
-  }
-
   const validJobTitles: string[] = []
   if (jobTitles) {
     const jobTitlePromises = jobTitles.map(jobTitleId => getJobTitleById(jobTitleId))
@@ -41,44 +28,41 @@ export async function updateProcess(
     validJobTitles.push(...jobTitlesData.filter(Boolean).map(jobTitle => jobTitle!.id))
   }
 
-  if (validJobTitles.length) {
-    await db.insert(processesToJobTitles)
-      .values(validJobTitles.map(jobTitleId => ({
-        jobTitleId,
-        processId: id,
-      })),
-      ).onConflictDoNothing()
-  }
+  const locationEntry = await getLocationByProcessId(id.toString())
 
-  if (location?.city || location?.state) {
-    const locationEntry = await getLocationByProcessId(id)
-    if (locationEntry) {
-      await updateLocation({
-        city: location.city,
-        id: locationEntry.id,
-        state: location.state,
-      })
-    }
-    else {
-      const locationEntry = await createLocation(location)
-      await db.insert(processesToLocations)
-        .values({
-          locationId: locationEntry.id,
-          processId: id,
-        })
-        .onConflictDoNothing()
-    }
-  }
-
-  const query = await db.update(processes)
-    .set({
+  return await prisma.processes.update({
+    data: {
       ...data,
-      cancelledAt: data.cancelledAt ? new Date(data.cancelledAt) : undefined,
-      createdAt: data.createdAt ? new Date(data.createdAt) : undefined,
-      finishedAt: data.finishedAt ? new Date(data.finishedAt) : undefined,
-      updatedAt: data.updatedAt ? new Date(data.updatedAt) : undefined,
-    })
-    .where(eq(processes.id, id))
-    .returning()
-  return query?.[0]
+      company: {
+        connect: {
+          id: company?.toString(),
+        },
+      },
+      jobTitles: {
+        connect: validJobTitles.map(jobTitleId => ({ id: jobTitleId })),
+      },
+      locations: {
+        upsert: {
+          create: {
+            city: location?.city,
+            country: 'BR',
+            state: location?.state,
+          },
+          update: {
+            city: location?.city,
+            state: location?.state,
+          },
+          where: {
+            id: locationEntry?.id,
+          },
+        },
+      },
+      tags: {
+        connect: validTags.map(tagId => ({ id: tagId })),
+      },
+    },
+    where: {
+      id: id?.toString(),
+    },
+  })
 }

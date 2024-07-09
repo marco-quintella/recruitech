@@ -5,25 +5,20 @@ interface CreateProfileData {
 }
 
 export async function createProfile({ presentation, tags, userId }: CreateProfileData) {
-  const profileQuery = await db.insert(profiles)
-    .values({
-      presentation,
-      userId,
-    })
-    .returning()
-
-  if (tags?.length && profileQuery?.[0]?.id) {
+  let validTags: string[] = []
+  if (tags?.length) {
     const tagsPromises = tags.map(tagId => getTagById(tagId))
     const tagsData = await Promise.all(tagsPromises)
-    const validTags = tagsData.filter(isDefined).map(tag => tag.id)
-
-    await db.insert(profilesToTags)
-      .values(validTags.map(tagId => ({
-        profileId: profileQuery[0].id,
-        tagId,
-      })))
-      .onConflictDoNothing()
+    validTags = tagsData.filter(isDefined).map(tag => tag.id)
   }
 
-  return profileQuery?.[0]
+  return await prisma.profiles.create({
+    data: {
+      presentation,
+      tags: {
+        connect: validTags?.map(tagId => ({ id: tagId })),
+      },
+      userId,
+    },
+  })
 }

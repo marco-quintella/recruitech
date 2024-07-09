@@ -1,10 +1,20 @@
-import { eq } from 'drizzle-orm'
-
 export async function getOneEmailTokenById(id: string) {
-  const query = await db.select()
-    .from(emailTokens)
-    .where(eq(emailTokens.id, id))
-    .leftJoin(users, eq(emailTokens.userId, users.id))
-    .limit(1)
-  return query?.[0]
+  return await prisma.emailTokens.findFirst({
+    include: {
+      users: {
+        select: {
+          companies: true,
+          confirmedEmail: true,
+          email: true,
+          id: true,
+          invitePending: true,
+          name: true,
+          role: true,
+        },
+      },
+    },
+    where: {
+      id,
+    },
+  })
 }

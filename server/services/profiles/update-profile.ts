@@ -1,5 +1,3 @@
-import { eq } from 'drizzle-orm'
-
 interface UpdateProfileData {
   presentation?: string
   userId: string
@@ -13,26 +11,23 @@ export async function updateProfile({
   tags,
   userId,
 }: UpdateProfileData) {
-  const profileQuery = await db.update(profiles)
-    .set({
-      cv,
-      presentation,
-    })
-    .where(eq(profiles.userId, userId))
-    .returning()
-
-  if (tags?.length && profileQuery?.[0]?.id) {
+  let validTags: string[] = []
+  if (tags?.length) {
     const tagsPromises = tags.map(tagId => getTagById(tagId))
     const tagsData = await Promise.all(tagsPromises)
-    const validTags = tagsData.filter(isDefined).map(tag => tag.id)
-
-    await db.insert(profilesToTags)
-      .values(validTags.map(tagId => ({
-        profileId: profileQuery[0].id,
-        tagId,
-      })))
-      .onConflictDoNothing()
+    validTags = tagsData.filter(isDefined).map(tag => tag.id)
   }
 
-  return profileQuery?.[0]
+  return await prisma.profiles.update({
+    data: {
+      cv,
+      presentation,
+      tags: {
+        set: validTags?.map(tagId => ({ id: tagId })),
+      },
+    },
+    where: {
+      userId,
+    },
+  })
 }

@@ -1,17 +1,25 @@
-import { eq } from 'drizzle-orm'
-import type { UpdateCompanyBody } from '~/server/api/companies/index.patch'
+import type { Prisma } from '@prisma/client'
 
-export async function updateCompany(body: UpdateCompanyBody) {
+export async function updateCompany(body: (Prisma.companiesUpdateInput & { id: string }) & {
+  location?: Prisma.locationsCreateInput
+}) {
   const { id, location, ...data } = body
   let locationData
+
+  if (!id)
+    throw new Error('Company ID is required')
 
   if (location?.city || location?.state || location?.country)
     locationData = await upsertLocation(location)
 
-  const query = await db.update(companies)
-    .set({ ...data, hqLocation: locationData?.id })
-    .where(eq(companies.id, id))
-    .returning()
-
-  return { ...query?.[0], location: locationData }
+  return await prisma.companies.update({
+    data: {
+      ...data,
+      hqLocation: locationData?.id,
+    },
+    include: {
+      location: true,
+    },
+    where: { id },
+  })
 }

@@ -1,5 +1,5 @@
-import { eq } from 'drizzle-orm'
-
-export function deleteEmailToken(id: string) {
-  return db.delete(emailTokens).where(eq(emailTokens.id, id))
+export async function deleteEmailToken(id: string) {
+  return await prisma.emailTokens.delete({
+    where: { id },
+  })
 }

@@ -1,6 +1,7 @@
 export async function getJobTitles() {
-  const query = await db.select()
-    .from(jobTitles)
-    .orderBy(jobTitles.name)
-  return query
+  return await prisma.jobTitles.findMany({
+    orderBy: {
+      name: 'asc',
+    },
+  })
 }

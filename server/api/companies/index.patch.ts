@@ -1,8 +1,9 @@
+import type { Prisma } from '@prisma/client'
 import { z } from 'zod'
 
-export type UpdateCompanyBody = CompanyUpdate & {
+export type UpdateCompanyBody = Prisma.companiesUpdateInput & {
   id: string
-  location?: { city?: string, state?: string, country?: string }
+  location?: Prisma.locationsCreateInput
 }
 
 export default defineEventHandler(async (event) => {

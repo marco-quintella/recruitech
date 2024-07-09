@@ -98,8 +98,8 @@ export default defineEventHandler(async (event) => {
     link,
     processType,
     remote,
-    salary_0: salary_0 ? salary_0.toString() : null,
-    salary_1: salary_1 ? salary_1.toString() : null,
+    salary0: salary_0 ? salary_0.toString() : null,
+    salary1: salary_1 ? salary_1.toString() : null,
     title,
     userId: user.id!,
   }, { jobTitles, location, tags })

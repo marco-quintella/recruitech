@@ -1,5 +1,3 @@
-import { applications } from '~/db/applications'
-
 export async function createApplication({
   processId,
   profileId,
@@ -7,8 +5,10 @@ export async function createApplication({
   processId: string
   profileId: string
 }) {
-  return (await db.insert(applications).values({
-    processId,
-    profileId,
-  }))?.[0]
+  return await prisma.applications.create({
+    data: {
+      processId,
+      profileId,
+    },
+  })
 }

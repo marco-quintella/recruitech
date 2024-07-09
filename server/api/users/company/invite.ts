@@ -23,7 +23,9 @@ export default defineEventHandler<{
   // Service Layer
   const tempUser = await createUserInvite(email, role, companyId)
   const company = await getCompanyById(companyId)
-  await sendInviteEmail(tempUser.id, email, company)
+  if (!company)
+    return
+  await sendInviteEmail(tempUser.id, email, { name: company?.name })
 
   setResponseStatus(event, 201)
   return true

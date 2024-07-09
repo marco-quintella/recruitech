@@ -41,7 +41,11 @@ export default defineEventHandler(async (event) => {
 
     const company = await insertCompany({ name: companyName })
     user = await insertUser({
-      companyId: company.id,
+      company: {
+        connect: {
+          id: company.id,
+        },
+      },
       email,
       name,
       password: await hash(password),

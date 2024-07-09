@@ -1,4 +1,7 @@
-export async function insertUser(user: UserInsert) {
-  const query = await db.insert(users).values(user).returning()
-  return query?.[0]
+import type { Prisma } from '@prisma/client'
+
+export async function insertUser(user: Prisma.usersCreateInput) {
+  return await prisma.users.create({
+    data: user,
+  })
 }

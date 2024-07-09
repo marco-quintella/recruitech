@@ -1,7 +1,11 @@
+import type { companies } from '@prisma/client'
+
 export async function sendInviteEmail(
   id: string,
   email: string,
-  company: Company,
+  company: {
+    name: string
+  },
 ) {
   const { public: { frontend: { url } } } = useRuntimeConfig()
 

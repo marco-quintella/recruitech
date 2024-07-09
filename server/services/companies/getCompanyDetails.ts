@@ -1,42 +1,28 @@
 import type { Location } from '~/db/locations'
 
 export async function getCompanyDetails(id: string) {
-  const company = await db.query.companies.findFirst({
-    where: (companies, { eq }) => eq(companies.id, id),
-    with: {
-      locations: true,
+  const company = await prisma.companies.findFirst({
+    select: {
+      location: {
+        select: {
+          city: true,
+          country: true,
+          id: true,
+          state: true,
+        },
+      },
       processes: {
-        with: {
-          processesToLocations: {
-            with: {
-              location: true,
-            },
-          },
+        include: {
+          locations: true,
         },
       },
     },
+    where: { id },
   })
 
-  const data: typeof company & {
-    processesTypes?: ContractType[]
-    availableLocations?: Location[]
-  } | undefined = company
-
-  if (data) {
-    data.processes.forEach((process) => {
-      if (!data.processesTypes)
-        data.processesTypes = []
-      if (!data.processesTypes.includes(process.contractType))
-        data.processesTypes?.push(process.contractType)
-
-      if (!data.availableLocations)
-        data.availableLocations = []
-
-      process.processesToLocations.forEach((processToLocation) => {
-        if (!data.availableLocations?.some(location => location.id === processToLocation.location.id))
-          data.availableLocations?.push(processToLocation.location)
-      })
-    })
+  return {
+    ...company,
+    availableLocations: new Set(company?.processes.map(process => process.locations)).values(),
+    processesTypes: new Set(company?.processes.map(process => process.contractType)).values(),
   }
-  return data
 }

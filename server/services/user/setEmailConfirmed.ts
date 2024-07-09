@@ -1,7 +1,10 @@
-import { eq } from 'drizzle-orm'
-
-export function setEmailConfirmed(userId: string) {
-  return db.update(users)
-    .set({ confirmedEmail: true })
-    .where(eq(users.id, userId))
+export async function setEmailConfirmed(userId: string) {
+  return await prisma.users.update({
+    data: {
+      confirmedEmail: true,
+    },
+    where: {
+      id: userId,
+    },
+  })
 }

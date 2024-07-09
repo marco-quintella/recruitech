@@ -1,4 +1,3 @@
-import { eq } from 'drizzle-orm'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
 
@@ -17,19 +16,19 @@ export async function useAuthSession(event: H3Event) {
   const session = await useSession<AuthSession>(event, sessionConfig)
 
   if (session.data.email) {
-    const userQuery = await db.select({
-      companyId: users.companyId,
-      confirmedEmail: users.confirmedEmail,
-      email: users.email,
-      id: users.id,
-      name: users.name,
-      role: users.role,
+    const user = await prisma.users.findFirst({
+      select: {
+        companyId: true,
+        confirmedEmail: true,
+        email: true,
+        id: true,
+        name: true,
+        role: true,
+      },
+      where: {
+        id: session.data.id,
+      },
     })
-      .from(users)
-      .where(eq(users.id, session.data.id))
-      .limit(1)
-
-    const user = userQuery[0]
 
     if (user)
       session.update(user)

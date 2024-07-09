@@ -1,6 +1,7 @@
-export async function insertTag(value: TagInsert) {
-  const query = await db.insert(tags)
-    .values(value)
-    .returning()
-  return query?.[0]
+import type { Prisma } from '@prisma/client'
+
+export async function insertTag(value: Prisma.tagsCreateInput) {
+  return await prisma.tags.create({
+    data: value,
+  })
 }

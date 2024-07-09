@@ -13,40 +13,32 @@ export async function getCandidates({
     prisma.profiles.count(),
     prisma.profiles.findMany({
       select: {
-        created_at: true,
+        createdAt: true,
         cv: true,
         id: true,
-        location_id: false,
-        locations: true,
-        presentation: true,
-        profiles_to_job_titles: {
-          select: {
-            job_titles: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-        profiles_to_tags: {
-          select: {
-            tags: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-        updated_at: true,
-        user_id: false,
-        users: {
+        jobTitles: {
           select: {
             id: true,
             name: true,
           },
         },
+        locationId: false,
+        locations: true,
+        presentation: true,
+        tags: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        updatedAt: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        userId: false,
       },
       skip: (page - 1) * pageSize,
       take: pageSize,
@@ -55,18 +47,8 @@ export async function getCandidates({
 
   const [total, profiles] = query
 
-  const mapped = profiles.map(profile => ({
-    ...profile,
-    jobTitles: profile.profiles_to_job_titles.map(p => p.job_titles),
-    profiles_to_job_titles: undefined,
-    profiles_to_tags: undefined,
-    tags: profile.profiles_to_tags.map(p => p.tags),
-    user: profile.users,
-    users: undefined,
-  }))
-
   return {
-    data: mapped,
+    data: profiles,
     meta: {
       pagination: {
         page,

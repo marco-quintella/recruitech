@@ -1,6 +1,8 @@
-import type { User } from '~/db/users'
-
-export async function sendEmailConfirmedWelcome(user: User) {
+export async function sendEmailConfirmedWelcome(user: {
+  [key: string]: any
+  name: string
+  email: string
+}) {
   const { public: { frontend: { url } } } = useRuntimeConfig()
 
   await mailTransport.sendMail({

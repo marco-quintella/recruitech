@@ -1,5 +1,7 @@
+import type { Prisma } from '@prisma/client'
+
 export async function insertProcess(
-  value: ProcessInsert,
+  data: Prisma.processesCreateArgs['data'],
   relations?: {
     tags?: string[]
     jobTitles?: string[]
@@ -31,33 +33,18 @@ export async function insertProcess(
     state: relations?.location?.state,
   })
 
-  const query = await db.insert(processes)
-    .values(value)
-    .returning()
-
-  if (validTags.length) {
-    await db.insert(processesToTags)
-      .values(validTags.map(tagId => ({
-        processId: query[0].id,
-        tagId,
-      })))
-  }
-
-  if (validJobTitles.length) {
-    await db.insert(processesToJobTitles)
-      .values(validJobTitles.map(jobTitleId => ({
-        jobTitleId,
-        processId: query[0].id,
-      })))
-  }
-
-  if (locationEntry) {
-    await db.insert(processesToLocations)
-      .values({
-        locationId: locationEntry.id,
-        processId: query[0].id,
-      })
-  }
-
-  return query[0]
+  return await prisma.processes.create({
+    data: {
+      ...data,
+      jobTitles: {
+        connect: validJobTitles.map(jobTitleId => ({ id: jobTitleId })),
+      },
+      locations: {
+        connect: locationEntry ? [{ id: locationEntry.id }] : [],
+      },
+      tags: {
+        connect: validTags.map(tagId => ({ id: tagId })),
+      },
+    },
+  })
 }

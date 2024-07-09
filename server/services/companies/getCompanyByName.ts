@@ -1,11 +1,7 @@
-import { eq } from 'drizzle-orm'
-
 export async function getCompanyByName(name: string) {
-  const query = await db.select({
-    id: companies.id,
+  return await prisma.companies.findFirst({
+    where: {
+      name,
+    },
   })
-    .from(companies)
-    .where(eq(companies.name, name))
-    .limit(1)
-  return query?.[0]
 }

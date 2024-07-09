@@ -1,5 +1,3 @@
-import { asc, count, desc, eq } from 'drizzle-orm'
-
 export async function getUserByCompanyId(companyId: string, opts?: {
   page?: number
   pageSize?: number
@@ -8,33 +6,41 @@ export async function getUserByCompanyId(companyId: string, opts?: {
 }) {
   const { direction = 'asc', orderBy = 'name', page = 1, pageSize = 10 } = opts || {}
 
-  const query = await db.select({
-    companyId: users.companyId,
-    email: users.email,
-    id: users.id,
-    name: users.name,
-    role: users.role,
-  })
-    .from(users)
-    .where(eq(users.companyId, companyId))
-    .orderBy(direction === 'asc' ? asc(users[orderBy]) : desc(users[orderBy]))
-    .offset((page - 1) * pageSize)
-    .limit(pageSize)
-
-  const total = await db.select({ count: count() })
-    .from(users)
-    .where(eq(users.companyId, companyId))
+  const [total, users] = await prisma.$transaction([
+    prisma.users.count({
+      where: {
+        companyId,
+      },
+    }),
+    prisma.users.findMany({
+      orderBy: {
+        [orderBy]: direction,
+      },
+      select: {
+        companyId: true,
+        email: true,
+        id: true,
+        name: true,
+        role: true,
+      },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      where: {
+        companyId,
+      },
+    }),
+  ])
 
   return {
-    data: query,
+    data: users,
     meta: {
       pagination: {
         direction,
         orderBy,
         page,
         pageSize,
-        total: total[0].count,
-        totalPages: Math.ceil(total[0].count / pageSize),
+        total,
+        totalPages: Math.ceil(total / pageSize),
       },
     },
   }

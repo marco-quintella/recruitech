@@ -1,3 +1,4 @@
+import type { Prisma, companies, processes } from '@prisma/client'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
@@ -6,14 +7,10 @@ export default defineEventHandler(async (event) => {
     location,
     tags,
     ...process
-  } = await validateBody<ProcessUpdate & {
+  } = await validateBody<Partial<processes> & {
     tags?: string[]
     jobTitles?: string[]
-    location?: {
-      city?: string
-      country?: string
-      state?: string
-    }
+    location?: Prisma.locationsCreateInput
   }>(event, z.object({
     companyId: z.string().trim().uuid().optional(),
     contractType: z.enum([
@@ -60,7 +57,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const probableProcess = await getProcesses({ filters: {
-    id: process.id,
+    id: process.id?.toString(),
   } })
 
   if (!probableProcess.data.length) {

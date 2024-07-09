@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
   // Validate target User belongs to a company
   const targetUser = await getPrivateUserById(targetUserId)
-  if (!targetUser.companyId)
+  if (!targetUser?.companyId)
     throw createError({ status: 400, statusMessage: 'Usuário não pertence a nenhuma empresa' })
 
   // Authorization

@@ -1,4 +1,5 @@
-export async function insertCompany(company: CompanyInsert) {
-  const query = await db.insert(companies).values(company).returning()
-  return query?.[0]
+import type { Prisma } from '@prisma/client'
+
+export async function insertCompany(data: Prisma.companiesCreateInput) {
+  return await prisma.companies.create({ data })
 }
