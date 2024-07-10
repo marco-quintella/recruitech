@@ -2,11 +2,17 @@ export type GetLocationsResponse = Awaited<ReturnType<typeof getLocations>>
 
 export async function getLocations({ search }: { search?: string }) {
   return await prisma.locations.findMany({
-    orderBy: {
-      city: 'asc',
-      country: 'asc',
-      state: 'asc',
-    },
+    orderBy: [
+      {
+        country: 'asc',
+      },
+      {
+        state: 'asc',
+      },
+      {
+        city: 'asc',
+      },
+    ],
     select: {
       city: true,
       country: true,
