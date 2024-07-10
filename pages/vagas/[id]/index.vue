@@ -14,7 +14,7 @@ const { data } = await useFetch('/api/processes', {
 
 const process = computed(() => data.value?.data?.[0])
 
-const { loggedIn, session } = useAuth()
+const { isCandidate, loggedIn, session } = useAuth()
 
 const favorites = ref<Favorite[]>()
 if (loggedIn && session.value?.data?.role === 'candidate') {
@@ -109,11 +109,11 @@ function onCopy() {
               {{ parseExperienceLevel(process.experienceLevel) }}
             </div>
             <div
-              v-if="!!process.salary_0 || !!process.salary_1"
+              v-if="!!process.salary0 || !!process.salary1"
               flex items-center gap-1
             >
               <div i-ph-money />
-              {{ process.salary_0 }} {{ !!process.salary_0 && !!process.salary_1 ? '-' : '' }} {{ process.salary_1 }}
+              {{ process.salary0 }} {{ !!process.salary0 && !!process.salary1 ? '-' : '' }} {{ process.salary1 }}
             </div>
             <div flex items-center gap-1>
               <div i-ph-calendar />
@@ -176,7 +176,7 @@ function onCopy() {
       <div class="vaga">
         <MDC :value="process.description" tag="article" />
       </div>
-      <div>
+      <div v-if="isCandidate">
         <q-btn
           v-if="process.processType === ProcessTypeEnum.platform"
           color="primary"

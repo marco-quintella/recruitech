@@ -1,3 +1,5 @@
+import { role } from '@prisma/client'
+
 export default defineNuxtPlugin(async (nuxtApp) => {
   // Skip plugin when rendering error page
   if (nuxtApp.payload.error)
@@ -6,6 +8,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const { data: session, refresh: updateSession } = await useFetch('/api/auth/session')
 
   const loggedIn = computed(() => !!session.value?.data?.email)
+
+  const isCandidate = computed(() => session.value?.data.role === role.candidate)
 
   // Create a ref to know where to redirect the user when logged in
   const redirectTo = useState('authRedirect')
@@ -50,6 +54,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     provide: {
       auth: {
+        isCandidate,
         loggedIn,
         redirectTo,
         session,
@@ -64,6 +69,7 @@ declare module '#app' {
     $auth: {
       loggedIn: Ref<boolean>
       redirectTo: Ref<string>
+      isCandidate: Ref<boolean>
       session: Ref<{
         readonly data: {
           id: string
