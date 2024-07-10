@@ -1,7 +1,5 @@
+import type { contractType, experienceLevel, remoteType } from '@prisma/client'
 import { z } from 'zod'
-import type { ContractType } from '~/db/contract-type'
-import { contractTypeSchema } from '~/db/contract-type'
-import type { RemoteType } from '~/db/remote-type'
 
 export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'
@@ -13,9 +11,9 @@ export type GetProcessesQuery = QueryObject & {
   search?: string
   locationId?: string
   tags?: string | string[]
-  contractTypes?: ContractType | ContractType[]
-  experienceLevels?: ExperienceLevel | ExperienceLevel[]
-  remoteTypes?: RemoteType | RemoteType[]
+  contractTypes?: contractType | contractType[]
+  experienceLevels?: experienceLevel | experienceLevel[]
+  remoteTypes?: remoteType | remoteType[]
 }
 
 export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>

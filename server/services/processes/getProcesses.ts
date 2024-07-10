@@ -1,5 +1,5 @@
-import type { Prisma } from '@prisma/client'
-import { asc, count, desc, eq, ilike, inArray } from 'drizzle-orm'
+import type { Prisma, contractType, experienceLevel, remoteType } from '@prisma/client'
+import consola from 'consola'
 import type { ContractType } from '~/db/contract-type'
 import type { ExperienceLevel } from '~/db/experience-level'
 
@@ -23,43 +23,59 @@ export async function getProcesses({
   search?: string
   locationId?: string
   tagIds?: string[]
-  contractTypes?: ContractType[]
-  experienceLevels?: ExperienceLevel[]
-  remoteTypes?: RemoteType[]
+  contractTypes?: contractType[]
+  experienceLevels?: experienceLevel[]
+  remoteTypes?: remoteType[]
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
+  consola.log('test')
+
   const where: Prisma.processesWhereInput = {
-    company: {
-      name: {
-        contains: `%${search}%`,
-      },
-    },
-    contractType: {
-      in: contractTypes,
-    },
-    experienceLevel: {
-      in: experienceLevels,
-    },
-    locations: {
-      some: {
-        id: locationId,
-      },
-    },
-    remote: {
-      in: remoteTypes,
-    },
-    tags: {
-      some: {
-        id: {
-          in: tagIds,
-        },
-      },
-    },
-    title: {
-      contains: `%${search}%`,
-    },
+    company: search
+      ? {
+          name: {
+            contains: `%${search}%`,
+          },
+        }
+      : undefined,
+    contractType: contractTypes?.length
+      ? {
+          in: contractTypes,
+        }
+      : undefined,
+    experienceLevel: experienceLevels?.length
+      ? {
+          in: experienceLevels,
+        }
+      : undefined,
+    locations: locationId
+      ? {
+          some: {
+            id: locationId,
+          },
+        }
+      : undefined,
+    remote: remoteTypes?.length
+      ? {
+          in: remoteTypes,
+        }
+      : undefined,
+    tags: tagIds?.length
+      ? {
+          some: {
+            id: {
+              in: tagIds,
+            },
+          },
+        }
+      : undefined,
+    title: search
+      ? {
+          contains: `%${search}%`,
+        }
+      : undefined,
     ...filters,
   }
 
