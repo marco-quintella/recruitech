@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const model = defineModel<CompanySize | null>()
+import type { companySize } from '@prisma/client'
+
+const model = defineModel<companySize | null>()
 </script>
 
 <template>
@@ -13,7 +15,3 @@ const model = defineModel<CompanySize | null>()
     map-options
   />
 </template>
-
-<style>
-
-</style>

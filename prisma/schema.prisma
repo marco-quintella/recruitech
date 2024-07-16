@@ -128,13 +128,13 @@ model processes {
 model profiles {
   id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   presentation String?
-  userId       String         @map("user_id") @db.Uuid @unique
+  userId       String         @unique @map("user_id") @db.Uuid
   createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt    DateTime       @default(now()) @map("updated_at") @db.Timestamp(6)
   locationId   String?        @map("location_id") @db.Uuid
   cv           String?
   applications applications[]
-  locations    locations?     @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_location_id_locations_id_fk")
+  location     locations?     @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_location_id_locations_id_fk")
   user         users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_users_id_fk")
   jobTitles    jobTitles[]
   tags         tags[]
@@ -180,7 +180,7 @@ model users {
   processes          processes[]       @relation("processes_user_idTousers")
   profiles           profiles[]
   recommendations    recommendations[]
-  company          companies?        @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_company_id_companies_id_fk")
+  company            companies?        @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_company_id_companies_id_fk")
 }
 
 enum companySize {

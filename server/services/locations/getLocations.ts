@@ -21,23 +21,25 @@ export async function getLocations({ search }: { search?: string }) {
     },
     take: 5,
     where: {
-      OR: [
-        {
-          country: {
-            contains: `%${search}%`,
-          },
-        },
-        {
-          state: {
-            contains: `%${search}%`,
-          },
-        },
-        {
-          city: {
-            contains: `%${search}%`,
-          },
-        },
-      ],
+      OR: search
+        ? [
+            {
+              country: {
+                contains: `%${search}%`,
+              },
+            },
+            {
+              state: {
+                contains: `%${search}%`,
+              },
+            },
+            {
+              city: {
+                contains: `%${search}%`,
+              },
+            },
+          ]
+        : undefined,
     },
   })
 }

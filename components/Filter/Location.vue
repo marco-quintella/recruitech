@@ -4,7 +4,7 @@ import type { GetLocationsResponse } from '~/server/services/locations/getLocati
 const model = defineModel<GetLocationsResponse[0]>()
 const search = ref<string>()
 
-const { data: locations, pending } = await useFetch<GetLocationsResponse>('/api/locations', {
+const { data: locations, status } = await useFetch<GetLocationsResponse>('/api/locations', {
   method: 'GET',
   query: {
     search: computed(() => search.value?.length ? search.value : undefined),
@@ -64,11 +64,11 @@ const { data: locations, pending } = await useFetch<GetLocationsResponse>('/api/
             }}
           </q-item-section>
         </q-item>
-        <q-item v-if="!locations.length" dense>
+        <q-item v-if="!locations?.length" dense>
           Nenhum resultado
         </q-item>
       </q-list>
-      <q-inner-loading :showing="pending">
+      <q-inner-loading :showing="status === 'pending'">
         <q-spinner size="50px" color="primary" />
       </q-inner-loading>
     </q-menu>

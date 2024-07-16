@@ -1,3 +1,4 @@
+import { role as Role } from '@prisma/client'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
@@ -9,7 +10,7 @@ export default defineEventHandler(async (event) => {
     role: Role
   }>(event, z.object({
     id: z.string().trim().uuid(),
-    role: z.enum(roleEnum.enumValues),
+    role: z.enum([Role.candidate, Role.company_admin, Role.recruiter]),
   }))
 
   // Authentication

@@ -1,12 +1,16 @@
-import { emailTokens } from '~/db/email-tokens'
-import type { User } from '~/db/users'
+import type { users } from '@prisma/client'
 
-export async function sendRegisterConfirmationEmail(user: User) {
-  const insert = await db.insert(emailTokens).values({
-    userId: user.id,
-  }).returning()
+export async function sendRegisterConfirmationEmail(user: users) {
+  const insert = await prisma.emailTokens.create({
+    data: {
+      userId: user.id,
+    },
+    select: {
+      id: true,
+    },
+  })
 
-  const token = insert[0].id
+  const token = insert.id
 
   const { public: { frontend: { url } } } = useRuntimeConfig()
 

@@ -1,32 +1,28 @@
 <script lang="ts" setup>
+import { contractType, type experienceLevel, processType, remoteType, role } from '@prisma/client'
 import SelectJobTitles from '~/components/SelectJobTitles.vue'
 import SelectExperienceLevel from '~/components/SelectExperienceLevel.vue'
 import SelectProcessType from '~/components/SelectProcessType.vue'
-import type { ProcessInsert } from '~/db/processes'
 
 const $q = useQuasar()
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
 
-const model = ref<ProcessInsert & {
-  tags?: string[]
-  jobTitles?: string[]
-  location?: { city?: string, state?: string, country?: string }
-}>({
+const model = ref({
   companyId: '',
-  contractType: ContractTypeEnum.full_time,
+  contractType: contractType.full_time as contractType,
   description: '',
   email: '',
-  experienceLevel: undefined,
-  jobTitles: [],
+  experienceLevel: undefined as experienceLevel | undefined,
+  jobTitles: [] as string[],
   link: '',
-  location: {},
-  processType: ProcessTypeEnum.platform,
-  remote: RemoteTypeEnum.on_site,
-  salary_0: undefined,
-  salary_1: undefined,
-  tags: [],
+  location: {} as { city: string, state: string },
+  processType: processType.platform as processType,
+  remote: remoteType.on_site as remoteType,
+  salary0: undefined as number | undefined,
+  salary1: undefined as number | undefined,
+  tags: [] as string[],
   title: '',
   userId: '',
 })
@@ -38,9 +34,10 @@ watch(user, () => {
 
   if (
     !user.value?.companyId
-    || ![RoleEnum.company_admin, RoleEnum.recruiter].includes(user.value?.role)
-  )
+    || ![role.company_admin, role.recruiter].includes(user.value?.role)
+  ) {
     return navigateTo('/')
+  }
 }, { immediate: true })
 
 async function onSave() {
@@ -106,7 +103,7 @@ async function onSave() {
         </div>
 
         <q-input
-          v-if="model.processType === ProcessTypeEnum.email"
+          v-if="model.processType === processType.email"
           v-model="model.email"
           type="email"
           label="Email"
@@ -121,7 +118,7 @@ async function onSave() {
         </q-input>
 
         <q-input
-          v-if="model.processType === ProcessTypeEnum.link"
+          v-if="model.processType === processType.link"
           v-model="model.link"
           type="url"
           label="Link"
@@ -181,7 +178,7 @@ async function onSave() {
 
         <div mt-2 w-full flex gap-4>
           <q-input
-            v-model="model.salary_0"
+            v-model="model.salary0"
             :min="0"
             :rules="[(s: number) => (isDefined(s) ? s > 0 : true) ?? 'Valor mínimo deve ser maior que zero.']"
             clearable
@@ -193,8 +190,8 @@ async function onSave() {
           />
 
           <q-input
-            v-model="model.salary_1"
-            :min="model.salary_0"
+            v-model="model.salary1"
+            :min="model.salary0"
             clearable
             dense
             label="Salário máximo"
@@ -202,8 +199,8 @@ async function onSave() {
             type="number"
             :rules="[
               (s: number) => (isDefined(s) ? Number(s) > 0 : true) ?? 'Valor mínimo deve ser maior que zero.',
-              (s: number) => (isDefined(s) && isDefined(model.salary_0)
-                ? Number(s) > Number(model.salary_0)
+              (s: number) => (isDefined(s) && isDefined(model.salary0)
+                ? Number(s) > Number(model.salary0)
                 : true
               ) ?? 'Valor máximo deve ser maior que o valor mínimo.',
             ]"

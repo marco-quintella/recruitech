@@ -1,3 +1,5 @@
+import consola from 'consola'
+
 interface UpdateProfileData {
   presentation?: string
   userId: string
@@ -24,6 +26,14 @@ export async function updateProfile({
       presentation,
       tags: {
         set: validTags?.map(tagId => ({ id: tagId })),
+      },
+    },
+    include: {
+      tags: {
+        select: {
+          id: true,
+          name: true,
+        },
       },
     },
     where: {

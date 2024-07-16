@@ -1,3 +1,4 @@
+import consola from 'consola'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
 
@@ -15,7 +16,7 @@ export interface AuthSession {
 export async function useAuthSession(event: H3Event) {
   const session = await useSession<AuthSession>(event, sessionConfig)
 
-  if (session.data.email) {
+  if (session.data.id) {
     const user = await prisma.users.findFirst({
       select: {
         companyId: true,

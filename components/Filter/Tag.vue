@@ -2,7 +2,7 @@
 const model = defineModel<GetTagsResponse[0][]>({ default: [] })
 const search = ref<string>()
 
-const { data: tags, pending } = await useFetch<GetTagsResponse>('/api/tags', {
+const { data: tags, status } = await useFetch<GetTagsResponse>('/api/tags', {
   method: 'GET',
   query: {
     search: computed(() => search.value?.length ? search.value : undefined),
@@ -57,11 +57,11 @@ function onAdd(tag: GetTagsResponse[0]) {
             {{ tag.name }}
           </q-item-section>
         </q-item>
-        <q-item v-if="!tags.length" dense>
+        <q-item v-if="!tags?.length" dense>
           Nenhum resultado
         </q-item>
       </q-list>
-      <q-inner-loading :showing="pending">
+      <q-inner-loading :showing="status === 'pending'">
         <q-spinner size="50px" color="primary" />
       </q-inner-loading>
     </q-menu>

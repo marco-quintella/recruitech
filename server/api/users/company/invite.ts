@@ -1,3 +1,4 @@
+import { role as Role } from '@prisma/client'
 import { z } from 'zod'
 
 export default defineEventHandler<{
@@ -13,7 +14,7 @@ export default defineEventHandler<{
   const { data: userSession } = await requireAuthSession(event)
   validateIsCompanyAdmin(userSession)
   const companyId = userSession.companyId!
-  const role = RoleEnum.recruiter
+  const role = Role.recruiter
 
   const usersExists = await getUserByEmail(email)
 

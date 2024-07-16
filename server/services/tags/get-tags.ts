@@ -7,7 +7,7 @@ export async function getTags({ search }: { search?: string }) {
     },
     where: {
       name: {
-        contains: `%${search}%`,
+        contains: search ? `%${search}%` : undefined,
       },
     },
   })

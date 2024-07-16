@@ -45,11 +45,11 @@ defineProps<{ process: GetProcessesResponse['data'][0] }>()
           {{ parseExperienceLevel(process.experienceLevel) }}
         </div>
         <div
-          v-if="!!process.salary_0 || !!process.salary_1"
+          v-if="!!process.salary0 || !!process.salary1"
           flex items-center gap-1
         >
           <div i-ph-money />
-          {{ process.salary_0 }} {{ !!process.salary_0 && !!process.salary_1 ? '-' : '' }} {{ process.salary_1 }}
+          {{ process.salary0 }} {{ !!process.salary0 && !!process.salary1 ? '-' : '' }} {{ process.salary1 }}
         </div>
         <div flex items-center gap-1>
           <div i-ph-calendar />

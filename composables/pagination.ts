@@ -5,7 +5,7 @@ export function usePagination() {
     descending: false,
     page: 1,
     rowsNumber: 0,
-    rowsPerPage: 5,
+    rowsPerPage: 20,
     sortBy: undefined as string | undefined,
   })
 

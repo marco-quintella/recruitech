@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { role } from '@prisma/client'
+
 const $q = useQuasar()
 
 const userStore = useUserStore()
@@ -6,7 +8,7 @@ const { user } = storeToRefs(userStore)
 
 const { session } = useAuth()
 
-if (session?.value?.data?.role !== RoleEnum.candidate)
+if (session?.value?.data?.role !== role.candidate)
   navigateTo('/')
 
 const { data: profile, refresh } = await useFetch('/api/profiles/me', {

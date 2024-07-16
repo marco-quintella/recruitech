@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { $Enums } from '@prisma/client'
 import { z } from 'zod'
-import type { Role } from '~/db/role'
 
 const $q = useQuasar()
 
@@ -9,7 +9,7 @@ const model = reactive({
   email: undefined as string | undefined,
   name: undefined as string | undefined,
   password: undefined as string | undefined,
-  role: 'candidate' as Role,
+  role: 'candidate' as $Enums.role,
 })
 
 async function onSubmit() {

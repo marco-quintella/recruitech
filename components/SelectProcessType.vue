@@ -1,20 +1,22 @@
 <script lang="ts" setup>
+import { processType } from '@prisma/client'
+
 const options = [
   {
     label: 'GetJobs.Tech',
-    value: ProcessTypeEnum.platform,
+    value: processType.platform,
   },
   {
     label: 'Email',
-    value: ProcessTypeEnum.email,
+    value: processType.email,
   },
   {
     label: 'Link',
-    value: ProcessTypeEnum.link,
+    value: processType.link,
   },
 ]
 
-const model = defineModel<ProcessType | null>()
+const model = defineModel<processType | null>()
 </script>
 
 <template>
@@ -28,7 +30,3 @@ const model = defineModel<ProcessType | null>()
     map-options
   />
 </template>
-
-<style>
-
-</style>

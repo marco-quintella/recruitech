@@ -70,7 +70,7 @@ export default defineNuxtConfig({
 
   imports: {
     dirs: [
-      './db/**/*',
+      './utils/**/*',
       './composables/**/*',
       './stores/**/*',
     ],
@@ -99,7 +99,7 @@ export default defineNuxtConfig({
     },
     imports: {
       dirs: [
-        './db/**/*',
+        './utils/**/*',
         './server/services/**/*',
         './server/utils/**/*',
         './lib/*',

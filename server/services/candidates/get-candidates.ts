@@ -1,16 +1,91 @@
-export async function getCandidates({
-  pagination,
-}: {
+import type { Prisma } from '@prisma/client'
+
+interface GetCandidatesQuery {
+  filters?: {
+    location?: string
+  }
   search?: string
   pagination?: {
     page?: number
     pageSize?: number
   }
-}) {
+}
+
+export const getCandidates = defineCachedFunction(async ({
+  filters,
+  pagination,
+  search,
+}: GetCandidatesQuery) => {
   const { page = 1, pageSize = 10 } = pagination ?? {}
 
+  const ORs: Prisma.profilesWhereInput[] = []
+
+  if (search) {
+    ORs.push({
+      user: {
+        name: {
+          contains: search ? `%${search}%` : undefined,
+          mode: 'insensitive',
+        },
+      },
+    }, {
+      jobTitles: {
+        some: {
+          name: {
+            contains: search ? `%${search}%` : undefined,
+            mode: 'insensitive',
+          },
+        },
+      },
+    }, {
+      location: {
+        OR: [
+          {
+            city: {
+              contains: search ? `%${search}%` : undefined,
+              mode: 'insensitive',
+            },
+          },
+          {
+            country: {
+              contains: search ? `%${search}%` : undefined,
+              mode: 'insensitive',
+            },
+          },
+          {
+            state: {
+              contains: search ? `%${search}%` : undefined,
+              mode: 'insensitive',
+            },
+          },
+        ],
+      },
+    }, {
+      presentation: {
+        contains: search ? `%${search}%` : undefined,
+        mode: 'insensitive',
+      },
+    }, {
+      tags: {
+        some: {
+          name: {
+            contains: search ? `%${search}%` : undefined,
+            mode: 'insensitive',
+          },
+        },
+      },
+    })
+  }
+
+  const where: Prisma.profilesWhereInput = {
+    location: {
+      id: filters?.location,
+    },
+    OR: ORs.length ? ORs : undefined,
+  }
+
   const query = await prisma.$transaction([
-    prisma.profiles.count(),
+    prisma.profiles.count({ where }),
     prisma.profiles.findMany({
       select: {
         createdAt: true,
@@ -22,8 +97,8 @@ export async function getCandidates({
             name: true,
           },
         },
+        location: true,
         locationId: false,
-        locations: true,
         presentation: true,
         tags: {
           select: {
@@ -42,6 +117,7 @@ export async function getCandidates({
       },
       skip: (page - 1) * pageSize,
       take: pageSize,
+      where,
     }),
   ])
 
@@ -58,4 +134,8 @@ export async function getCandidates({
       },
     },
   }
-}
+}, {
+  base: 'redis',
+  getKey: ({ filters, pagination, search }: GetCandidatesQuery) => `candidates:${filters?.location}:${pagination?.page}:${pagination?.pageSize}:${search}`,
+  maxAge: 15,
+})

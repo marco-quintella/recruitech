@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
-import type { AsyncDataRequestStatus } from '#app'
+import { type users as Users, role } from '@prisma/client'
 
 const $q = useQuasar()
 const userStore = useUserStore()
@@ -24,7 +24,7 @@ const columns: QTableProps['columns'] = [
   {
     align: 'left',
     field: 'role',
-    format: role => role === RoleEnum.company_admin ? 'Administrador' : 'Recrutador',
+    format: role => role === role.company_admin ? 'Administrador' : 'Recrutador',
     label: 'Função',
     name: 'role',
     sortable: true,
@@ -51,7 +51,7 @@ watch(users, () => updatePagination(users), { immediate: true })
 
 const rows = computed(() => users.value?.data ?? [])
 
-function editUser(user: User) {
+function editUser(user: Users) {
   if (user.id === currentUser.value?.id)
     return
 
@@ -60,15 +60,15 @@ function editUser(user: User) {
     message: 'Defina o tipo de perfil do usuário:',
     options: {
       items: [
-        { label: 'Administrador', value: RoleEnum.company_admin },
-        { label: 'Recrutador', value: RoleEnum.recruiter },
+        { label: 'Administrador', value: role.company_admin },
+        { label: 'Recrutador', value: role.recruiter },
       ],
       model: user.role,
       type: 'radio',
     },
     persistent: true,
     title: `Editando ${user.name}`,
-  }).onOk(async (newRole: Role) => {
+  }).onOk(async (newRole: role) => {
     try {
       $q.loading.show()
       await $fetch(`/api/users`, {
@@ -80,6 +80,7 @@ function editUser(user: User) {
       })
       onFetch()
     }
+    // eslint-disable-next-line unused-imports/no-unused-vars
     catch (error) {
       $q.notify({
         color: 'negative',

@@ -1,5 +1,3 @@
-import type { Location } from '~/db/locations'
-
 export async function getCompanyDetails(id: string) {
   const company = await prisma.companies.findFirst({
     select: {

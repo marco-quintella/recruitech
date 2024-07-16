@@ -1,20 +1,22 @@
 <script lang="ts" setup>
+import { experienceLevel } from '@prisma/client'
+
 const options = [
   {
     label: 'Junior',
-    value: ExperienceLevelEnum.entry,
+    value: experienceLevel.entry,
   },
   {
     label: 'Pleno',
-    value: ExperienceLevelEnum.intermediate,
+    value: experienceLevel.intermediate,
   },
   {
     label: 'Senior',
-    value: ExperienceLevelEnum.senior,
+    value: experienceLevel.senior,
   },
 ]
 
-const model = defineModel<ExperienceLevel | null>()
+const model = defineModel<experienceLevel | null>()
 </script>
 
 <template>
@@ -27,8 +29,4 @@ const model = defineModel<ExperienceLevel | null>()
     outlined
     map-options
   />
-</template>
-
-<style>
-
-</style>
+</template>=

@@ -54,8 +54,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
             || experienceLevels.length
             || remoteTypes.length
         "
-        flex
-        flex-wrap
+        flex flex-wrap
       >
         <q-chip
           v-if="location"
@@ -134,7 +133,3 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
     </div>
   </div>
 </template>
-
-<style>
-
-</style>

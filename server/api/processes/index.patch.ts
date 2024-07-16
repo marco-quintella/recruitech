@@ -1,4 +1,4 @@
-import type { Prisma, companies, processes } from '@prisma/client'
+import { type Prisma, contractType, experienceLevel, processType, type processes } from '@prisma/client'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
@@ -14,17 +14,17 @@ export default defineEventHandler(async (event) => {
   }>(event, z.object({
     companyId: z.string().trim().uuid().optional(),
     contractType: z.enum([
-      ContractTypeEnum.contractor,
-      ContractTypeEnum.full_time,
-      ContractTypeEnum.internship,
-      ContractTypeEnum.part_time,
+      contractType.contractor,
+      contractType.full_time,
+      contractType.internship,
+      contractType.part_time,
     ]).optional(),
     description: z.string().trim().optional(),
     email: z.string().trim().email().optional(),
     experienceLevel: z.enum([
-      ExperienceLevelEnum.entry,
-      ExperienceLevelEnum.intermediate,
-      ExperienceLevelEnum.senior,
+      experienceLevel.entry,
+      experienceLevel.intermediate,
+      experienceLevel.senior,
     ]).optional(),
     id: z.string().trim().uuid(),
     jobTitles: z.array(z.string().trim().uuid()).optional(),
@@ -34,8 +34,8 @@ export default defineEventHandler(async (event) => {
       country: z.string().optional(),
       state: z.string().optional(),
     }).optional(),
-    processType: z.enum(processTypeEnum.enumValues).optional(),
-    remote: z.enum([RemoteTypeEnum.full_remote, RemoteTypeEnum.hybrid, RemoteTypeEnum.on_site]).optional(),
+    processType: processTypeSchema.optional(),
+    remote: remoteTypeSchema.optional(),
     salary_0: numberSchema.optional(),
     salary_1: numberSchema.optional(),
     tags: z.array(z.string().trim().uuid()).optional(),
@@ -43,13 +43,13 @@ export default defineEventHandler(async (event) => {
     updatedAt: z.string().optional(),
   }))
 
-  if (process.processType === ProcessTypeEnum.email && !process.email) {
+  if (process.processType === processType.email && !process.email) {
     throw createError({
       status: 400,
       statusMessage: 'Um e-mail devem ser fornecidos',
     })
   }
-  else if (process.processType === ProcessTypeEnum.link && !process.link) {
+  else if (process.processType === processType.link && !process.link) {
     throw createError({
       status: 400,
       statusMessage: 'Um link deve ser fornecido',

@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { role } from '@prisma/client'
+
 const emit = defineEmits(['toggle-drawer'])
 
 const $q = useQuasar()
 
 const { loggedIn, session } = useAuth()
 
-const isCompanyOrAdmin = computed(() => session.value?.data?.role && session.value.data.role !== RoleEnum.candidate)
+const isCompanyOrAdmin = computed(() => session.value?.data?.role && session.value.data.role !== role.candidate)
 
 async function onLogout() {
   $q.dialog({
@@ -52,7 +54,7 @@ async function onLogout() {
       </layout-menu-link> -->
       </div>
       <q-btn
-        v-if="session?.data?.role !== RoleEnum.candidate"
+        v-if="session?.data?.role !== role.candidate"
         color="secondary"
         text-color="secondary-text"
         class="!hidden !md:flex"
@@ -71,7 +73,7 @@ async function onLogout() {
         <q-menu auto-close>
           <q-list v-if="loggedIn" style="min-width: 100px">
             <q-item
-              v-if="session?.data.role === RoleEnum.candidate"
+              v-if="session?.data.role === role.candidate"
               clickable
               @click="navigateTo('/meu-perfil')"
             >

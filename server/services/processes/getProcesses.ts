@@ -1,7 +1,5 @@
 import type { Prisma, contractType, experienceLevel, remoteType } from '@prisma/client'
 import consola from 'consola'
-import type { ContractType } from '~/db/contract-type'
-import type { ExperienceLevel } from '~/db/experience-level'
 
 export async function getProcesses({
   contractTypes,
@@ -29,8 +27,6 @@ export async function getProcesses({
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
-
-  consola.log('test')
 
   const where: Prisma.processesWhereInput = {
     company: search
