@@ -55,7 +55,7 @@ const companies = computed(() => data.value?.data)
               <h3>
                 {{ company.name }}
               </h3>
-              <p>{{ company.openings }} vagas</p>
+              <p>{{ company._count?.processes }} vagas</p>
             </div>
           </nuxt-link>
         </div>

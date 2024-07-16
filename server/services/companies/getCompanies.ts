@@ -1,9 +1,11 @@
+import type { companies } from '@prisma/client'
+
 export async function getCompanies({
   filters,
   pagination,
   search,
 }: {
-  filters?: Partial<Company>
+  filters?: Partial<companies>
   pagination?: {
     direction: 'asc' | 'desc'
     orderBy: 'updatedAt' | 'createdAt'
@@ -28,21 +30,31 @@ export async function getCompanies({
         [orderBy]: direction,
       },
       select: {
+        _count: {
+          select: {
+            processes: {
+              where: {
+                cancelledAt: null,
+                finishedAt: null,
+              },
+            },
+          },
+        },
         companySize: true,
         facebook: true,
-        hqLocation: true,
         id: true,
         instagram: true,
         linkedin: true,
-        location: true,
-        logo: true,
-        name: true,
-        processes: {
-          where: {
-            cancelledAt: null,
-            finishedAt: null,
+        location: {
+          select: {
+            city: true,
+            country: true,
+            id: true,
+            state: true,
           },
         },
+        logo: true,
+        name: true,
         short_description: true,
         website: true,
       },
@@ -50,9 +62,11 @@ export async function getCompanies({
       take: pageSize,
       where: {
         id: filters?.id,
-        name: {
-          contains: `%${search}%`,
-        },
+        name: search
+          ? {
+              contains: `%${search}%`,
+            }
+          : undefined,
       },
     }),
   ])
