@@ -3,17 +3,22 @@ import type { Prisma } from '@prisma/client'
 interface GetCandidatesQuery {
   filters?: {
     location?: string
+    favorite?: boolean
+    discard?: boolean
   }
+  requestUserId?: string
   search?: string
   pagination?: {
     page?: number
     pageSize?: number
+    orderBy?: string
   }
 }
 
 export const getCandidates = defineCachedFunction(async ({
   filters,
   pagination,
+  requestUserId,
   search,
 }: GetCandidatesQuery) => {
   const { page = 1, pageSize = 10 } = pagination ?? {}
@@ -78,6 +83,12 @@ export const getCandidates = defineCachedFunction(async ({
   }
 
   const where: Prisma.profilesWhereInput = {
+    candidateDiscards: filters?.discard
+      ? { some: { userId: requestUserId } }
+      : { none: { userId: requestUserId } },
+    candidateFavorites: filters?.favorite
+      ? { some: { userId: requestUserId } }
+      : undefined,
     location: {
       id: filters?.location,
     },
@@ -87,7 +98,24 @@ export const getCandidates = defineCachedFunction(async ({
   const query = await prisma.$transaction([
     prisma.profiles.count({ where }),
     prisma.profiles.findMany({
+      orderBy: pagination?.orderBy
+        ? {
+            [pagination.orderBy]: 'asc',
+          }
+        : {
+            updatedAt: 'desc',
+          },
       select: {
+        candidateDiscards: {
+          where: {
+            userId: requestUserId,
+          },
+        },
+        candidateFavorites: {
+          where: {
+            userId: requestUserId,
+          },
+        },
         createdAt: true,
         cv: true,
         id: true,
@@ -136,6 +164,5 @@ export const getCandidates = defineCachedFunction(async ({
   }
 }, {
   base: 'redis',
-  getKey: ({ filters, pagination, search }: GetCandidatesQuery) => `candidates:${filters?.location}:${pagination?.page}:${pagination?.pageSize}:${search}`,
   maxAge: 15,
 })

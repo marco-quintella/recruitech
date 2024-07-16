@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { role } from '@prisma/client'
+import { type tags as Tags, type locations, role } from '@prisma/client'
 import type { QTableProps } from 'quasar'
-import type { GetLocationsResponse } from '~/server/services/locations/getLocations'
-import type { GetTagsResponse } from '~/server/services/tags/get-tags'
 
 const { session: user } = useAuth()
 
@@ -14,15 +12,19 @@ const { onRequest, pagination, updatePagination } = usePagination()
 type RowType = typeof candidatesRows.value[0]
 
 const search = ref<string>()
-const location = ref<GetLocationsResponse[0]>()
-const tags = ref<GetTagsResponse[0][]>([])
+const location = ref<locations>()
+const tags = ref<Tags[]>([])
 const experienceLevels = ref<typeof experienceLevelOptions>([])
+const favorite = ref<boolean>(false)
+const discard = ref<boolean>(false)
 
 const { data: candidates, status } = useFetch('/api/candidates', {
   method: 'get',
   query: {
+    discard,
+    favorite,
     location: computed(() => location.value?.id),
-    orderBy: '-createdAt',
+    orderBy: 'createdAt',
     page: computed(() => pagination.value.page ?? 1),
     pageSize: computed(() => pagination.value.rowsPerPage ?? 20),
     search,
@@ -64,6 +66,24 @@ const columns: QTableProps['columns'] = [
 ]
 
 watch(candidates, () => updatePagination(candidates), { immediate: true })
+
+function onFavorite() {
+  if (favorite.value) {
+    favorite.value = false
+    return
+  }
+  discard.value = false
+  favorite.value = true
+}
+
+function onDiscard() {
+  if (discard.value) {
+    discard.value = false
+    return
+  }
+  favorite.value = false
+  discard.value = true
+}
 </script>
 
 <template>
@@ -91,6 +111,12 @@ watch(candidates, () => updatePagination(candidates), { immediate: true })
         <filter-location v-model="location" />
         <filter-tag v-model="tags" />
         <filter-experience-level v-model="experienceLevels" />
+        <q-btn dense color="primary" :outline="!favorite" @click="onFavorite">
+          Favorito
+        </q-btn>
+        <q-btn dense color="primary" :outline="!discard" @click="onDiscard">
+          Descarte
+        </q-btn>
       </div>
     </div>
 
@@ -99,6 +125,7 @@ watch(candidates, () => updatePagination(candidates), { immediate: true })
         location
           || tags?.length
           || experienceLevels.length
+          || favorite || discard
       "
       max-w-4xl w-full flex flex-wrap
     >
@@ -136,6 +163,24 @@ watch(candidates, () => updatePagination(candidates), { immediate: true })
           {{ experienceLevel.label }}
         </q-chip>
       </div>
+
+      <div v-if="favorite" flex gap-1>
+        <q-chip
+          removable
+          @remove="favorite = false"
+        >
+          Favorito
+        </q-chip>
+      </div>
+
+      <div v-if="discard" flex gap-1>
+        <q-chip
+          removable
+          @remove="discard = false"
+        >
+          Descarte
+        </q-chip>
+      </div>
     </div>
 
     <q-card
@@ -156,9 +201,14 @@ watch(candidates, () => updatePagination(candidates), { immediate: true })
       >
         <template #body-cell-name="props">
           <td class="text-left">
-            <nuxt-link :to="`/candidatos/${props.row.id}`">
-              {{ props.row.user.name }}
-            </nuxt-link>
+            <div flex items-center gap-1>
+              <nuxt-link :to="`/candidatos/${props.row.id}`">
+                {{ props.row.user.name }}
+              </nuxt-link>
+
+              <div v-if="props.row.candidateFavorites?.length" i-ph-star-fill color-yellow />
+              <div v-if="props.row.candidateDiscards?.length" i-ph-trash-fill color-red />
+            </div>
           </td>
         </template>
 
