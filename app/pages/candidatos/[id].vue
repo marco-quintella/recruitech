@@ -118,8 +118,8 @@ async function onDiscard() {
 <template>
   <q-page padding>
     <q-card
+      v-if="candidate"
       flex="~ col gap-4"
-
       flat mx-auto max-w-4xl w-full
       b="1 primary solid rd-3"
       p4
@@ -198,7 +198,9 @@ async function onDiscard() {
 
       <div>{{ candidate?.presentation }}</div>
 
-      <q-btn>Contatar</q-btn>
+      <div>
+        Contato: <a :href="`mailto:${candidate.user.email}`" target="_blank">E-mail</a>
+      </div>
 
       <q-inner-loading :showing="status === 'pending'">
         <q-spinner-gears size="50px" color="primary" />

@@ -1,4 +1,3 @@
-import { eq } from 'drizzle-orm'
 import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
@@ -14,6 +13,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Usuário não encontrado' })
 
   // Service Layer
-  await db.update(users).set({ name }).where(eq(users.id, id))
+  await prisma.users.update({
+    data: { name },
+    where: { id },
+  })
   setResponseStatus(event, 204)
 })

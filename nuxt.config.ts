@@ -102,7 +102,7 @@ export default defineNuxtConfig({
         './server/utils/**/*',
         './server/services/**/*',
         './lib/*',
-
+        './app/utils/**/*',
       ],
     },
     // prerender: {
