@@ -17,13 +17,6 @@ export default defineConfig({
       scale: 1.2,
     }),
     presetTypography(),
-    presetWebFonts({
-      fonts: {
-        mono: 'DM Mono',
-        sans: 'Inter',
-        serif: 'DM Serif Display',
-      },
-    }),
   ],
   safelist: ['text-primary-text', 'text-secondary-text'],
   shortcuts: [

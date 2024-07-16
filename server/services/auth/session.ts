@@ -1,4 +1,4 @@
-import consola from 'consola'
+import type { role } from '@prisma/client'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
 
@@ -8,7 +8,7 @@ export interface AuthSession {
   id: string
   name: string
   email: string
-  role: Role
+  role: role
   confirmedEmail: boolean
   companyId: string | null
 }

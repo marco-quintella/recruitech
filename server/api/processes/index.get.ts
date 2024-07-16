@@ -1,7 +1,5 @@
 import type { contractType, experienceLevel, remoteType } from '@prisma/client'
 import { z } from 'zod'
-import { contractTypeSchema } from '../../../utils/contract-type'
-import { experienceLevelSchema } from '../../../utils/experience-level'
 
 export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'

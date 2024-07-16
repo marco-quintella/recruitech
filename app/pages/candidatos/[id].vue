@@ -119,6 +119,7 @@ async function onDiscard() {
   <q-page padding>
     <q-card
       flex="~ col gap-4"
+
       flat mx-auto max-w-4xl w-full
       b="1 primary solid rd-3"
       p4

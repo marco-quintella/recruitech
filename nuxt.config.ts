@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { appDescription } from './constants/index'
+import { appDescription } from './app/constants/index'
 
 export default defineNuxtConfig({
   app: {
@@ -60,9 +60,9 @@ export default defineNuxtConfig({
     inlineStyles: false,
   },
 
-  // future: {
-  //   compatibilityVersion: 4,
-  // },
+  future: {
+    compatibilityVersion: 4,
+  },
 
   googleAdsense: {
     id: 'ca-pub-7015724364902511',
@@ -99,10 +99,10 @@ export default defineNuxtConfig({
     },
     imports: {
       dirs: [
-        './utils/**/*',
-        './server/services/**/*',
         './server/utils/**/*',
+        './server/services/**/*',
         './lib/*',
+
       ],
     },
     // prerender: {
@@ -121,7 +121,7 @@ export default defineNuxtConfig({
 
   quasar: {
     plugins: ['Notify', 'Dialog', 'Loading'],
-    sassVariables: 'assets/variables.sass',
+    sassVariables: './app/assets/variables.sass',
   },
 
   runtimeConfig: {
