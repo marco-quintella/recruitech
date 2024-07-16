@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 const props = defineProps<{
-  locations?: { id: string, city: string | null, country: string, createAt: Date, state: string | null, updatedAt: Date }[]
+  locations?: {
+    id?: string
+    city?: string | null
+    country: string
+    createAt?: Date
+    state?: string | null
+    updatedAt?: Date
+  }[]
 }>()
 
 const locationsMap = computed(() => props.locations?.length
@@ -43,7 +50,3 @@ const locationsMap = computed(() => props.locations?.length
     {{ label }}
   </q-chip>
 </template>
-
-<style>
-
-</style>

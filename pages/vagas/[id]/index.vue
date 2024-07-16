@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { type favorites as Favorites, processType } from '@prisma/client'
+
 const $q = useQuasar()
 const { public: { frontend: { url } } } = useRuntimeConfig()
 
@@ -16,7 +18,7 @@ const process = computed(() => data.value?.data?.[0])
 
 const { isCandidate, loggedIn, session } = useAuth()
 
-const favorites = ref<Favorite[]>()
+const favorites = ref<Favorites[]>()
 if (loggedIn && session.value?.data?.role === 'candidate') {
   const { data: favoriteData } = await useFetch('/api/favorites', {
     method: 'get',
@@ -178,7 +180,7 @@ function onCopy() {
       </div>
       <div v-if="isCandidate">
         <q-btn
-          v-if="process.processType === ProcessTypeEnum.platform"
+          v-if="process.processType === processType.platform"
           color="primary"
           w-full
         >
@@ -186,7 +188,7 @@ function onCopy() {
         </q-btn>
 
         <q-btn
-          v-else-if="process.processType === ProcessTypeEnum.link"
+          v-else-if="process.processType === processType.link"
           color="primary"
           w-full
           @click="navigateTo(`/vagas/${process?.id}/aplicar`)"
@@ -196,7 +198,7 @@ function onCopy() {
         </q-btn>
 
         <div
-          v-else-if="process.processType === ProcessTypeEnum.email"
+          v-else-if="process.processType === processType.email"
           class="w-full b-1 b-primary b-rd-2 p-2"
         >
           Candidate-se através do email: {{ process.email }}

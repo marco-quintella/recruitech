@@ -46,7 +46,7 @@ model discards {
   candidateId String?    @map("candidate_id") @db.Uuid
   createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt   DateTime   @default(now()) @map("updated_at") @db.Timestamp(6)
-  candidate   users?     @relation("discards_candidate_idTousers", fields: [candidateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  candidate   profiles?  @relation("discards_candidate_idToprofiles", fields: [candidateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   processes   processes? @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user        users      @relation("discards_user_idTousers", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -66,7 +66,7 @@ model favorites {
   userId      String     @map("user_id") @db.Uuid
   id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateId String?    @map("candidate_id") @db.Uuid
-  candidate   users?     @relation("favorites_candidate_idTousers", fields: [candidateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  candidate   profiles?  @relation("favorites_candidate_idToprofiles", fields: [candidateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   processes   processes? @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user        users      @relation("favorites_user_idTousers", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -126,18 +126,20 @@ model processes {
 }
 
 model profiles {
-  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  presentation String?
-  userId       String         @unique @map("user_id") @db.Uuid
-  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt    DateTime       @default(now()) @map("updated_at") @db.Timestamp(6)
-  locationId   String?        @map("location_id") @db.Uuid
-  cv           String?
-  applications applications[]
-  location     locations?     @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_location_id_locations_id_fk")
-  user         users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_users_id_fk")
-  jobTitles    jobTitles[]
-  tags         tags[]
+  id                 String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  presentation       String?
+  userId             String         @unique @map("user_id") @db.Uuid
+  createdAt          DateTime       @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime       @default(now()) @map("updated_at") @db.Timestamp(6)
+  locationId         String?        @map("location_id") @db.Uuid
+  cv                 String?
+  applications       applications[]
+  location           locations?     @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_location_id_locations_id_fk")
+  user               users          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profiles_user_id_users_id_fk")
+  jobTitles          jobTitles[]
+  candidateFavorites favorites[]    @relation("favorites_candidate_idToprofiles")
+  candidateDiscards  discards[]     @relation("discards_candidate_idToprofiles")
+  tags               tags[]
 }
 
 model recommendations {
@@ -161,26 +163,24 @@ model tags {
 }
 
 model users {
-  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name               String
-  email              String            @unique(map: "users_email_unique")
-  password           String
-  createdAt          DateTime          @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt          DateTime          @default(now()) @map("updated_at") @db.Timestamp(6)
-  role               role
-  companyId          String?           @map("company_id") @db.Uuid
-  confirmedEmail     Boolean           @default(false) @map("confirmed_email")
-  invitePending      Boolean           @default(false) @map("invite_pending")
-  candidateDiscards  discards[]        @relation("discards_candidate_idTousers")
-  userDiscards       discards[]        @relation("discards_user_idTousers")
-  email_tokens       emailTokens[]
-  candidateFavorites favorites[]       @relation("favorites_candidate_idTousers")
-  userFavorites      favorites[]       @relation("favorites_user_idTousers")
-  chosenUser         processes[]       @relation("processes_chosen_user_idTousers")
-  processes          processes[]       @relation("processes_user_idTousers")
-  profiles           profiles[]
-  recommendations    recommendations[]
-  company            companies?        @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_company_id_companies_id_fk")
+  id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  email           String            @unique(map: "users_email_unique")
+  password        String
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime          @default(now()) @map("updated_at") @db.Timestamp(6)
+  role            role
+  companyId       String?           @map("company_id") @db.Uuid
+  confirmedEmail  Boolean           @default(false) @map("confirmed_email")
+  invitePending   Boolean           @default(false) @map("invite_pending")
+  userDiscards    discards[]        @relation("discards_user_idTousers")
+  email_tokens    emailTokens[]
+  userFavorites   favorites[]       @relation("favorites_user_idTousers")
+  chosenUser      processes[]       @relation("processes_chosen_user_idTousers")
+  processes       processes[]       @relation("processes_user_idTousers")
+  profiles        profiles[]
+  recommendations recommendations[]
+  company         companies?        @relation(fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "users_company_id_companies_id_fk")
 }
 
 enum companySize {
