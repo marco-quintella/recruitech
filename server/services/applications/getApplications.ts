@@ -1,5 +1,10 @@
 export async function getApplications({ filters, pagination }: {
-  filters?: Partial<Application>
+  filters?: {
+    processId?: string
+    profileId?: string
+    companyId?: string | null
+    userId?: string
+  }
   pagination?: {
     direction: 'asc' | 'desc'
     orderBy: 'updatedAt' | 'createdAt'
@@ -12,8 +17,18 @@ export async function getApplications({ filters, pagination }: {
   const [total, applications] = await prisma.$transaction([
     prisma.applications.count({
       where: {
+        processes: filters?.companyId
+          ? {
+              companyId: filters.companyId,
+            }
+          : undefined,
         processId: filters?.processId,
         profileId: filters?.profileId,
+        profiles: filters?.userId
+          ? {
+              userId: filters.userId,
+            }
+          : undefined,
       },
     }),
     prisma.applications.findMany({
