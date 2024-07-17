@@ -9,9 +9,7 @@ const model = defineModel<companySize | null>()
     v-model="model"
     :options="companySizeOptions"
     label="Tamanho da Empresa"
-    emit-value
-    dense
-    outlined
-    map-options
+
+    dense emit-value outlined map-options
   />
 </template>

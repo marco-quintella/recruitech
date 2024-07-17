@@ -24,9 +24,7 @@ const model = defineModel<experienceLevel | null>()
     v-model="model"
     :options="options"
     label="Nível de Experiência"
-    emit-value
-    dense
-    outlined
-    map-options
+
+    dense outlined emit-value map-options
   />
 </template>=

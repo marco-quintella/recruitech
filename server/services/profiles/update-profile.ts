@@ -1,5 +1,3 @@
-import consola from 'consola'
-
 interface UpdateProfileData {
   presentation?: string
   userId: string

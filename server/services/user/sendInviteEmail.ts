@@ -1,5 +1,3 @@
-import type { companies } from '@prisma/client'
-
 export async function sendInviteEmail(
   id: string,
   email: string,

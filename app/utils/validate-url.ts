@@ -4,6 +4,7 @@ export function validateUrl(s: string) {
     return true
   }
   catch (e: any) {
+    console.error(e)
     return false
   }
 }
