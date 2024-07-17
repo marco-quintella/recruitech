@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { GetProcessesResponse } from '~/server/api/processes/index.get'
-
 const props = defineProps<{ companyId?: string }>()
 
 const search = ref<string>()
@@ -10,16 +8,18 @@ const contractTypes = ref<typeof contractTypeOptions>([])
 const experienceLevels = ref<typeof experienceLevelOptions>([])
 const remoteTypes = ref<typeof remoteTypeOptions>([])
 
-const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes', {
+const { data, status } = await useFetch('/api/processes', {
   method: 'GET',
   query: {
+    city: computed(() => location.value?.city),
     companyId: props.companyId,
     contractTypes: computed(() => contractTypes.value.length ? contractTypes.value.map(t => t.value) : undefined),
+    country: computed(() => location.value?.country),
     experienceLevels: computed(() => experienceLevels.value.length ? experienceLevels.value.map(t => t.value) : undefined),
-    locationId: computed(() => location.value?.id),
     orderBy: 'createdAt',
     remoteTypes: computed(() => remoteTypes.value.length ? remoteTypes.value.map(t => t.value) : undefined),
     search,
+    state: computed(() => location.value?.state),
     tags: computed(() => tags.value.length ? tags.value.map(t => t.id) : undefined),
   },
 })
@@ -119,7 +119,7 @@ const { data, pending } = await useFetch<GetProcessesResponse>('/api/processes',
         :key="process.id"
         :process="process"
       />
-      <q-inner-loading :showing="pending">
+      <q-inner-loading :showing="status === 'pending'">
         <q-spinner size="50px" color="primary" />
       </q-inner-loading>
 

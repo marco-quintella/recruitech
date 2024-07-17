@@ -1,10 +1,10 @@
 import type { Prisma, contractType, experienceLevel, remoteType } from '@prisma/client'
-import consola from 'consola'
 
 export async function getProcesses({
   contractTypes,
   experienceLevels,
   filters,
+  location,
   locationId,
   pagination,
   remoteTypes,
@@ -17,6 +17,11 @@ export async function getProcesses({
     orderBy: 'updatedAt' | 'createdAt'
     page: number
     pageSize: number
+  }
+  location?: {
+    country?: string
+    city?: string
+    state?: string
   }
   search?: string
   locationId?: string
@@ -52,7 +57,15 @@ export async function getProcesses({
             id: locationId,
           },
         }
-      : undefined,
+      : location?.city || location?.country || location?.state
+        ? {
+            some: {
+              city: location.city,
+              country: location.country,
+              state: location.state,
+            },
+          }
+        : undefined,
     remote: remoteTypes?.length
       ? {
           in: remoteTypes,

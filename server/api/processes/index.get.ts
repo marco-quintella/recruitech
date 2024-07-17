@@ -9,6 +9,9 @@ export type GetProcessesQuery = QueryObject & {
   companyId?: string
   id?: string
   search?: string
+  country?: string
+  state?: string
+  city?: string
   locationId?: string
   tags?: string | string[]
   contractTypes?: contractType | contractType[]
@@ -20,8 +23,10 @@ export type GetProcessesResponse = Awaited<ReturnType<typeof getProcesses>>
 
 export default defineCachedEventHandler(async (event) => {
   const {
+    city,
     companyId,
     contractTypes,
+    country,
     direction = 'desc',
     experienceLevels,
     id,
@@ -31,19 +36,23 @@ export default defineCachedEventHandler(async (event) => {
     pageSize = 10,
     remoteTypes,
     search,
+    state,
     tags,
   } = await validateQuery<GetProcessesQuery>(event, z.object({
-    companyId: z.string().uuid().nullish().or(z.string().max(0)),
+    city: z.string().trim().nullish(),
+    companyId: z.string().trim().uuid().nullish(),
     contractTypes: z.array(contractTypeSchema).nullish().or(contractTypeSchema),
+    country: z.string().trim().nullish(),
     direction: z.enum(['asc', 'desc']).nullish(),
     experienceLevels: z.array(experienceLevelSchema).nullish().or(experienceLevelSchema),
     id: z.string().trim().uuid().nullish(),
-    locationId: z.string().trim().nullish().or(z.string().max(0)),
+    locationId: z.string().trim().uuid().nullish(),
     orderBy: z.enum(['updatedAt', 'createdAt']).nullish(),
     page: numberSchema.nullish(),
     pageSize: numberSchema.nullish(),
     remoteTypes: z.array(remoteTypeSchema).nullish().or(remoteTypeSchema),
     search: z.string().trim().nullish().or(z.string().max(0)),
+    state: z.string().trim().nullish(),
     tags: z.array(z.string().trim().uuid()).nullish().or(z.string().trim().uuid()),
   }))
 
@@ -56,6 +65,11 @@ export default defineCachedEventHandler(async (event) => {
       experienceLevel: !Array.isArray(experienceLevels) ? experienceLevels : undefined,
       id,
       remote: !Array.isArray(remoteTypes) ? remoteTypes : undefined,
+    },
+    location: {
+      city,
+      country,
+      state,
     },
     locationId,
     pagination: {
