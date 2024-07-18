@@ -20,9 +20,14 @@ const menu = [
     path: '/configuracoes/empresa',
   },
   {
-    icon: 'i-ph-clipboard',
+    icon: 'i-ph-map-pin',
     label: 'Processos',
     path: '/minha-empresa/processos',
+  },
+  {
+    icon: 'i-ph-clipboard',
+    label: 'Candidaturas',
+    path: '/minha-empresa/candidaturas',
   },
 ]
 </script>

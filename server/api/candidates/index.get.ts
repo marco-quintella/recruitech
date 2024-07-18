@@ -11,7 +11,7 @@ export type GetCandidatesQuery = QueryObject & {
 }
 
 export default defineEventHandler(async (event) => {
-  const session = await useAuthSession(event)
+  const session = await requireAuthSession(event)
   validateIsNotCandidate(session.data)
 
   const {

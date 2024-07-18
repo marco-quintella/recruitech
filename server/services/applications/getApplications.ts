@@ -1,46 +1,133 @@
-export async function getApplications({ filters, pagination }: {
+import type { Prisma } from '@prisma/client'
+
+export const getApplications = defineCachedFunction(async ({ filters, pagination }: {
   filters?: {
+    companyId?: string | null
+    discard?: boolean
+    favorite?: boolean
+    location?: {
+      city?: string
+      country?: string
+      state?: string
+    }
     processId?: string
     profileId?: string
-    companyId?: string | null
+    requestingUserId?: string
     userId?: string
   }
   pagination?: {
-    direction: 'asc' | 'desc'
-    orderBy: 'updatedAt' | 'createdAt'
-    page: number
-    pageSize: number
+    direction?: 'asc' | 'desc'
+    orderBy?: keyof Prisma.applicationsOrderByWithRelationInput | 'userName' | 'processTitle'
+    page?: number
+    pageSize?: number
   }
-}) {
+}) => {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
+  const where: Prisma.applicationsWhereInput = {
+    processes: filters?.companyId
+      ? {
+          companyId: filters.companyId,
+        }
+      : undefined,
+    processId: filters?.processId,
+    profileId: filters?.profileId,
+    profiles: filters?.userId
+    || ((filters?.discard || filters?.favorite) && filters?.requestingUserId)
+    || filters?.location?.city || filters?.location?.country || filters?.location?.state
+      ? {
+          candidateDiscards: filters?.discard ? { some: { userId: filters.requestingUserId } } : undefined,
+          candidateFavorites: filters?.favorite ? { some: { userId: filters.requestingUserId } } : undefined,
+          location: filters?.location?.city || filters?.location?.country || filters?.location?.state
+            ? {
+                city: filters?.location?.city,
+                country: filters?.location?.country,
+                state: filters?.location?.state,
+              }
+            : undefined,
+          userId: filters.userId,
+        }
+      : undefined,
+  }
+
   const [total, applications] = await prisma.$transaction([
-    prisma.applications.count({
-      where: {
-        processes: filters?.companyId
-          ? {
-              companyId: filters.companyId,
-            }
-          : undefined,
-        processId: filters?.processId,
-        profileId: filters?.profileId,
-        profiles: filters?.userId
-          ? {
-              userId: filters.userId,
-            }
-          : undefined,
-      },
-    }),
+    prisma.applications.count({ where }),
     prisma.applications.findMany({
-      orderBy: {
-        [orderBy]: direction,
+      include: {
+        processes: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        profiles: {
+          include: {
+            _count: filters?.companyId
+              ? {
+                  select: {
+                    candidateDiscards: {
+                      where: {
+                        userId: filters?.requestingUserId,
+                      },
+                    },
+                    candidateFavorites: {
+                      where: {
+                        userId: filters?.requestingUserId,
+                      },
+                    },
+                  },
+                }
+              : undefined,
+            jobTitles: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            location: {
+              select: {
+                city: true,
+                country: true,
+                id: true,
+                state: true,
+              },
+            },
+            tags: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            user: {
+              select: {
+                email: true,
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
+      orderBy: orderBy === 'userName'
+        ? {
+            profiles: {
+              user: {
+                name: direction,
+              },
+            },
+          }
+        : orderBy === 'processTitle'
+          ? {
+              processes: {
+                title: direction,
+              },
+            }
+          : {
+              [orderBy]: direction,
+            },
       skip: (page - 1) * pageSize,
       take: pageSize,
-      where: {
-        processId: filters?.processId,
-        profileId: filters?.profileId,
-      },
+      where,
     }),
   ])
 
@@ -57,4 +144,8 @@ export async function getApplications({ filters, pagination }: {
       },
     },
   }
-}
+}, {
+  base: 'redis',
+  maxAge: 15,
+  name: 'getApplications',
+})
