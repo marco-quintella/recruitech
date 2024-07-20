@@ -15,7 +15,7 @@ export async function updateCompany(body: (Prisma.companiesUpdateInput & { id: s
   return await prisma.companies.update({
     data: {
       ...data,
-      hqLocation: locationData?.id,
+      locationId: locationData?.id,
     },
     include: {
       location: true,

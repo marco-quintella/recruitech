@@ -21,22 +21,22 @@ model applications {
 }
 
 model companies {
-  id                String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name              String       @unique(map: "companies_name_index")
-  createdAt         DateTime     @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt         DateTime     @default(now()) @map("updated_at") @db.Timestamp(6)
-  logo              String?
-  hqLocationId      String?      @map("hq_location") @db.Uuid
-  companySize       companySize? @map("company_size")
-  facebook          String?
-  instagram         String?
-  linkedin          String?
-  twitter           String?
-  website           String?
-  short_description String?
-  location          locations?   @relation(fields: [hqLocationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  processes         processes[]
-  users             users[]
+  id               String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String       @unique(map: "companies_name_index")
+  createdAt        DateTime     @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime     @default(now()) @map("updated_at") @db.Timestamp(6)
+  logo             String?
+  locationId       String?      @db.Uuid
+  companySize      companySize? @map("company_size")
+  facebook         String?
+  instagram        String?
+  linkedin         String?
+  twitter          String?
+  website          String?
+  shortDescription String?      @map("short_description")
+  location         locations?   @relation(fields: [locationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  processes        processes[]
+  users            users[]
 }
 
 model discards {

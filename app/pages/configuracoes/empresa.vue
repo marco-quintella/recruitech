@@ -12,18 +12,16 @@ const { data: company, refresh } = await useFetch(`/api/companies/details`, {
   },
 })
 
-const model = ref<CompanyUpdate & {
-  location?: { city?: string, state?: string, country?: string }
-}>({
+const model = ref({
   companySize: company.value?.companySize,
   facebook: company.value?.facebook,
   id: company.value?.id,
   instagram: company.value?.instagram,
   linkedin: company.value?.linkedin,
   location: {
-    city: company.value?.locations?.city ?? undefined,
-    country: company.value?.locations?.country,
-    state: company.value?.locations?.state ?? undefined,
+    city: company.value?.location?.city ?? undefined,
+    country: company.value?.location?.country,
+    state: company.value?.location?.state ?? undefined,
   },
   name: company.value?.name,
   shortDescription: company.value?.shortDescription,
@@ -106,11 +104,9 @@ async function uploadCompanyLogo() {
       b="1 primary solid rd-3"
       flat max-w-xl w-full flex flex-col gap-2 p-8
     >
-      <div
-        v-if="company?.logo"
-        class="w-full flex gap-4"
-      >
+      <div class="w-full flex gap-4">
         <company-avatar
+          v-if="company?.logo && company?.name"
           :src="company.logo"
           :name="company.name"
           size="98px"

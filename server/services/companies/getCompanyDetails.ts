@@ -14,6 +14,7 @@ export async function getCompanyDetails(id: string) {
           state: true,
         },
       },
+      locationId: true,
       logo: true,
       name: true,
       processes: {
@@ -21,7 +22,7 @@ export async function getCompanyDetails(id: string) {
           locations: true,
         },
       },
-      short_description: true,
+      shortDescription: true,
       twitter: true,
       website: true,
     },

@@ -9,7 +9,7 @@ export type UpdateCompanyBody = Prisma.companiesUpdateInput & {
 export default defineEventHandler(async (event) => {
   // Validation Layer
   const body = await validateBody<UpdateCompanyBody>(event, z.object({
-    companySize: z.enum(companySizeSchema).nullish(),
+    companySize: companySizeSchema.nullish(),
     facebook: z.string().trim().url().nullish(),
     id: z.string().trim().uuid(),
     instagram: z.string().trim().url().nullish(),
