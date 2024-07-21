@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
 
+const $q = useQuasar()
 const userStore = useUserStore()
 const { user: currentUser } = storeToRefs(userStore)
 
@@ -10,6 +11,18 @@ const columns: QTableProps['columns'] = [
     field: 'title',
     label: 'Título',
     name: 'title',
+  },
+  {
+    align: 'left',
+    field: 'createdAt',
+    label: 'Data de Criação',
+    name: 'createdAt',
+  },
+  {
+    align: 'center',
+    field: 'finishedAt',
+    label: 'Data de Finalização',
+    name: 'finishedAt',
   },
 ]
 
@@ -32,6 +45,64 @@ const rows = computed(() => processes.value?.data ?? [])
 
 async function onEdit(id: string) {
   navigateTo(`/minha-empresa/processos/editar/${id}`)
+}
+
+function onCancel(id: string) {
+  $q.dialog({
+    cancel: {
+      color: 'primary',
+      label: 'Não',
+    },
+    message: 'Deseja realmente cancelar este processo?',
+    ok: {
+      color: 'negative',
+      label: 'Sim',
+    },
+    title: 'Cancelar Processo',
+  }).onOk(async () => {
+    try {
+      $q.loading.show()
+      await $fetch(`/api/processes/${id}/cancel`, { method: 'post' })
+    }
+    catch (e: any) {
+      $q.notify({
+        message: e.data?.message || e.message || 'Erro ao cancelar processo',
+        type: 'negative',
+      })
+    }
+    finally {
+      $q.loading.hide()
+    }
+  })
+}
+
+function onFinish(id: string) {
+  $q.dialog({
+    cancel: {
+      color: 'primary',
+      label: 'Não',
+    },
+    message: 'Deseja realmente finalizar este processo?',
+    ok: {
+      color: 'negative',
+      label: 'Sim',
+    },
+    title: 'Finalizar Processo',
+  }).onOk(async () => {
+    try {
+      $q.loading.show()
+      await $fetch(`/api/processes/${id}/finish`, { method: 'post' })
+    }
+    catch (e: any) {
+      $q.notify({
+        message: e.data?.message || e.message || 'Erro ao finalizar processo',
+        type: 'negative',
+      })
+    }
+    finally {
+      $q.loading.hide()
+    }
+  })
 }
 </script>
 
@@ -67,6 +138,20 @@ async function onEdit(id: string) {
               {{ props.row.title }}
             </q-td>
 
+            <q-td key="createdAt" :props="props">
+              {{ $dayjs(props.row.createdAt).toDate().toLocaleDateString() }}
+            </q-td>
+
+            <q-td key="finishedAt" :props="props">
+              {{
+                props.row.finishedAt
+                  ? $dayjs(props.row.finishedAt).toDate().toLocaleDateString()
+                  : props.row.cancelledAt
+                    ? $dayjs(props.row.cancelledAt).toDate().toLocaleDateString()
+                    : 'Não finalizado'
+              }}
+            </q-td>
+
             <q-popup-proxy context-menu>
               <q-card>
                 <q-list>
@@ -76,11 +161,19 @@ async function onEdit(id: string) {
                     </q-item-section>
                     <q-item-section>Editar</q-item-section>
                   </q-item>
-                  <q-item v-close-popup clickable>
+
+                  <q-item v-close-popup clickable @click="onFinish(props.row.id)">
+                    <q-item-section avatar>
+                      <div i-ph-check />
+                    </q-item-section>
+                    <q-item-section>Finalizar</q-item-section>
+                  </q-item>
+
+                  <q-item v-close-popup clickable @click="onCancel(props.row.id)">
                     <q-item-section avatar>
                       <div i-ph-trash />
                     </q-item-section>
-                    <q-item-section>Excluir</q-item-section>
+                    <q-item-section>Cancelar</q-item-section>
                   </q-item>
                 </q-list>
               </q-card>

@@ -37,6 +37,7 @@
     "@nuxtjs/mdc": "^0.8.3",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@pinia/nuxt": "^0.5.1",
+    "@prisma/extension-optimize": "^0.10.0",
     "@types/nodemailer": "^6.4.15",
     "@types/nodemailer-express-handlebars": "^4.0.5",
     "@unocss/eslint-config": "^0.61.5",

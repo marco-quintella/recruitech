@@ -1,30 +1,46 @@
 <script setup lang="ts">
+import type { experienceLevel, remoteType } from '@prisma/client'
+import { processType } from '@prisma/client'
+
 const route = useRoute()
 const $q = useQuasar()
 
-const { data: processes } = await useFetch(`/api/processes`, {
+const { data: process } = await useFetch(`/api/processes`, {
   method: 'GET',
   query: {
     id: route.params.id,
   },
 })
 
-const model = ref<ProcessUpdate & {
+const model = ref<{
+  cancelledAt?: Date | null
+  createdAt?: Date | null
+  finishedAt?: Date | null
+  updatedAt?: Date | null
   tags?: string[]
   jobTitles?: string[]
   location?: { city?: string, state?: string, country?: string }
+  processType?: processType
+  email?: string | null
+  link?: string | null
+  title?: string
+  description?: string
+  experienceLevel?: experienceLevel | null
+  remote?: remoteType
+  salary0?: string | null
+  salary1?: string | null
 }>({})
 
-watch(processes, (newVal) => {
-  if (newVal?.data?.[0]) {
+watch(process, (newProcess) => {
+  if (newProcess?.data?.[0]) {
     model.value = {
-      ...newVal.data[0],
-      cancelledAt: newVal.data[0].cancelledAt ? new Date(newVal.data[0].cancelledAt) : null,
-      createdAt: new Date(newVal.data[0].createdAt),
-      finishedAt: newVal.data[0].finishedAt ? new Date(newVal.data[0].finishedAt) : null,
-      jobTitles: newVal?.data?.[0]?.jobTitles?.map(jobTitle => jobTitle.id),
-      tags: newVal?.data?.[0]?.tags?.map(tag => tag.id),
-      updatedAt: new Date(newVal.data[0].updatedAt),
+      ...newProcess.data[0],
+      cancelledAt: newProcess.data[0].cancelledAt ? new Date(newProcess.data[0].cancelledAt) : null,
+      createdAt: new Date(newProcess.data[0].createdAt),
+      finishedAt: newProcess.data[0].finishedAt ? new Date(newProcess.data[0].finishedAt) : null,
+      jobTitles: newProcess?.data?.[0]?.jobTitles?.map(jobTitle => jobTitle.id),
+      tags: newProcess?.data?.[0]?.tags?.map(tag => tag.id),
+      updatedAt: new Date(newProcess.data[0].updatedAt),
     }
   }
 }, { immediate: true })
@@ -89,7 +105,7 @@ async function onSave() {
         </div>
 
         <q-input
-          v-if="model.processType === ProcessTypeEnum.email"
+          v-if="model.processType === processType.email"
           v-model="model.email"
           type="email"
           label="Email"
@@ -104,7 +120,7 @@ async function onSave() {
         </q-input>
 
         <q-input
-          v-if="model.processType === ProcessTypeEnum.link"
+          v-if="model.processType === processType.link"
           v-model="model.link"
           type="url"
           label="Link"
@@ -164,7 +180,7 @@ async function onSave() {
 
         <div flex gap-4>
           <q-input
-            v-model="model.salary_0"
+            v-model="model.salary0"
             label="Salário mínimo"
             outlined
             dense
@@ -175,17 +191,17 @@ async function onSave() {
           />
 
           <q-input
-            v-model="model.salary_1"
+            v-model="model.salary1"
             label="Salário máximo"
             outlined
             dense
             type="number"
             clearable
-            :min="model.salary_0"
+            :min="model.salary0"
             :rules="[
               (s: number) => (isDefined(s) ? Number(s) > 0 : true) ?? 'Valor mínimo deve ser maior que zero.',
-              (s: number) => (isDefined(s) && isDefined(model.salary_0)
-                ? Number(s) > Number(model.salary_0)
+              (s: number) => (isDefined(s) && isDefined(model.salary0)
+                ? Number(s) > Number(model.salary0)
                 : true
               ) ?? 'Valor máximo deve ser maior que o valor mínimo.',
             ]"

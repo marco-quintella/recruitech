@@ -83,6 +83,20 @@ export const getCandidates = defineCachedFunction(async ({
   }
 
   const where: Prisma.profilesWhereInput = {
+    applications: {
+      none: {
+        process: {
+          AND: {
+            cancelledAt: {
+              not: null,
+            },
+            finishedAt: {
+              not: null,
+            },
+          },
+        },
+      },
+    },
     candidateDiscards: filters?.discard
       ? { some: { userId: requestUserId } }
       : { none: { userId: requestUserId } },

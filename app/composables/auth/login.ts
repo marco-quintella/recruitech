@@ -6,7 +6,7 @@ export async function authLogin(email: string, password: string) {
     },
     method: 'POST',
   })
-  useAuth().redirectTo.value = null
+  useAuth().redirectTo.value = '/'
   await useAuth().updateSession()
   await navigateTo(useAuth().redirectTo.value || '/')
 }

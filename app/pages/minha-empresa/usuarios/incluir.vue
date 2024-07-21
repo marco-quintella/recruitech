@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { role as Role } from '@prisma/client'
+
 const $q = useQuasar()
 
 const email = ref<string>()

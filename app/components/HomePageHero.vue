@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-
 </script>
 
 <template>
@@ -17,7 +16,7 @@
       que conecta empresas e profissionais de maneira rápida e eficiente.
     </div>
     <div mt-4 flex gap-8>
-      <q-btn color="secondary" rounded to="/planos">
+      <q-btn color="secondary" rounded to="/vagas/postar">
         Recrutar
       </q-btn>
       <q-btn color="primary" rounded to="/vagas">

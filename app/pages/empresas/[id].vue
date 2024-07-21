@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import type { GetCompanyDetails } from '~~/server/api/companies/details.get'
+
 const route = useRoute()
 const companyId = computed(() => route.params.id as string)
 
 if (!companyId.value)
   await navigateTo('/empresas')
 
-const { data: company } = await useFetch('/api/companies/details', {
+const { data: company } = await useFetch<GetCompanyDetails>('/api/companies/details', {
   method: 'GET',
   query: { id: companyId.value },
 })
@@ -13,18 +15,19 @@ const { data: company } = await useFetch('/api/companies/details', {
 if (!company.value)
   await navigateTo('/empresas')
 
-const hq = computed(() => company.value?.locations
+const hq = computed(() => company.value?.location
   ? [
-      company.value?.locations?.country,
-      company.value?.locations?.state,
-      company.value?.locations?.city,
+      company.value?.location?.country,
+      company.value?.location?.state,
+      company.value?.location?.city,
     ].filter(Boolean).join(', ')
   : undefined)
 
 const contractTypes = computed(() => company.value?.processesTypes?.length
-  ? company.value?.processesTypes.map(
-    type => contractTypeOptions.find(op => op.value === type)?.label,
-  )
+  ? company.value?.processesTypes
+    .map(type => contractTypeOptions
+      .find(op => op.value === type)?.label,
+    )
   : undefined)
 </script>
 
@@ -43,8 +46,8 @@ const contractTypes = computed(() => company.value?.processesTypes?.length
               </div>
               <q-chip dense>
                 <q-img
-                  v-if="company.locations?.country"
-                  :src="`https://flagsapi.com/${company.locations.country}/flat/64.png`"
+                  v-if="company.location?.country"
+                  :src="`https://flagsapi.com/${company.location.country}/flat/64.png`"
                   size="16px"
                   mr-1
                 />

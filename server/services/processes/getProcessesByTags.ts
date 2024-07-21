@@ -1,4 +1,10 @@
-export async function getProcessesByTags(tags: string[]) {
+export async function getProcessesByTags(tags: string[], {
+  pageSize,
+  sortBy,
+}: {
+  sortBy?: 'createdAt'
+  pageSize?: number
+} = {}) {
   if (tags.length === 0)
     return
 
@@ -12,6 +18,12 @@ export async function getProcessesByTags(tags: string[]) {
         },
       },
     },
+    orderBy: sortBy
+      ? {
+          [sortBy]: 'desc',
+        }
+      : undefined,
+    take: pageSize,
     where: {
       cancelledAt: null,
       finishedAt: null,

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { GetProcessesResponse } from '~~/server/api/processes/index.get'
+
 const props = defineProps<{ companyId?: string }>()
 
 const search = ref<string>()
@@ -8,14 +10,16 @@ const contractTypes = ref<typeof contractTypeOptions>([])
 const experienceLevels = ref<typeof experienceLevelOptions>([])
 const remoteTypes = ref<typeof remoteTypeOptions>([])
 
-const { data, status } = await useFetch('/api/processes', {
+const { data, status } = await useFetch<GetProcessesResponse>('/api/processes', {
   method: 'GET',
   query: {
+    cancelled: false,
     city: computed(() => location.value?.city),
     companyId: props.companyId,
     contractTypes: computed(() => contractTypes.value.length ? contractTypes.value.map(t => t.value) : undefined),
     country: computed(() => location.value?.country),
     experienceLevels: computed(() => experienceLevels.value.length ? experienceLevels.value.map(t => t.value) : undefined),
+    finished: false,
     orderBy: 'createdAt',
     remoteTypes: computed(() => remoteTypes.value.length ? remoteTypes.value.map(t => t.value) : undefined),
     search,

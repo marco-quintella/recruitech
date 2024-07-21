@@ -40,33 +40,33 @@ const candidatesRows = computed(() => applications.value?.data ?? [])
 const columns: QTableProps['columns'] = [
   {
     align: 'left',
-    field: (row: RowType) => row.profiles?.user?.name,
+    field: (row: RowType) => row.profile?.user?.name,
     label: 'Nome',
     name: 'userName',
     sortable: true,
   },
   {
     align: 'left',
-    field: (row: RowType) => row.processes?.title,
+    field: (row: RowType) => row.process?.title,
     label: 'Processo',
     name: 'processTitle',
     sortable: true,
   },
   {
     align: 'left',
-    field: (row: RowType) => row.profiles?.location,
+    field: (row: RowType) => row.profile?.location,
     label: 'Localização',
     name: 'location',
   },
   {
     align: 'left',
-    field: (row: RowType) => row.profiles?.jobTitles?.length ? row.profiles.jobTitles.map(j => j.name).join(', ') : '-',
+    field: (row: RowType) => row.profile?.jobTitles?.length ? row.profile.jobTitles.map(j => j.name).join(', ') : '-',
     label: 'Funções',
     name: 'jobTitles',
   },
   {
     align: 'left',
-    field: (row: RowType) => row.profiles?.tags?.length ? row.profiles.tags.map(t => t.name).join(', ') : '-',
+    field: (row: RowType) => row.profile?.tags?.length ? row.profile.tags.map(t => t.name).join(', ') : '-',
     label: 'Tags',
     name: 'tags',
   },
@@ -209,12 +209,12 @@ function onDiscard() {
         <template #body-cell-userName="{ row }: {row: typeof candidatesRows.value[0]}">
           <td class="text-left">
             <div flex items-center gap-1>
-              <nuxt-link :to="`/candidatos/${row.profiles.id}`">
-                {{ row.profiles?.user?.name }}
+              <nuxt-link :to="`/candidatos/${row.profile.id}`">
+                {{ row.profile?.user?.name }}
               </nuxt-link>
 
-              <div v-if="row.profiles?._count?.candidateFavorites" i-ph-star-fill color-yellow />
-              <div v-if="row.profiles?._count?.candidateDiscards" i-ph-trash-fill color-red />
+              <div v-if="row.profile?._count?.candidateFavorites" i-ph-star-fill color-yellow />
+              <div v-if="row.profile?._count?.candidateDiscards" i-ph-trash-fill color-red />
             </div>
           </td>
         </template>

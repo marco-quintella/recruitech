@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
-import { type users as Users, role } from '@prisma/client'
+import { role as Role, type users as Users } from '@prisma/client'
 
 const $q = useQuasar()
 const userStore = useUserStore()
@@ -60,15 +60,15 @@ function editUser(user: Users) {
     message: 'Defina o tipo de perfil do usuário:',
     options: {
       items: [
-        { label: 'Administrador', value: role.company_admin },
-        { label: 'Recrutador', value: role.recruiter },
+        { label: 'Administrador', value: Role.company_admin },
+        { label: 'Recrutador', value: Role.recruiter },
       ],
       model: user.role,
       type: 'radio',
     },
     persistent: true,
     title: `Editando ${user.name}`,
-  }).onOk(async (newRole: role) => {
+  }).onOk(async (newRole: Role) => {
     try {
       $q.loading.show()
       await $fetch(`/api/users`, {

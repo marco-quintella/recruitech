@@ -3,15 +3,15 @@ const router = useRouter()
 </script>
 
 <template>
-  <q-page padding text="center teal-700 dark:gray-200">
+  <q-page padding>
     <div text-4xl>
       <div i-carbon-warning inline-block />
     </div>
-    <div>Not found</div>
+    <div>Página não encontrada</div>
     <div>
-      <button text-sm btn m="3 t8" @click="router.back()">
-        Back
-      </button>
+      <q-btn color="primary" m="3 t8" @click="router.back()">
+        Voltar
+      </q-btn>
     </div>
   </q-page>
 </template>

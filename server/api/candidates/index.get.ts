@@ -37,6 +37,7 @@ export default defineEventHandler(async (event) => {
       discard,
       favorite,
       location,
+
     },
     pagination: {
       orderBy,

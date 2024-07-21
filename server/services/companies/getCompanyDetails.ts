@@ -31,7 +31,7 @@ export async function getCompanyDetails(id: string) {
 
   return {
     ...company,
-    availableLocations: new Set(company?.processes.map(process => process.locations)).values(),
-    processesTypes: new Set(company?.processes.map(process => process.contractType)).values(),
+    availableLocations: Array.from(new Set(company?.processes.map(process => process.locations).flat())),
+    processesTypes: Array.from(new Set(company?.processes.map(process => process.contractType))),
   }
 }

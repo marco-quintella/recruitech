@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { GetLocationsResponse } from '~/server/services/locations/getLocations'
-
 const model = defineModel<GetLocationsResponse[0]>()
 const search = ref<string>()
 

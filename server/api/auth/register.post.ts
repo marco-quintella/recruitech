@@ -1,3 +1,4 @@
+import type { role as Role, users as User } from '@prisma/client'
 import consola from 'consola'
 import { z } from 'zod'
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GetProcessesResponse } from '~/server/api/processes/index.get'
+import type { GetProcessesResponse } from '~~/server/api/processes/index.get'
 
 const { data } = await useFetch<GetProcessesResponse>('/api/processes', {
   method: 'GET',

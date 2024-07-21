@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["tracing"]
 }
 
 datasource db {
@@ -13,8 +14,8 @@ model applications {
   processId String    @map("process_id") @db.Uuid
   profileId String    @map("profile_id") @db.Uuid
   updatedAt DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
-  processes processes @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  profiles  profiles  @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  process   processes @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profile   profiles  @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([processId])
   @@index([profileId])
@@ -47,7 +48,7 @@ model discards {
   createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt   DateTime   @default(now()) @map("updated_at") @db.Timestamp(6)
   candidate   profiles?  @relation("discards_candidate_idToprofiles", fields: [candidateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  processes   processes? @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  process     processes? @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user        users      @relation("discards_user_idTousers", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -56,7 +57,7 @@ model emailTokens {
   userId    String   @map("user_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
-  users     users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user      users    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("email_tokens")
 }
@@ -67,7 +68,7 @@ model favorites {
   id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateId String?    @map("candidate_id") @db.Uuid
   candidate   profiles?  @relation("favorites_candidate_idToprofiles", fields: [candidateId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  processes   processes? @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  process     processes? @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user        users      @relation("favorites_user_idTousers", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -145,8 +146,8 @@ model profiles {
 model recommendations {
   processId String    @map("process_id") @db.Uuid
   userId    String    @map("user_id") @db.Uuid
-  processes processes @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "recommendations_process_id_processes_id_fk")
-  users     users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "recommendations_user_id_users_id_fk")
+  process   processes @relation(fields: [processId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "recommendations_process_id_processes_id_fk")
+  user      users     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "recommendations_user_id_users_id_fk")
 
   @@id([processId, userId])
 }

@@ -11,7 +11,10 @@ export async function getProcesses({
   search,
   tagIds,
 }: {
-  filters?: Prisma.processesWhereInput
+  filters?: Prisma.processesWhereInput & {
+    finished?: boolean
+    cancelled?: boolean
+  }
   pagination?: {
     direction: 'asc' | 'desc'
     orderBy: 'updatedAt' | 'createdAt'
@@ -34,6 +37,11 @@ export async function getProcesses({
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
   const where: Prisma.processesWhereInput = {
+    cancelledAt: filters?.cancelled === true
+      ? {
+          not: null,
+        }
+      : filters?.cancelled === false ? null : undefined,
     company: search
       ? {
           name: {
@@ -51,6 +59,11 @@ export async function getProcesses({
           in: experienceLevels,
         }
       : undefined,
+    finishedAt: filters?.finished === true
+      ? {
+          not: null,
+        }
+      : filters?.finished === false ? null : undefined,
     locations: locationId
       ? {
           some: {

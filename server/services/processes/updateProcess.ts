@@ -6,7 +6,7 @@ export async function updateProcess(
     tags?: string[]
     jobTitles?: string[]
     location?: Prisma.locationsCreateInput
-  },
+  } | undefined = {},
 ) {
   const { company, id, ...data } = body
   const { jobTitles, location, tags } = relations

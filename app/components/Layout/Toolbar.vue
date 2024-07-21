@@ -48,10 +48,10 @@ async function onLogout() {
         <layout-menu-link to="/empresas">
           Empresas
         </layout-menu-link>
-        <layout-menu-link>Notícias</layout-menu-link>
-      <!-- <layout-menu-link hidden lg:block>
-        Preparação
-      </layout-menu-link> -->
+        <!-- <layout-menu-link>Notícias</layout-menu-link> -->
+        <!-- <layout-menu-link hidden lg:block>
+          Preparação
+        </layout-menu-link> -->
       </div>
       <q-btn
         v-if="session?.data?.role !== role.candidate"

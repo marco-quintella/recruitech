@@ -25,14 +25,13 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
 
   const where: Prisma.applicationsWhereInput = {
-    processes: filters?.companyId
+    process: filters?.companyId
       ? {
           companyId: filters.companyId,
         }
       : undefined,
     processId: filters?.processId,
-    profileId: filters?.profileId,
-    profiles: filters?.userId
+    profile: filters?.userId
     || ((filters?.discard || filters?.favorite) && filters?.requestingUserId)
     || filters?.location?.city || filters?.location?.country || filters?.location?.state
       ? {
@@ -48,19 +47,20 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
           userId: filters.userId,
         }
       : undefined,
+    profileId: filters?.profileId,
   }
 
   const [total, applications] = await prisma.$transaction([
     prisma.applications.count({ where }),
     prisma.applications.findMany({
       include: {
-        processes: {
+        process: {
           select: {
             id: true,
             title: true,
           },
         },
-        profiles: {
+        profile: {
           include: {
             _count: filters?.companyId
               ? {
@@ -110,7 +110,7 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
       },
       orderBy: orderBy === 'userName'
         ? {
-            profiles: {
+            profile: {
               user: {
                 name: direction,
               },
@@ -118,7 +118,7 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
           }
         : orderBy === 'processTitle'
           ? {
-              processes: {
+              process: {
                 title: direction,
               },
             }

@@ -6,8 +6,26 @@ import SelectProcessType from '~/components/SelectProcessType.vue'
 
 const $q = useQuasar()
 
+// Route protection
+const { loggedIn } = useAuth()
+
+if (!loggedIn.value)
+  navigateTo('/auth/login')
+
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)
+
+watch([user, loggedIn], () => {
+  if (!loggedIn.value)
+    return navigateTo('/auth/login')
+
+  if (
+    !user.value?.companyId
+    || ![role.company_admin, role.recruiter].includes(user.value?.role)
+  ) {
+    return navigateTo('/')
+  }
+}, { immediate: true })
 
 const model = ref({
   companyId: '',
@@ -26,19 +44,6 @@ const model = ref({
   title: '',
   userId: '',
 })
-
-// Route protection
-watch(user, () => {
-  if (!user.value)
-    return navigateTo('/login')
-
-  if (
-    !user.value?.companyId
-    || ![role.company_admin, role.recruiter].includes(user.value?.role)
-  ) {
-    return navigateTo('/')
-  }
-}, { immediate: true })
 
 async function onSave() {
   try {

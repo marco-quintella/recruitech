@@ -22,7 +22,7 @@ definePageMeta({
             </ul>
             <q-btn
               color="primary" mt-2 rounded
-              @click="navigateTo('/planos')"
+              @click="navigateTo('/vagas/postar')"
             >
               Postar Vaga
             </q-btn>

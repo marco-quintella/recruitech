@@ -1,9 +1,9 @@
 export async function getOneEmailTokenById(id: string) {
   return await prisma.emailTokens.findFirst({
     include: {
-      users: {
+      user: {
         select: {
-          companies: true,
+          company: true,
           confirmedEmail: true,
           email: true,
           id: true,

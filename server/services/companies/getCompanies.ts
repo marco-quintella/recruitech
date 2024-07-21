@@ -55,7 +55,7 @@ export async function getCompanies({
         },
         logo: true,
         name: true,
-        short_description: true,
+        shortDescription: true,
         website: true,
       },
       skip: (page - 1) * pageSize,

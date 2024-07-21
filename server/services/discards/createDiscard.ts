@@ -12,7 +12,7 @@ export async function createDiscard({ candidateId, processId, userId }: {
             },
           }
         : undefined,
-      processes: processId
+      process: processId
         ? {
             connect: {
               id: processId,

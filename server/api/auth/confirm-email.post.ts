@@ -10,23 +10,23 @@ export default defineEventHandler<{ body: { token: string } }>(async (event) => 
 
   // If user is not found, throw error
   // Just used for TS safety, this should never happen
-  if (!tokenObject.users?.id)
+  if (!tokenObject.user?.id)
     throw createError({ statusCode: 400, statusMessage: 'Usuário não encontrado' })
 
   // If email is already confirmed, throw error
-  if (tokenObject.users?.confirmedEmail)
+  if (tokenObject.user?.confirmedEmail)
     throw createError({ statusCode: 400, statusMessage: 'Email já confirmado' })
 
   // Service Layer
   await Promise.all([
     // Update user to confirm email
-    setEmailConfirmed(tokenObject.users.id),
+    setEmailConfirmed(tokenObject.user.id),
 
     // Delete token entry from DB
     deleteEmailToken(token),
 
     // Send welcome email
-    sendEmailConfirmedWelcome(tokenObject.users),
+    sendEmailConfirmedWelcome(tokenObject.user),
   ])
 
   setResponseStatus(event, 204)

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { GetProcessesResponse } from '~/server/api/processes/index.get'
+import type { GetProcessesResponse } from '~~/server/api/processes/index.get'
 
 defineProps<{ process: GetProcessesResponse['data'][0] }>()
 </script>

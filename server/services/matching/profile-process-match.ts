@@ -21,16 +21,14 @@ export async function matchProfileToProcess(userId: string) {
   if (tagIds.length === 0)
     throw new Error('No tag ids to match')
 
-  const processesToTags = await getProcessesByTags(tagIds)
+  const processesToTags = await getProcessesByTags(tagIds, {
+    pageSize: 5,
+    sortBy: 'createdAt',
+  })
 
   if (!processesToTags)
     return []
 
-  const p = Object.entries(processesToTags)
-    .sort(([_keyA, valueA], [_keyB, valueB]) => valueB.length - valueA.length)
-    .slice(0, 5)
-    .map(([process, _]) => getProcesses({ filters: { id: process } }))
-  const results = await Promise.all(p)
-
-  return results.map(r => r.data[0]).filter(isDefined)
+  consola.log('Processes matched by tags:', processesToTags.length)
+  return processesToTags
 }
