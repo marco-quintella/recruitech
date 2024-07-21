@@ -87,8 +87,9 @@ export default defineNuxtConfig({
     '@artmizu/nuxt-prometheus',
     'nuxt-security',
     'dayjs-nuxt',
-    '@nuxtjs/mdc',
     // '@nuxtjs/google-adsense',
+    '@nuxtjs/mdc',
+    '@nuxtjs/sitemap',
   ],
 
   nitro: {
@@ -97,6 +98,7 @@ export default defineNuxtConfig({
         target: 'esnext',
       },
     },
+
     imports: {
       dirs: [
         './server/utils/**/*',
@@ -105,11 +107,12 @@ export default defineNuxtConfig({
         './app/utils/**/*',
       ],
     },
-    // prerender: {
-    //   crawlLinks: false,
-    //   ignore: ['/hi'],
-    //   routes: ['/'],
-    // },
+
+    prerender: {
+      crawlLinks: true,
+      routes: ['sitemap.xml'],
+    },
+
     storage: {
       '.data:auth': { base: './.data/auth', driver: 'fs' },
       'redis': {
@@ -161,5 +164,13 @@ export default defineNuxtConfig({
       crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'credentialless',
       crossOriginResourcePolicy: 'cross-origin',
     },
+  },
+
+  site: {
+    url: 'https://get-jobs.tech',
+  },
+
+  sitemap: {
+    sources: ['/api/sitemap'],
   },
 })

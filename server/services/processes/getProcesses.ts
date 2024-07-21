@@ -35,6 +35,7 @@ export async function getProcesses({
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
+  const { cancelled, finished, ...commonFilters } = filters ?? {}
 
   const where: Prisma.processesWhereInput = {
     cancelledAt: filters?.cancelled === true
@@ -98,7 +99,7 @@ export async function getProcesses({
           contains: `%${search}%`,
         }
       : undefined,
-    ...filters,
+    ...commonFilters,
   }
 
   const [total, processes] = await prisma.$transaction([
