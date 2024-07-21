@@ -64,9 +64,9 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  googleAdsense: {
-    id: 'ca-pub-7015724364902511',
-  },
+  // googleAdsense: {
+  //   id: 'ca-pub-7015724364902511',
+  // },
 
   imports: {
     dirs: [
@@ -88,7 +88,7 @@ export default defineNuxtConfig({
     'nuxt-security',
     'dayjs-nuxt',
     '@nuxtjs/mdc',
-    '@nuxtjs/google-adsense',
+    // '@nuxtjs/google-adsense',
   ],
 
   nitro: {
