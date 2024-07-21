@@ -19,15 +19,15 @@
   "dependencies": {
     "@prisma/client": "^5.17.0",
     "@quasar/extras": "^1.16.12",
-    "firebase": "^10.12.3",
-    "i18n-iso-countries": "^7.11.2",
+    "firebase": "^10.12.4",
+    "i18n-iso-countries": "^7.11.3",
     "postgres": "^3.4.4",
     "quasar": "2.16.4",
     "uncrypto": "^0.1.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.23.0",
+    "@antfu/eslint-config": "^2.23.1",
     "@artmizu/nuxt-prometheus": "^2.3.1",
     "@iconify-json/ph": "^1.1.13",
     "@iconify-json/twemoji": "^1.1.15",
@@ -51,7 +51,7 @@
     "eslint-ts-patch": "^9.5.0-0",
     "nodemailer": "^6.9.14",
     "nodemailer-express-handlebars": "^6.1.2",
-    "nuxt": "^3.12.3",
+    "nuxt": "^3.12.4",
     "nuxt-module-eslint-config": "^0.1.1",
     "nuxt-quasar-ui": "^2.1.3",
     "nuxt-security": "^1.4.3",
