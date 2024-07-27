@@ -21,8 +21,8 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
     page?: number
     pageSize?: number
   }
-}) => {
-  const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}
+}) {
+  const { direction = 'desc', orderBy = 'createdAt', page = 1, pageSize = 10 } = pagination ?? {}
 
   const where: Prisma.applicationsWhereInput = {
     process: filters?.companyId
@@ -77,7 +77,7 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
                     },
                   },
                 }
-              : undefined,
+              : false,
             jobTitles: {
               select: {
                 id: true,

@@ -8,6 +8,7 @@ const $q = useQuasar()
 const { loggedIn, session } = useAuth()
 
 const isCompanyOrAdmin = computed(() => session.value?.data?.role && session.value.data.role !== role.candidate)
+const isCandidate = computed(() => session.value?.data?.role === role.candidate)
 
 async function onLogout() {
   $q.dialog({
@@ -47,6 +48,9 @@ async function onLogout() {
         </layout-menu-link>
         <layout-menu-link to="/empresas">
           Empresas
+        </layout-menu-link>
+        <layout-menu-link v-if="isCandidate" to="/minhas-candidaturas">
+          Minhas Candidaturas
         </layout-menu-link>
         <!-- <layout-menu-link>Notícias</layout-menu-link> -->
         <!-- <layout-menu-link hidden lg:block>
