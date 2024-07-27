@@ -224,8 +224,8 @@ function onDiscard() {
         <template #body-cell-processTitle="props">
           <td class="text-left">
             <div flex items-center gap-1>
-              <nuxt-link :to="`/vagas/${props.row.processes?.id}`">
-                {{ props.row.processes?.title }}
+              <nuxt-link :to="`/vagas/${props.row.process?.id}`">
+                {{ props.row.process?.title }}
               </nuxt-link>
             </div>
           </td>
