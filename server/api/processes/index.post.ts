@@ -1,19 +1,19 @@
 import { z } from 'zod'
-import type { contractType as ContractType, experienceLevel as ExperienceLevel, remoteType as RemoteType } from '@prisma/client'
-import { processType as ProcessType } from '@prisma/client'
+import type { ContractTypeEnum, ExperienceLevelEnum, RemoteTypeEnum } from '../../utils/enums'
+import { ProcessTypeEnum } from '../../utils/enums'
 
 interface CreateProcessBody {
   // Basic Info
-  processType: ProcessType
+  processType: ProcessTypeEnum
   title: string
   description: string
-  contractType: ContractType
-  experienceLevel?: ExperienceLevel
+  contractType: ContractTypeEnum
+  experienceLevel?: ExperienceLevelEnum
   salary0?: string
   salary1?: string
   email?: string
   link?: string
-  remote?: RemoteType
+  remote?: RemoteTypeEnum
 
   // Realations
   tags?: string[]
@@ -61,13 +61,13 @@ export default defineEventHandler(async (event) => {
     title: z.string(),
   }))
 
-  if (processType === ProcessType.email && !email) {
+  if (processType === ProcessTypeEnum.email && !email) {
     throw createError({
       status: 400,
       statusMessage: 'Um e-mail devem ser fornecidos',
     })
   }
-  else if (processType === ProcessType.link && !link) {
+  else if (processType === ProcessTypeEnum.link && !link) {
     throw createError({
       status: 400,
       statusMessage: 'Um link deve ser fornecido',

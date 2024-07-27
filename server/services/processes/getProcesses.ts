@@ -1,4 +1,5 @@
-import type { Prisma, contractType, experienceLevel, remoteType } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
+import type { ContractTypeEnum, ExperienceLevelEnum, RemoteTypeEnum } from '../../utils/enums'
 
 export async function getProcesses({
   contractTypes,
@@ -29,9 +30,9 @@ export async function getProcesses({
   search?: string
   locationId?: string
   tagIds?: string[]
-  contractTypes?: contractType[]
-  experienceLevels?: experienceLevel[]
-  remoteTypes?: remoteType[]
+  contractTypes?: ContractTypeEnum[]
+  experienceLevels?: ExperienceLevelEnum[]
+  remoteTypes?: RemoteTypeEnum[]
 },
 ) {
   const { direction = 'desc', orderBy = 'updatedAt', page = 1, pageSize = 10 } = pagination ?? {}

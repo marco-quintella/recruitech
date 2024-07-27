@@ -1,5 +1,5 @@
-import type { contractType, experienceLevel, remoteType } from '@prisma/client'
 import { z } from 'zod'
+import type { ContractTypeEnum, ExperienceLevelEnum, RemoteTypeEnum } from '../../utils/enums'
 
 export type GetProcessesQuery = QueryObject & {
   orderBy?: 'updatedAt' | 'createdAt'
@@ -14,9 +14,9 @@ export type GetProcessesQuery = QueryObject & {
   city?: string
   locationId?: string
   tags?: string | string[]
-  contractTypes?: contractType | contractType[]
-  experienceLevels?: experienceLevel | experienceLevel[]
-  remoteTypes?: remoteType | remoteType[]
+  contractTypes?: ContractTypeEnum | ContractTypeEnum[]
+  experienceLevels?: ExperienceLevelEnum | ExperienceLevelEnum[]
+  remoteTypes?: RemoteTypeEnum | RemoteTypeEnum[]
   finished?: boolean
   cancelled?: boolean
 }

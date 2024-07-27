@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { contractType, type experienceLevel, processType, remoteType, role } from '@prisma/client'
 import SelectJobTitles from '~/components/SelectJobTitles.vue'
 import SelectExperienceLevel from '~/components/SelectExperienceLevel.vue'
 import SelectProcessType from '~/components/SelectProcessType.vue'
+import type { ExperienceLevelEnum } from '~~/server/utils/enums'
+import { ContractTypeEnum, ProcessTypeEnum, RemoteTypeEnum, RoleEnum } from '~~/server/utils/enums'
 
 const $q = useQuasar()
 
@@ -21,7 +22,7 @@ watch([user, loggedIn], () => {
 
   if (
     !user.value?.companyId
-    || ![role.company_admin, role.recruiter].includes(user.value?.role)
+    || ![RoleEnum.company_admin, RoleEnum.recruiter].includes(user.value?.role)
   ) {
     return navigateTo('/')
   }
@@ -29,15 +30,15 @@ watch([user, loggedIn], () => {
 
 const model = ref({
   companyId: '',
-  contractType: contractType.full_time as contractType,
+  contractType: ContractTypeEnum.full_time as ContractTypeEnum,
   description: '',
   email: '',
-  experienceLevel: undefined as experienceLevel | undefined,
+  experienceLevel: undefined as ExperienceLevelEnum | undefined,
   jobTitles: [] as string[],
   link: '',
   location: {} as { city: string, state: string },
-  processType: processType.platform as processType,
-  remote: remoteType.on_site as remoteType,
+  processType: ProcessTypeEnum.platform as ProcessTypeEnum,
+  remote: RemoteTypeEnum.on_site as RemoteTypeEnum,
   salary0: undefined as number | undefined,
   salary1: undefined as number | undefined,
   tags: [] as string[],
@@ -108,7 +109,7 @@ async function onSave() {
         </div>
 
         <q-input
-          v-if="model.processType === processType.email"
+          v-if="model.processType === ProcessTypeEnum.email"
           v-model="model.email"
           type="email"
           label="Email"
@@ -123,7 +124,7 @@ async function onSave() {
         </q-input>
 
         <q-input
-          v-if="model.processType === processType.link"
+          v-if="model.processType === ProcessTypeEnum.link"
           v-model="model.link"
           type="url"
           label="Link"

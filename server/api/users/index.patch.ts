@@ -1,5 +1,5 @@
-import { role as Role } from '@prisma/client'
 import { z } from 'zod'
+import { RoleEnum } from '../../utils/enums'
 
 export default defineEventHandler(async (event) => {
   // Validation Layer
@@ -7,10 +7,10 @@ export default defineEventHandler(async (event) => {
   // Validate Inputs
   const { id: targetUserId, role } = await validateBody<{
     id: string
-    role: Role
+    role: RoleEnum
   }>(event, z.object({
     id: z.string().trim().uuid(),
-    role: z.enum([Role.candidate, Role.company_admin, Role.recruiter]),
+    role: z.enum([RoleEnum.candidate, RoleEnum.company_admin, RoleEnum.recruiter]),
   }))
 
   // Authentication

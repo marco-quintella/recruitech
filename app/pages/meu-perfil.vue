@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { role } from '@prisma/client'
+import { RoleEnum } from '~~/server/utils/enums'
 
 const $q = useQuasar()
 
@@ -8,7 +8,7 @@ const { user } = storeToRefs(userStore)
 
 const { session } = useAuth()
 
-if (session?.value?.data?.role !== role.candidate)
+if (session?.value?.data?.role !== RoleEnum.candidate)
   navigateTo('/')
 
 const { data: profile, refresh } = await useFetch('/api/profiles/me', {

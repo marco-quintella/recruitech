@@ -1,6 +1,6 @@
-import type { role } from '@prisma/client'
 import type { H3Event, SessionConfig } from 'h3'
 import crypto from 'uncrypto'
+import type { RoleEnum } from '../../utils/enums'
 
 const sessionConfig: SessionConfig = useRuntimeConfig().auth || {}
 
@@ -8,7 +8,7 @@ export interface AuthSession {
   id: string
   name: string
   email: string
-  role: role
+  role: RoleEnum
   confirmedEmail: boolean
   companyId: string | null
 }

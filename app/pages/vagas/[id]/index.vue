@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type favorites as Favorites, processType } from '@prisma/client'
+import type { favorites as Favorites } from '@prisma/client'
+import { ProcessTypeEnum } from '~~/server/utils/enums'
 
 const $q = useQuasar()
 const { public: { frontend: { url } } } = useRuntimeConfig()
@@ -180,7 +181,7 @@ function onCopy() {
       </div>
       <div v-if="isCandidate">
         <q-btn
-          v-if="process.processType === processType.platform"
+          v-if="process.processType === ProcessTypeEnum.platform"
           color="primary"
           w-full
         >
@@ -188,7 +189,7 @@ function onCopy() {
         </q-btn>
 
         <q-btn
-          v-else-if="process.processType === processType.link"
+          v-else-if="process.processType === ProcessTypeEnum.link"
           color="primary"
           w-full
           @click="navigateTo(`/vagas/${process?.id}/aplicar`)"
@@ -198,7 +199,7 @@ function onCopy() {
         </q-btn>
 
         <div
-          v-else-if="process.processType === processType.email"
+          v-else-if="process.processType === ProcessTypeEnum.email"
           class="w-full b-1 b-primary b-rd-2 p-2"
         >
           Candidate-se através do email: {{ process.email }}

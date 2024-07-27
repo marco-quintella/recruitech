@@ -1,4 +1,4 @@
-import { role } from '@prisma/client'
+import { RoleEnum } from '../../server/utils/enums'
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   // Skip plugin when rendering error page
@@ -9,7 +9,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const loggedIn = computed(() => !!session.value?.data?.email)
 
-  const isCandidate = computed(() => session.value?.data.role === role.candidate)
+  const isCandidate = computed(() => session.value?.data.role === RoleEnum.candidate)
 
   // Create a ref to know where to redirect the user when logged in
   const redirectTo = useState('authRedirect')
@@ -75,7 +75,7 @@ declare module '#app' {
           id: string
           name: string
           email: string
-          role: Role
+          role: RoleEnum
           confirmedEmail: boolean
           companyId: string | null
         }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { experienceLevel, remoteType } from '@prisma/client'
-import { processType } from '@prisma/client'
+import type { ExperienceLevelEnum, RemoteTypeEnum } from '~~/server/utils/enums'
+import { ProcessTypeEnum } from '~~/server/utils/enums'
 
 const route = useRoute()
 const $q = useQuasar()
@@ -20,13 +20,13 @@ const model = ref<{
   tags?: string[]
   jobTitles?: string[]
   location?: { city?: string, state?: string, country?: string }
-  processType?: processType
+  processType?: ProcessTypeEnum
   email?: string | null
   link?: string | null
   title?: string
   description?: string
-  experienceLevel?: experienceLevel | null
-  remote?: remoteType
+  experienceLevel?: ExperienceLevelEnum | null
+  remote?: RemoteTypeEnum
   salary0?: string | null
   salary1?: string | null
 }>({})
@@ -105,7 +105,7 @@ async function onSave() {
         </div>
 
         <q-input
-          v-if="model.processType === processType.email"
+          v-if="model.processType === ProcessTypeEnum.email"
           v-model="model.email"
           type="email"
           label="Email"
@@ -120,7 +120,7 @@ async function onSave() {
         </q-input>
 
         <q-input
-          v-if="model.processType === processType.link"
+          v-if="model.processType === ProcessTypeEnum.link"
           v-model="model.link"
           type="url"
           label="Link"

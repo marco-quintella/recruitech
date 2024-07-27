@@ -1,12 +1,13 @@
-import type { role as Role, users as User } from '@prisma/client'
+import type { users as User } from '@prisma/client'
 import consola from 'consola'
 import { z } from 'zod'
+import type { RoleEnum } from '../../utils/enums'
 
 interface AuthRegisterBody {
   name: string
   email: string
   password: string
-  role: Role
+  role: RoleEnum
   companyName?: string
 }
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { companySize } from '@prisma/client'
+import type { CompanySizeEnum } from '~~/server/utils/enums'
 
-const model = defineModel<companySize | null>()
+const model = defineModel<CompanySizeEnum | null>()
 </script>
 
 <template>

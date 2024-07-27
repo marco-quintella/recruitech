@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import { processType } from '@prisma/client'
+import { ProcessTypeEnum } from '~~/server/utils/enums'
 
 const options = [
   {
     label: 'GetJobs.Tech',
-    value: processType.platform,
+    value: ProcessTypeEnum.platform,
   },
   {
     label: 'Email',
-    value: processType.email,
+    value: ProcessTypeEnum.email,
   },
   {
     label: 'Link',
-    value: processType.link,
+    value: ProcessTypeEnum.link,
   },
 ]
 
-const model = defineModel<processType | null>()
+const model = defineModel<ProcessTypeEnum | null>()
 </script>
 
 <template>

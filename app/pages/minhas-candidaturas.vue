@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { type tags as Tags, type locations, role } from '@prisma/client'
+import type { tags as Tags, locations } from '@prisma/client'
 import type { QTableProps } from 'quasar'
+import { RoleEnum } from '~~/server/utils/enums'
 
 const { session: user } = useAuth()
 
 // Only visible to candidates
-if (!user.value?.data?.role || user.value.data.role !== role.candidate)
+if (!user.value?.data?.role || user.value.data.role !== RoleEnum.candidate)
   navigateTo('/')
 
 const { onRequest, pagination, updatePagination } = usePagination()

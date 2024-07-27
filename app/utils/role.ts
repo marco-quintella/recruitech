@@ -1,23 +1,23 @@
-import { role } from '@prisma/client'
 import { z } from 'zod'
+import { RoleEnum } from '../../server/utils/enums'
 
-export const roleOptions: { label: string, value: role }[] = [
+export const roleOptions: { label: string, value: RoleEnum }[] = [
   {
     label: 'Candidato',
-    value: role.candidate,
+    value: RoleEnum.candidate,
   },
   {
     label: 'Administrador de Empresa',
-    value: role.company_admin,
+    value: RoleEnum.company_admin,
   },
   {
     label: 'Recrutador',
-    value: role.recruiter,
+    value: RoleEnum.recruiter,
   },
   {
     label: 'Sistema',
-    value: role.system,
+    value: RoleEnum.system,
   },
 ]
 
-export const roleSchema = z.enum(Object.values(role) as [string])
+export const roleSchema = z.enum(Object.values(RoleEnum) as [string])

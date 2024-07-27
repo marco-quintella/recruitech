@@ -1,10 +1,10 @@
-import type { role as Role } from '@prisma/client'
+import type { RoleEnum } from '../../../server/utils/enums'
 
 export async function authRegister(body: {
   email: string
   password: string
   name: string
-  role: Role
+  role: RoleEnum
   companyName?: string
 }) {
   await $fetch('/api/auth/register', {

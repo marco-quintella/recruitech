@@ -1,23 +1,23 @@
-import { contractType } from '@prisma/client'
 import { z } from 'zod'
+import { ContractTypeEnum } from '../../server/utils/enums'
 
-export const contractTypeOptions: { label: string, value: contractType }[] = [
+export const contractTypeOptions: { label: string, value: ContractTypeEnum }[] = [
   {
     label: 'CLT',
-    value: contractType.full_time,
+    value: ContractTypeEnum.full_time,
   },
   {
     label: 'Meio Período',
-    value: contractType.part_time,
+    value: ContractTypeEnum.part_time,
   },
   {
     label: 'PJ',
-    value: contractType.contractor,
+    value: ContractTypeEnum.contractor,
   },
   {
     label: 'Estágio',
-    value: contractType.internship,
+    value: ContractTypeEnum.internship,
   },
 ]
 
-export const contractTypeSchema = z.enum(Object.values(contractType) as [string])
+export const contractTypeSchema = z.enum(Object.values(ContractTypeEnum) as [string])

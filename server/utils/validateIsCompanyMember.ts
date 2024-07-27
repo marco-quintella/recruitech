@@ -1,5 +1,4 @@
 import type { users } from '@prisma/client'
-import { role } from '@prisma/client'
 
 export function validateIsCompanyMember(
   user: AuthSession | users,
@@ -9,8 +8,8 @@ export function validateIsCompanyMember(
     if (
       user.companyId !== companyId
       || (
-        user.role !== role.company_admin
-        && user.role !== role.recruiter
+        user.role !== RoleEnum.company_admin
+        && user.role !== RoleEnum.recruiter
       )
     ) {
       throw createError({
@@ -21,8 +20,8 @@ export function validateIsCompanyMember(
   }
   else {
     if (
-      user.role !== role.company_admin
-      && user.role !== role.recruiter
+      user.role !== RoleEnum.company_admin
+      && user.role !== RoleEnum.recruiter
     ) {
       throw createError({
         message: 'Você não tem permissão para fazer isso',

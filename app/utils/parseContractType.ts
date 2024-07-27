@@ -1,14 +1,14 @@
-import { $Enums } from '@prisma/client'
+import { ContractTypeEnum } from '../../server/utils/enums'
 
-export function parseContractType(t: $Enums.contractType) {
+export function parseContractType(t: ContractTypeEnum) {
   switch (t) {
-    case $Enums.contractType.full_time:
+    case ContractTypeEnum.full_time:
       return 'CLT'
-    case $Enums.contractType.part_time:
+    case ContractTypeEnum.part_time:
       return 'Meio Período'
-    case $Enums.contractType.internship:
+    case ContractTypeEnum.internship:
       return 'Estágio'
-    case $Enums.contractType.contractor:
+    case ContractTypeEnum.contractor:
       return 'PJ'
     default:
       return undefined

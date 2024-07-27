@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { role } from '@prisma/client'
+import { RoleEnum } from '~~/server/utils/enums'
 
 const $q = useQuasar()
 const route = useRoute()
@@ -7,7 +7,7 @@ const candidateId = computed(() => route.params.id)
 
 // User permission
 const { session: user } = useAuth()
-if (!user.value?.data?.role || user.value.data.role === role.candidate)
+if (!user.value?.data?.role || user.value.data.role === RoleEnum.candidate)
   navigateTo('/')
 
 const { data: candidate, status } = await useFetch(() => `/api/candidates/${candidateId.value}`, {

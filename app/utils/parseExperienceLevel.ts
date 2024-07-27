@@ -1,12 +1,12 @@
-import { experienceLevel } from '@prisma/client'
+import { ExperienceLevelEnum } from '../../server/utils/enums'
 
-export function parseExperienceLevel(e: experienceLevel) {
+export function parseExperienceLevel(e: ExperienceLevelEnum) {
   switch (e) {
-    case experienceLevel.entry:
+    case ExperienceLevelEnum.entry:
       return 'Junior'
-    case experienceLevel.intermediate:
+    case ExperienceLevelEnum.intermediate:
       return 'Pleno'
-    case experienceLevel.senior:
+    case ExperienceLevelEnum.senior:
       return 'Senior'
     default:
       return undefined

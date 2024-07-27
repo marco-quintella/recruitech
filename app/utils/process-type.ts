@@ -1,19 +1,19 @@
-import { processType } from '@prisma/client'
 import { z } from 'zod'
+import { ProcessTypeEnum } from '../../server/utils/enums'
 
-export const processTypeOptions: { value: processType, label: string }[] = [
+export const processTypeOptions: { value: ProcessTypeEnum, label: string }[] = [
   {
     label: 'E-mail',
-    value: processType.email,
+    value: ProcessTypeEnum.email,
   },
   {
     label: 'Link',
-    value: processType.link,
+    value: ProcessTypeEnum.link,
   },
   {
     label: 'Plataforma',
-    value: processType.platform,
+    value: ProcessTypeEnum.platform,
   },
 ]
 
-export const processTypeSchema = z.enum(Object.values(processType) as [string])
+export const processTypeSchema = z.enum(Object.values(ProcessTypeEnum) as [string])

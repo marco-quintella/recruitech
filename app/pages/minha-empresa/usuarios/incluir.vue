@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { role as Role } from '@prisma/client'
+import type { RoleEnum } from '~~/server/utils/enums'
 
 const $q = useQuasar()
 
 const email = ref<string>()
-const role = ref<Role>()
+const role = ref<RoleEnum>()
 
 async function onSubmit() {
   try {

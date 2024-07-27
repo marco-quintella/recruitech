@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import { experienceLevel } from '@prisma/client'
+import { ExperienceLevelEnum } from '~~/server/utils/enums'
 
 const options = [
   {
     label: 'Junior',
-    value: experienceLevel.entry,
+    value: ExperienceLevelEnum.entry,
   },
   {
     label: 'Pleno',
-    value: experienceLevel.intermediate,
+    value: ExperienceLevelEnum.intermediate,
   },
   {
     label: 'Senior',
-    value: experienceLevel.senior,
+    value: ExperienceLevelEnum.senior,
   },
 ]
 
-const model = defineModel<experienceLevel | null>()
+const model = defineModel<ExperienceLevelEnum | null>()
 </script>
 
 <template>

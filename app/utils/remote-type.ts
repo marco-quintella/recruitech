@@ -1,7 +1,7 @@
-import { remoteType } from '@prisma/client'
 import { z } from 'zod'
+import { RemoteTypeEnum } from '../../server/utils/enums'
 
-export const remoteTypeOptions: { value: remoteType, label: string }[] = [
+export const remoteTypeOptions: { value: RemoteTypeEnum, label: string }[] = [
   {
     label: 'Remoto',
     value: 'full_remote',
@@ -16,4 +16,4 @@ export const remoteTypeOptions: { value: remoteType, label: string }[] = [
   },
 ]
 
-export const remoteTypeSchema = z.enum(Object.values(remoteType) as [string])
+export const remoteTypeSchema = z.enum(Object.values(RemoteTypeEnum) as [string])
