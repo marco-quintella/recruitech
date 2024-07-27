@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 export default defineEventHandler(async (event) => {
   const {
+    companyId,
     jobTitles,
     location,
     tags,
@@ -68,7 +69,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const { data: user } = await requireAuthSession(event)
-  validateIsCompanyMember(user, process.companyId)
+  validateIsCompanyMember(user, companyId)
 
   return await updateProcess(process, {
     jobTitles,
