@@ -35,6 +35,8 @@ const { data: applications, status } = useFetch('/api/applications', {
   },
 })
 
+await nextTick()
+
 const candidatesRows = computed(() => applications.value?.data ?? [])
 
 const columns: QTableProps['columns'] = [
@@ -231,7 +233,7 @@ function onDiscard() {
 
         <template #body-cell-location="props">
           <td class="text-left">
-            <template v-if="props.row.profiles.location">
+            <template v-if="props.row.profiles?.location">
               <location-badges :locations="[props.row.profiles.location]" />
             </template>
             <template v-else>
@@ -242,7 +244,7 @@ function onDiscard() {
 
         <template #body-cell-tags="props">
           <td class="flex flex-wrap gap-2 text-left">
-            <template v-if="props.row.profiles.tags?.length">
+            <template v-if="props.row.profiles?.tags?.length">
               <div
                 v-for="tag of props.row.profiles.tags"
                 :key="tag.id"
