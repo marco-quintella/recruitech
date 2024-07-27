@@ -33,11 +33,6 @@ export async function updateProcess(
   return await prisma.processes.update({
     data: {
       ...data,
-      company: {
-        connect: {
-          id: company?.toString(),
-        },
-      },
       jobTitles: {
         connect: validJobTitles.map(jobTitleId => ({ id: jobTitleId })),
       },
