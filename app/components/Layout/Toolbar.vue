@@ -57,12 +57,9 @@ async function onLogout() {
         v-if="session?.data?.role !== role.candidate"
         color="secondary"
         text-color="secondary-text"
-        class="!hidden !md:flex"
+        class="rounded font-bold !hidden !py-1 !md:flex"
         unelevated
         no-caps
-        rounded
-        font-bold
-        !py-1
         :to="loggedIn ? '/vagas/postar' : '/auth/registrar'"
       >
         Postar Vaga
