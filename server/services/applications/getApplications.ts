@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client'
 
-export const getApplications = defineCachedFunction(async ({ filters, pagination }: {
+export const getApplications = defineCachedFunction(async ({ asUser, filters, pagination }: {
   filters?: {
     companyId?: string | null
     discard?: boolean
@@ -17,10 +17,11 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
   }
   pagination?: {
     direction?: 'asc' | 'desc'
-    orderBy?: keyof Prisma.applicationsOrderByWithRelationInput | 'userName' | 'processTitle'
+    orderBy?: keyof Prisma.applicationsOrderByWithRelationInput | 'userName' | 'processTitle' | 'companyName'
     page?: number
     pageSize?: number
   }
+  asUser?: boolean
 }) => {
   const { direction = 'desc', orderBy = 'createdAt', page = 1, pageSize = 10 } = pagination ?? {}
 
@@ -56,39 +57,18 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
       include: {
         process: {
           select: {
+            company: true,
             id: true,
-            title: true,
-          },
-        },
-        profile: {
-          include: {
-            _count: filters?.companyId
-              ? {
-                  select: {
-                    candidateDiscards: {
-                      where: {
-                        userId: filters?.requestingUserId,
-                      },
-                    },
-                    candidateFavorites: {
-                      where: {
-                        userId: filters?.requestingUserId,
-                      },
-                    },
-                  },
-                }
-              : false,
             jobTitles: {
               select: {
                 id: true,
                 name: true,
               },
             },
-            location: {
+            locations: {
               select: {
                 city: true,
                 country: true,
-                id: true,
                 state: true,
               },
             },
@@ -98,15 +78,58 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
                 name: true,
               },
             },
-            user: {
-              select: {
-                email: true,
-                id: true,
-                name: true,
-              },
-            },
+            title: true,
           },
         },
+        profile: !asUser
+          ? {
+              include: {
+                _count: filters?.companyId
+                  ? {
+                      select: {
+                        candidateDiscards: {
+                          where: {
+                            userId: filters?.requestingUserId,
+                          },
+                        },
+                        candidateFavorites: {
+                          where: {
+                            userId: filters?.requestingUserId,
+                          },
+                        },
+                      },
+                    }
+                  : false,
+                jobTitles: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+                location: {
+                  select: {
+                    city: true,
+                    country: true,
+                    id: true,
+                    state: true,
+                  },
+                },
+                tags: {
+                  select: {
+                    id: true,
+                    name: true,
+                  },
+                },
+                user: {
+                  select: {
+                    email: true,
+                    id: true,
+                    name: true,
+                  },
+                },
+              },
+            }
+          : false,
       },
       orderBy: orderBy === 'userName'
         ? {
@@ -116,15 +139,23 @@ export const getApplications = defineCachedFunction(async ({ filters, pagination
               },
             },
           }
-        : orderBy === 'processTitle'
+        : orderBy === 'companyName'
           ? {
               process: {
-                title: direction,
+                company: {
+                  name: direction,
+                },
               },
             }
-          : {
-              [orderBy]: direction,
-            },
+          : orderBy === 'processTitle'
+            ? {
+                process: {
+                  title: direction,
+                },
+              }
+            : {
+                [orderBy]: direction,
+              },
       skip: (page - 1) * pageSize,
       take: pageSize,
       where,
